@@ -11,7 +11,7 @@
     "karma": "./node_modules/karma/bin/karma start",
     "build": "coffee -o lib -c src/*.coffee",
     "test": "npm run build && npm run karma",
-    "prepublish": "npm run build && npm run karma"
+    "prepublish": "npm run build"
   },
   "main": "lib/index",
   "repository": {
