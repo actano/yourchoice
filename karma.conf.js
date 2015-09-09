@@ -16,18 +16,18 @@ module.exports = function(config) {
     },
     reporters: ['progress'],
     webpack: {
-          module: {
-            loaders: [
-              { test: /\.coffee$/, loader: 'coffee-loader' }
-            ]
-          },
-          resolve: {
-            extensions: [
-                '',
-                '.coffee'
-            ]
-          }
-        },
+      module: {
+        loaders: [
+          { test: /\.coffee$/, loader: 'coffee-loader' }
+        ]
+      },
+      resolve: {
+        extensions: [
+            '',
+            '.coffee'
+        ]
+      }
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
