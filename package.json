@@ -8,9 +8,12 @@
     "url": "https://rplan.com/"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start"
+    "karma": "./node_modules/karma/bin/karma start",
+    "build": "coffee -o lib -c src/*.coffee",
+    "test": "npm run build && npm run karma",
+    "prepublish": "npm run build && npm run karma"
   },
-  "main": "lib/foo.js",
+  "main": "lib/index",
   "repository": {
     "type": "git",
     "url": "git://github.com/actano/selection.git"

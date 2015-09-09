@@ -26,7 +26,7 @@ describe 'selection', ->
         }
 
     before 'require', ->
-        {Selection} = require '../src/selection'
+        {Selection} = require '../lib/selection'
 
     it 'should have no selected items initially', ->
         selection = new Selection(-> arrayIterator [])

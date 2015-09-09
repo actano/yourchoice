@@ -24,7 +24,8 @@ module.exports = function(config) {
       resolve: {
         extensions: [
             '',
-            '.coffee'
+            '.coffee',
+            '.js'
         ]
       }
     },
