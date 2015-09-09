@@ -1,12 +1,9 @@
 {
-  "name": "selection",
+  "name": "yourchoice",
   "version": "1.0.0",
   "description": "Handling client side selection of items.",
   "license": "MIT",
-  "author": {
-    "name": "Actano GmbH",
-    "url": "https://rplan.com/"
-  },
+  "author": "Actano GmbH (https://rplan.com/)",
   "scripts": {
     "karma": "./node_modules/karma/bin/karma start",
     "build": "coffee -o lib -c src/*.coffee",
@@ -16,7 +13,7 @@
   "main": "lib/index",
   "repository": {
     "type": "git",
-    "url": "git://github.com/actano/selection.git"
+    "url": "git://github.com/actano/yourchoice.git"
   },
   "keywords": [
     "selection",
