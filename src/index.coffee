@@ -1,3 +1,1 @@
-module.exports = {
-    Selection: require('./selection').Selection
-}
+module.exports = require('./selection').Selection
