@@ -20,7 +20,13 @@
   },
   "keywords": [
     "selection",
-    "multiselect"
+    "multi",
+    "multiselect",
+    "range",
+    "toggle",
+    "shift",
+    "iterator",
+    "tree"
   ],
   "devDependencies": {
     "chai": "^3.2.0",
