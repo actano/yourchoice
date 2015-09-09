@@ -28,6 +28,9 @@ module.exports = function(config) {
         ]
       }
     },
+    webpackMiddleware: {
+      noInfo: true
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
