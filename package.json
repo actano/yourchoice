@@ -28,7 +28,7 @@
     "coffee-script": "^1.10.0",
     "karma": "^0.13.9",
     "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^0.2.0",
+    "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "karma-sinon-chai": "^1.0.0",
     "karma-webpack": "^1.7.0",
