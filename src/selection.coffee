@@ -1,7 +1,7 @@
 Emitter = require 'component-emitter'
 
-assert = require './assert.coffee'
-array = require './array.coffee'
+assert = require './assert'
+array = require './array'
 
 class Selection extends Emitter
 

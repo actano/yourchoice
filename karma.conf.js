@@ -34,6 +34,12 @@ module.exports = function(config) {
             loaders: [
               { test: /\.coffee$/, loader: 'coffee-loader' }
             ]
+          },
+          resolve: {
+            extensions: [
+                '',
+                '.coffee'
+            ]
           }
         },
 
