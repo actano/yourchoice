@@ -14,7 +14,7 @@ module.exports = function(config) {
         'test/*.coffee': ['webpack'],
         'src/*.coffee': ['webpack']
     },
-    reporters: ['progress'],
+    reporters: ['spec'],
     webpack: {
       module: {
         loaders: [
