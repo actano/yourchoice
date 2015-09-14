@@ -1,6 +1,8 @@
 # YourChoice
 
 [![Build Status](https://travis-ci.org/actano/yourchoice.svg?branch=master)](https://travis-ci.org/actano/yourchoice)
+[![Dependency Status](https://david-dm.org/actano/yourchoice.svg)](https://david-dm.org/actano/yourchoice)
+[![devDependency Status](https://david-dm.org/actano/yourchoice/dev-status.svg)](https://david-dm.org/actano/yourchoice#info=devDependencies)
 
 YourChoice resembles the selection behavior of popular file managers. Pick items from a list using convenient functions like range selection. YourChoice covers the computation of the actual selection, no UI involved.
 
