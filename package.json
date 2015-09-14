@@ -1,7 +1,7 @@
 {
   "name": "yourchoice",
-  "version": "0.5.0",
-  "description": "Handling client side selection of items.",
+  "version": "1.0.0",
+  "description": "Resembles the selection behavior of popular file managers",
   "license": "MIT",
   "author": "Actano GmbH (https://rplan.com/)",
   "scripts": {
