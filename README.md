@@ -30,3 +30,43 @@ var arrayIterator = {
   }
 }
 ```
+
+## YourChoice(iteratorFactory)
+
+`iteratorFactory` – a function returning an iterator
+
+```javascript
+var iteratorFactory = function() {
+  var iterator = {...};
+  return iterator;
+}
+var yourChoice = new YourChoice(iteratorFactory);
+```
+
+## YourChoice.selectedItems
+
+Array of selected items.
+
+## YourChoice.replace(item)
+
+Replace the current selection with selection of `item`.
+
+## YourChoice.toggle(item)
+
+Toggle selection of `item` while keeping other item's selection untouched. Comparable to holding the `ctrl` / `cmd` key in a file manager.
+
+## YourChoice.rangeTo(item)
+
+Perform a range selection till `item`. Comparable to holding the shift key in a file manager.
+
+## YourChoice.remove(items)
+
+Remove `items` from selection.
+
+## YourChoice.removeAll()
+
+Remove all items from selection.
+
+***
+
+All these methods emit an event named "change" with the array of selected items.
