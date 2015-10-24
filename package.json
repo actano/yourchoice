@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "component-emitter": "^1.2.0",
-    "underscore": "^1.8.3"
+    "lodash": "^3.10.1"
   }
 }

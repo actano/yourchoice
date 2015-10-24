@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash'
 
 sameMembers = (array1, array2) ->
     return false if array1.length isnt array2.length
