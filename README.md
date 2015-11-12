@@ -6,6 +6,16 @@
 
 YourChoice resembles the selection behavior of popular file managers. Pick items from a list using convenient functions like range selection. YourChoice covers the computation of the actual selection, no UI involved.
 
+## Usage
+
+### With npm
+
+```javascript
+npm install yourchoice --save
+```
+
+Since yourchoice is a frontend module, you will need a module bundler like webpack or browserify.
+
 ## Item Interface
 
 ### Item.select()
