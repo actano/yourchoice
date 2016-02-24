@@ -35,7 +35,7 @@
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "karma-sinon-chai": "^1.0.0",
-    "karma-spec-reporter": "0.0.20",
+    "karma-spec-reporter": "0.0.24",
     "karma-webpack": "^1.7.0",
     "lolex": "^1.4.0",
     "mocha": "^2.3.2",
@@ -45,6 +45,6 @@
   },
   "dependencies": {
     "component-emitter": "^1.2.0",
-    "lodash": "^3.10.1"
+    "lodash": "^4.5.1"
   }
 }
