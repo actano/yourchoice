@@ -1,9 +1,8 @@
-_ = require 'lodash'
+import _ from 'lodash';
 
-sameMembers = (array1, array2) ->
-    return false if array1.length isnt array2.length
-    return _.union(array1, array2).length is array2.length
+let sameMembers = function(array1, array2) {
+    if (array1.length !== array2.length) { return false; }
+    return _.union(array1, array2).length === array2.length;
+};
 
-module.exports = {
-    sameMembers
-}
+export { sameMembers };
