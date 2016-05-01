@@ -1,162 +1,206 @@
-Emitter = require 'component-emitter'
+import Emitter from 'component-emitter';
 
-assert = require './assert'
-array = require './array'
+import assert from './assert';
+import {sameMembers} from './array';
 
-class Selection extends Emitter
+class Selection extends Emitter {
 
-    constructor: (@iteratorFactory) ->
-        @selectedItems = []
-        @lastAnchor = null
+    constructor(iteratorFactory) {
+        super();
+        this.iteratorFactory = iteratorFactory;
+        this.selectedItems = [];
+        this.lastAnchor = null;
+    }
 
-    toggle: (item) ->
-        if @_isSelected item
-            @lastAnchor = null
-            @_removeFromSelection item
-            item.deselect()
-        else
-            @lastAnchor = item
-            @_addToSelection item
-            item.select()
+    toggle(item) {
+        if (this._isSelected(item)) {
+            this.lastAnchor = null;
+            this._removeFromSelection(item);
+            item.deselect();
+        } else {
+            this.lastAnchor = item;
+            this._addToSelection(item);
+            item.select();
+        }
 
-        @_emitChangeEvent()
+        return this._emitChangeEvent();
+    }
 
-    replace: (item) ->
-        unless @_isOnlySelectedItem item
-            @lastAnchor = item
-            for oldSelectedItem in @selectedItems
-                oldSelectedItem.deselect()
+    replace(item) {
+        if (!this._isOnlySelectedItem(item)) {
+            this.lastAnchor = item;
+            for (let i = 0; i < this.selectedItems.length; i++) {
+                let oldSelectedItem = this.selectedItems[i];
+                oldSelectedItem.deselect();
+            }
 
-            @selectedItems = [item]
-            item.select()
+            this.selectedItems = [item];
+            item.select();
 
-            @_emitChangeEvent()
+            return this._emitChangeEvent();
+        }
+    }
 
-    remove: (items) ->
-        atLeastOneItemRemoved = false
+    remove(items) {
+        let atLeastOneItemRemoved = false;
 
-        for item in items
-            if @_isSelected item
-                @_removeFromSelection item
-                item.deselect()
-                atLeastOneItemRemoved = true
+        for (let i = 0; i < items.length; i++) {
+            let item = items[i];
+            if (this._isSelected(item)) {
+                this._removeFromSelection(item);
+                item.deselect();
+                atLeastOneItemRemoved = true;
+            }
+        }
 
-        @lastAnchor = null
-        @_emitChangeEvent() if atLeastOneItemRemoved
+        this.lastAnchor = null;
+        if (atLeastOneItemRemoved) { return this._emitChangeEvent(); }
+    }
 
-    removeAll: ->
-        @remove @selectedItems.slice()
+    removeAll() {
+        return this.remove(this.selectedItems.slice());
+    }
 
-    rangeTo: (endItem) ->
-        oldSelectedItems = @selectedItems.slice()
+    rangeTo(endItem) {
+        let oldSelectedItems = this.selectedItems.slice();
 
-        startItem = @_getRangeStart()
-        assert startItem?, 'rangeTo: no start item'
+        let startItem = this._getRangeStart();
+        assert((startItem != null), 'rangeTo: no start item');
 
-        if @lastAnchor? or @selectedItems.length > 0
-            @lastAnchor = startItem
+        if ((this.lastAnchor != null) || this.selectedItems.length > 0) {
+            this.lastAnchor = startItem;
+        }
 
-        @_deselectItemsConnectedWith startItem
+        this._deselectItemsConnectedWith(startItem);
 
-        @_performActionInRange startItem, endItem, (item) =>
-            @_addToSelection item
-            item.select()
+        this._performActionInRange(startItem, endItem, item => {
+            this._addToSelection(item);
+            return item.select();
+        });
 
-        unless array.sameMembers oldSelectedItems, @selectedItems
-            @_emitChangeEvent()
+        if (!sameMembers(oldSelectedItems, this.selectedItems)) {
+            return this._emitChangeEvent();
+        }
+    }
 
-    _getRangeStart: ->
-        if @lastAnchor?
-            return @lastAnchor
-        else
-            if @selectedItems.length > 0
-                return @_getBottommostSelectedItem()
-            else
-                iterator = @iteratorFactory()
-                return iterator.next().value
+    _getRangeStart() {
+        if (this.lastAnchor != null) {
+            return this.lastAnchor;
+        } else {
+            if (this.selectedItems.length > 0) {
+                return this._getBottommostSelectedItem();
+            } else {
+                let iterator = this.iteratorFactory();
+                return iterator.next().value;
+            }
+        }
+    }
 
-    _emitChangeEvent: ->
-        @emit 'change', @selectedItems.slice()
+    _emitChangeEvent() {
+        return this.emit('change', this.selectedItems.slice());
+    }
 
-    _getBottommostSelectedItem: ->
-        iterator = @iteratorFactory()
-        previousItem = null
+    _getBottommostSelectedItem() {
+        let iterator = this.iteratorFactory();
+        let previousItem = null;
 
-        loop
-            {value: item, done} = iterator.next()
+        while (true) {
+            let {value: item, done} = iterator.next();
 
-            if done
-                return previousItem
-            else if @_isSelected item
-                previousItem = item
+            if (done) {
+                return previousItem;
+            } else if (this._isSelected(item)) {
+                previousItem = item;
+            }
+        }
+    }
 
-    _performActionInRange: (startItem, endItem, action) ->
-        iterator = @iteratorFactory()
-        assert startItem?, '_performActionInRange: no start item'
-        assert endItem?, '_performActionInRange: no end item'
+    _performActionInRange(startItem, endItem, action) {
+        let iterator = this.iteratorFactory();
+        assert((startItem != null), '_performActionInRange: no start item');
+        assert((endItem != null), '_performActionInRange: no end item');
 
-        if startItem is endItem
-            action startItem
-            return
+        if (startItem === endItem) {
+            action(startItem);
+            return;
+        }
 
-        until (current = iterator.next()).done
-            item = current.value
-            break if item is startItem or item is endItem
+        let current;
+        while (!(current = iterator.next()).done) {
+            var item = current.value;
+            if (item === startItem || item === endItem) { break; }
+        }
 
-        action item
+        action(item);
 
-        bottomOfRangeFound = false
+        let bottomOfRangeFound = false;
 
-        loop
-            {value: item, done} = iterator.next()
-            break if done
+        while (true) {
+            var {value: item, done} = iterator.next();
+            if (done) { break; }
 
-            action item
+            action(item);
 
-            bottomOfRangeFound = item is startItem or item is endItem
-            break if bottomOfRangeFound
+            bottomOfRangeFound = item === startItem || item === endItem;
+            if (bottomOfRangeFound) { break; }
+        }
 
-        assert bottomOfRangeFound, '_performActionInRange: bottom of range not found'
+        return assert(bottomOfRangeFound, '_performActionInRange: bottom of range not found');
+    }
 
-    _isOnlySelectedItem: (item) ->
-        return @selectedItems.length is 1 and @_isSelected(item)
+    _isOnlySelectedItem(item) {
+        return this.selectedItems.length === 1 && this._isSelected(item);
+    }
 
-    _isSelected: (item) ->
-        return @selectedItems.indexOf(item) isnt -1
+    _isSelected(item) {
+        return this.selectedItems.indexOf(item) !== -1;
+    }
 
-    _addToSelection: (item) ->
-        unless @_isSelected item
-            @selectedItems.push item
+    _addToSelection(item) {
+        if (!this._isSelected(item)) {
+            return this.selectedItems.push(item);
+        }
+    }
 
-    _removeFromSelection: (item) ->
-        if @_isSelected item
-            index = @selectedItems.indexOf item
-            @selectedItems.splice index, 1
+    _removeFromSelection(item) {
+        if (this._isSelected(item)) {
+            let index = this.selectedItems.indexOf(item);
+            return this.selectedItems.splice(index, 1);
+        }
+    }
 
-    _deselectItemsConnectedWith: (targetItem) ->
-        iterator = @iteratorFactory()
-        range = []
-        isRangeWithTargetItem = false
+    _deselectItemsConnectedWith(targetItem) {
+        let iterator = this.iteratorFactory();
+        let range = [];
+        let isRangeWithTargetItem = false;
 
-        loop
-            {value: item, done} = iterator.next()
-            break if done
+        while (true) {
+            var {value: item, done} = iterator.next();
+            if (done) { break; }
 
-            if @_isSelected item
-                range.push item
+            if (this._isSelected(item)) {
+                range.push(item);
 
-                if item is targetItem
-                    isRangeWithTargetItem = true
-            else
-                if isRangeWithTargetItem
-                    break
-                else
-                    range = []
+                if (item === targetItem) {
+                    isRangeWithTargetItem = true;
+                }
+            } else {
+                if (isRangeWithTargetItem) {
+                    break;
+                } else {
+                    range = [];
+                }
+            }
+        }
 
-        for item in range
-            @_removeFromSelection item
-            item.deselect()
+        for (let i = 0; i < range.length; i++) {
+            var item = range[i];
+            this._removeFromSelection(item);
+            item.deselect();
+        }
 
-module.exports = {
-    Selection
+        return undefined;
+    }
 }
+
+export { Selection };
