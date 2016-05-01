@@ -8,11 +8,10 @@ module.exports = function(config) {
     ],
     files: [
         'test/*.js',
-        'src/index.coffee'
     ],
     preprocessors: {
         'test/*.js': ['webpack'],
-        'src/*.coffee': ['webpack']
+        'src/*.js': ['webpack'],
     },
     reporters: ['spec'],
     webpack: {
@@ -25,14 +24,12 @@ module.exports = function(config) {
             query: {
               presets: ['es2015']
             }
-          },
-          { test: /\.coffee$/, loader: 'coffee-loader' }
+          }
         ]
       },
       resolve: {
         extensions: [
             '',
-            '.coffee',
             '.js'
         ]
       }
