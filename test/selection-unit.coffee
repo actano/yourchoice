@@ -3,7 +3,8 @@ describe 'selection', ->
     Selection = null
 
     class Item
-        constructor: (@_index = 0) ->
+        constructor: (_index = 0) ->
+            @_index = _index
             @_selected = false
 
         select: ->
@@ -55,6 +56,8 @@ describe 'selection', ->
                 for otherItem in itemList
                     selection.toggle otherItem
 
+                return undefined
+
             describe 'item is not selected', ->
 
                 it 'should replace existing selection', ->
@@ -72,6 +75,8 @@ describe 'selection', ->
 
                     for otherItem in itemList
                         expect(otherItem._selected).to.be.false
+
+                    return undefined
 
                 it 'should emit change event', (done) ->
                     selection.on 'change', (selectedItems) ->
@@ -98,6 +103,8 @@ describe 'selection', ->
                     for otherItem, i in itemList
                         if i isnt 2
                             expect(otherItem._selected).to.be.false
+
+                    return undefined
 
         it 'should not emit change event when only this item was selected', ->
             item = new Item()
@@ -530,7 +537,10 @@ describe 'selection', ->
                 ]
 
     createItemList = (amount) ->
-        return (new Item(i) for i in [0...amount])
+        items = []
+        for i in [0...amount]
+            items.push new Item(i)
+        return items
 
     expectItemsSelected = (itemList, actualItems, expectedItems) ->
         expectExactlySameMembers actualItems, expectedItems
@@ -540,6 +550,8 @@ describe 'selection', ->
                 expect(item._selected, "item #{item._index} should be selected").to.be.true
             else
                 expect(item._selected, "item #{item._index} should be deselected").to.be.false
+
+        return undefined
 
     expectExactlySameMembers = (actual, expected) ->
         expect(actual).to.have.members expected
