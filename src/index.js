@@ -1,1 +1,2 @@
-module.exports = require('./selection').Selection
+import {Selection} from './selection';
+export default Selection
