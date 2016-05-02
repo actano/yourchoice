@@ -48,7 +48,7 @@
     "rimraf": "^2.5.2",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
-    "snazzy": "^3.0.1",
+    "snazzy": "^4.0.0",
     "standard": "^7.0.0",
     "webpack": "^1.12.1"
   },
