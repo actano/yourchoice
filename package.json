@@ -11,7 +11,8 @@
     "build:commonjs": "babel src --out-dir lib",
     "build:umd": "BABEL_ENV=commonjs webpack src/index.js dist/yourchoice.js",
     "build": "npm run build:commonjs && npm run build:umd",
-    "prepublish": "npm run clean && npm run lint && npm run build"
+    "prepublish": "npm run clean && npm run lint && npm run build",
+    "lint": "standard \"src/**/*.js\" \"test/**/*.js\""
   },
   "main": "lib/index.js",
   "repository": {
@@ -47,6 +48,7 @@
     "rimraf": "^2.5.2",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
+    "standard": "^6.0.8",
     "webpack": "^1.12.1"
   },
   "dependencies": {
