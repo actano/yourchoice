@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/actano/yourchoice.svg?branch=master)](https://travis-ci.org/actano/yourchoice)
 [![Dependency Status](https://david-dm.org/actano/yourchoice.svg)](https://david-dm.org/actano/yourchoice)
 [![devDependency Status](https://david-dm.org/actano/yourchoice/dev-status.svg)](https://david-dm.org/actano/yourchoice#info=devDependencies)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 YourChoice resembles the selection behavior of popular file managers. Pick items from a list using convenient functions like range selection. YourChoice covers the computation of the actual selection, no UI involved.
 
@@ -19,7 +20,7 @@ Since yourchoice is a frontend module, you will need a module bundler like webpa
 
 ### Script tag
 
-If you are the retro kind of person, you can also download [the JavaScript file](bundle/yourchoice.js). You need to include [lodash](https://lodash.com/) before yourchoice.
+If you are the retro kind of person, you can also download [the JavaScript file](dist/yourchoice.js). You need to include [lodash](https://lodash.com/) before yourchoice.
 
 ```html
 <script type="text/javascript" src="lodash.js"></script>

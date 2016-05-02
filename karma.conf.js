@@ -7,24 +7,29 @@ module.exports = function(config) {
         'chai'
     ],
     files: [
-        'test/*.coffee',
-        'src/index.coffee'
+        'test/*.js',
     ],
     preprocessors: {
-        'test/*.coffee': ['webpack'],
-        'src/*.coffee': ['webpack']
+        'test/*.js': ['webpack'],
+        'src/*.js': ['webpack'],
     },
     reporters: ['spec'],
     webpack: {
       module: {
         loaders: [
-          { test: /\.coffee$/, loader: 'coffee-loader' }
+          {
+            test: /\.js/,
+            loader: 'babel-loader',
+            exclude: /node_modules/,
+            query: {
+              presets: ['es2015']
+            }
+          }
         ]
       },
       resolve: {
         extensions: [
             '',
-            '.coffee',
             '.js'
         ]
       }
