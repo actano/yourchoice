@@ -19,7 +19,7 @@ Since yourchoice is a frontend module, you will need a module bundler like webpa
 
 ### Script tag
 
-If you are the retro kind of person, you can also download [the JavaScript file](bundle/yourchoice.js). You need to include [lodash](https://lodash.com/) before yourchoice.
+If you are the retro kind of person, you can also download [the JavaScript file](dist/yourchoice.js). You need to include [lodash](https://lodash.com/) before yourchoice.
 
 ```html
 <script type="text/javascript" src="lodash.js"></script>
