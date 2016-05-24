@@ -6,7 +6,7 @@
   "author": "Actano GmbH (https://rplan.com/)",
   "scripts": {
     "clean": "rimraf lib dist",
-    "karma": "./node_modules/karma/bin/karma start",
+    "karma": "karma start",
     "test": "npm run karma",
     "test:watch": "npm run karma -- --no-single-run --auto-watch",
     "build:commonjs": "babel src --out-dir lib",
