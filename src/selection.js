@@ -5,14 +5,16 @@ import { sameMembers } from './array'
 
 class Selection extends Emitter {
 
-  constructor (iteratorFactory) {
+  constructor(iteratorFactory) {
     super()
-    this.iteratorFactory = iteratorFactory
+    this.iterable = {
+      [Symbol.iterator]: iteratorFactory,
+    }
     this.selectedItems = []
     this.lastAnchor = null
   }
 
-  toggle (item) {
+  toggle(item) {
     if (this._isSelected(item)) {
       this.lastAnchor = null
       this._removeFromSelection(item)
@@ -23,29 +25,29 @@ class Selection extends Emitter {
       item.select()
     }
 
-    return this._emitChangeEvent()
+    this._emitChangeEvent()
   }
 
-  replace (item) {
+  replace(item) {
     if (!this._isOnlySelectedItem(item)) {
       this.lastAnchor = item
       for (let i = 0; i < this.selectedItems.length; i++) {
-        let oldSelectedItem = this.selectedItems[i]
+        const oldSelectedItem = this.selectedItems[i]
         oldSelectedItem.deselect()
       }
 
       this.selectedItems = [item]
       item.select()
 
-      return this._emitChangeEvent()
+      this._emitChangeEvent()
     }
   }
 
-  remove (items) {
+  remove(items) {
     let atLeastOneItemRemoved = false
 
     for (let i = 0; i < items.length; i++) {
-      let item = items[i]
+      const item = items[i]
       if (this._isSelected(item)) {
         this._removeFromSelection(item)
         item.deselect()
@@ -54,17 +56,19 @@ class Selection extends Emitter {
     }
 
     this.lastAnchor = null
-    if (atLeastOneItemRemoved) { return this._emitChangeEvent() }
+    if (atLeastOneItemRemoved) {
+      this._emitChangeEvent()
+    }
   }
 
-  removeAll () {
+  removeAll() {
     return this.remove(this.selectedItems.slice())
   }
 
-  rangeTo (endItem) {
-    let oldSelectedItems = this.selectedItems.slice()
+  rangeTo(endItem) {
+    const oldSelectedItems = this.selectedItems.slice()
 
-    let startItem = this._getRangeStart()
+    const startItem = this._getRangeStart()
     assert((startItem != null), 'rangeTo: no start item')
 
     if ((this.lastAnchor != null) || this.selectedItems.length > 0) {
@@ -79,33 +83,32 @@ class Selection extends Emitter {
     })
 
     if (!sameMembers(oldSelectedItems, this.selectedItems)) {
-      return this._emitChangeEvent()
+      this._emitChangeEvent()
     }
   }
 
-  _getRangeStart () {
+  _getRangeStart() {
     if (this.lastAnchor != null) {
       return this.lastAnchor
-    } else {
-      if (this.selectedItems.length > 0) {
-        return this._getBottommostSelectedItem()
-      } else {
-        let iterator = this.iteratorFactory()
-        return iterator.next().value
-      }
     }
+    if (this.selectedItems.length > 0) {
+      return this._getBottommostSelectedItem()
+    }
+    const iterator = this.iterable[Symbol.iterator]()
+    return iterator.next().value
   }
 
-  _emitChangeEvent () {
+  _emitChangeEvent() {
     return this.emit('change', this.selectedItems.slice())
   }
 
-  _getBottommostSelectedItem () {
-    let iterator = this.iteratorFactory()
+  _getBottommostSelectedItem() {
+    const iterator = this.iterable[Symbol.iterator]()
     let previousItem = null
 
+    // TODO: Change to for of
     while (true) {
-      let {value: item, done} = iterator.next()
+      const { value: item, done } = iterator.next()
 
       if (done) {
         return previousItem
@@ -115,8 +118,8 @@ class Selection extends Emitter {
     }
   }
 
-  _performActionInRange (startItem, endItem, action) {
-    let iterator = this.iteratorFactory()
+  _performActionInRange(startItem, endItem, action) {
+    const iterator = this.iterable[Symbol.iterator]()
     assert((startItem != null), '_performActionInRange: no start item')
     assert((endItem != null), '_performActionInRange: no end item')
 
@@ -125,12 +128,15 @@ class Selection extends Emitter {
       return
     }
 
-    let current
     let item
-    let done
-    while (!(current = iterator.next()).done) {
-      item = current.value
-      if (item === startItem || item === endItem) { break }
+
+    while (true) {
+      const next = iterator.next()
+      item = next.value
+
+      if (item === startItem || item === endItem) {
+        break
+      }
     }
 
     action(item)
@@ -138,9 +144,9 @@ class Selection extends Emitter {
     let bottomOfRangeFound = false
 
     while (true) {
-      let next = iterator.next()
+      const next = iterator.next()
       item = next.value
-      done = next.done
+      const done = next.done
       if (done) { break }
 
       action(item)
@@ -149,39 +155,39 @@ class Selection extends Emitter {
       if (bottomOfRangeFound) { break }
     }
 
-    return assert(bottomOfRangeFound, '_performActionInRange: bottom of range not found')
+    assert(bottomOfRangeFound, '_performActionInRange: bottom of range not found')
   }
 
-  _isOnlySelectedItem (item) {
+  _isOnlySelectedItem(item) {
     return this.selectedItems.length === 1 && this._isSelected(item)
   }
 
-  _isSelected (item) {
+  _isSelected(item) {
     return this.selectedItems.indexOf(item) !== -1
   }
 
-  _addToSelection (item) {
+  _addToSelection(item) {
     if (!this._isSelected(item)) {
-      return this.selectedItems.push(item)
+      this.selectedItems.push(item)
     }
   }
 
-  _removeFromSelection (item) {
+  _removeFromSelection(item) {
     if (this._isSelected(item)) {
-      let index = this.selectedItems.indexOf(item)
-      return this.selectedItems.splice(index, 1)
+      const index = this.selectedItems.indexOf(item)
+      this.selectedItems.splice(index, 1)
     }
   }
 
-  _deselectItemsConnectedWith (targetItem) {
-    let iterator = this.iteratorFactory()
+  _deselectItemsConnectedWith(targetItem) {
+    const iterator = this.iterable[Symbol.iterator]()
     let range = []
     let isRangeWithTargetItem = false
     let item
     let done
 
     while (true) {
-      let next = iterator.next()
+      const next = iterator.next()
       item = next.value
       done = next.done
       if (done) { break }

@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-let sameMembers = function (array1, array2) {
+function sameMembers(array1, array2) {
   if (array1.length !== array2.length) {
     return false
   }

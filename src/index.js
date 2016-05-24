@@ -1,2 +1,2 @@
-import {Selection} from './selection'
+import { Selection } from './selection'
 export default Selection

@@ -1,99 +1,96 @@
 /* eslint-env mocha */
 /* global expect */
 /* global sinon */
+/* eslint-disable no-unused-expressions */
 
-describe('selection', function () {
-  let Selection = null
+import { Selection } from '../src/selection'
 
+describe('selection', () => {
   class Item {
-    constructor (_index = 0) {
+    constructor(_index = 0) {
       this._index = _index
       this._selected = false
     }
 
-    select () {
+    select() {
       this._selected = true
     }
 
-    deselect () {
+    deselect() {
       this._selected = false
     }
   }
 
-  let arrayIterator = function (array) {
+  function arrayIterator(array) {
     let index = 0
     return ({
-      next () {
-        let value = index < array.length ? array[index] : undefined
+      next() {
+        const value = index < array.length ? array[index] : undefined
         index++
         return ({
           value,
-          done: !(value != null)
+          done: !(value != null),
         })
-      }
-
+      },
     })
   }
 
-  before('require', function () {
-    Selection = require('../src/selection').Selection
-  })
 
-  it('should have no selected items initially', function () {
-    let selection = new Selection(() => arrayIterator([]))
+  it('should have no selected items initially', () => {
+    const selection = new Selection(arrayIterator([]))
     expectExactlySameMembers(selection.selectedItems, [])
   })
 
-  describe('replace selection with single item', function () {
-    it('should replace empty selection with single item', function () {
-      let item = new Item()
-      let selection = new Selection(() => arrayIterator([item]))
+  describe('replace selection with single item', () => {
+    it('should replace empty selection with single item', () => {
+      const item = new Item()
+      const selection = new Selection(() => arrayIterator([item]))
 
       selection.replace(item)
 
       expectExactlySameMembers(selection.selectedItems, [item])
     })
 
-    describe('with existing selection', function () {
+    describe('with existing selection', () => {
       let itemList = null
       let item = null
       let selection = null
 
-      beforeEach(function () {
+      beforeEach(() => {
         itemList = createItemList(5)
         item = new Item()
         selection = new Selection(() => arrayIterator(itemList))
 
         for (let i = 0; i < itemList.length; i++) {
-          let otherItem = itemList[i]
+          const otherItem = itemList[i]
           selection.toggle(otherItem)
         }
       })
 
-      describe('item is not selected', function () {
-        it('should replace existing selection', function () {
+      describe('item is not selected', () => {
+        it('should replace existing selection', () => {
           selection.replace(item)
 
           expectExactlySameMembers(selection.selectedItems, [item])
         })
 
-        it('should mark item as selected', function () {
+        it('should mark item as selected', () => {
           selection.replace(item)
 
           expect(item._selected).to.be.true
         })
 
-        it('should mark other items as deselected', function () {
+        it('should mark other items as deselected', () => {
           selection.replace(item)
 
           for (let i = 0; i < itemList.length; i++) {
-            let otherItem = itemList[i]
+            const otherItem = itemList[i]
             expect(otherItem._selected).to.be.false
           }
         })
 
-        it('should emit change event', function (done) {
-          selection.on('change', function (selectedItems) {
+        it('should emit change event', (done) => {
+          selection.on('change', (selectedItems) => {
             expectExactlySameMembers(selectedItems, [item])
             done()
           })
@@ -102,24 +99,24 @@ describe('selection', function () {
         })
       })
 
-      describe('item is selected', function () {
-        it('should replace existing selection', function () {
+      describe('item is selected', () => {
+        it('should replace existing selection', () => {
           selection.replace(itemList[2])
 
           expectExactlySameMembers(selection.selectedItems, [itemList[2]])
         })
 
-        it('should mark item as selected', function () {
+        it('should mark item as selected', () => {
           selection.replace(itemList[2])
 
           expect(itemList[2]._selected).to.be.true
         })
 
-        it('should mark other items as deselected', function () {
+        it('should mark other items as deselected', () => {
           selection.replace(item)
 
           for (let i = 0; i < itemList.length; i++) {
-            let otherItem = itemList[i]
+            const otherItem = itemList[i]
             if (i !== 2) {
               expect(otherItem._selected).to.be.false
             }
@@ -128,11 +125,11 @@ describe('selection', function () {
       })
     })
 
-    it('should not emit change event when only this item was selected', function () {
-      let item = new Item()
-      let selection = new Selection(() => arrayIterator([item]))
+    it('should not emit change event when only this item was selected', () => {
+      const item = new Item()
+      const selection = new Selection(() => arrayIterator([item]))
       selection.replace(item)
-      let changeListener = sinon.stub()
+      const changeListener = sinon.stub()
       selection.on('change', changeListener)
 
       selection.replace(item)
@@ -141,43 +138,43 @@ describe('selection', function () {
     })
   })
 
-  describe('toggle single selection', function () {
-    describe('item is not selected', function () {
-      it('should add single item to empty selection', function () {
-        let item = new Item()
-        let selection = new Selection(() => arrayIterator([item]))
+  describe('toggle single selection', () => {
+    describe('item is not selected', () => {
+      it('should add single item to empty selection', () => {
+        const item = new Item()
+        const selection = new Selection(() => arrayIterator([item]))
 
         selection.toggle(item)
 
         expectExactlySameMembers(selection.selectedItems, [item])
       })
 
-      it('should mark item as selected', function () {
-        let item = new Item()
-        let selection = new Selection(() => arrayIterator([item]))
+      it('should mark item as selected', () => {
+        const item = new Item()
+        const selection = new Selection(() => arrayIterator([item]))
 
         selection.toggle(item)
 
         expect(item._selected).to.be.true
       })
 
-      it('should add single item to existing selection', function () {
-        let itemList = createItemList(5)
-        let selection = new Selection(() => arrayIterator(itemList))
+      it('should add single item to existing selection', () => {
+        const itemList = createItemList(5)
+        const selection = new Selection(() => arrayIterator(itemList))
 
         for (let i = 0; i < itemList.length; i++) {
-          let item = itemList[i]
+          const item = itemList[i]
           selection.toggle(item)
         }
 
         expectExactlySameMembers(selection.selectedItems, itemList)
       })
 
-      it('should emit change event with selected items', function (done) {
-        let item = new Item()
-        let selection = new Selection(() => arrayIterator([item]))
+      it('should emit change event with selected items', (done) => {
+        const item = new Item()
+        const selection = new Selection(() => arrayIterator([item]))
 
-        selection.on('change', function (selectedItems) {
+        selection.on('change', (selectedItems) => {
           expectExactlySameMembers(selectedItems, [item])
           done()
         })
@@ -186,10 +183,10 @@ describe('selection', function () {
       })
     })
 
-    describe('item is already selected', function () {
-      it('should remove single item from selection', function () {
-        let item = new Item()
-        let selection = new Selection(() => arrayIterator([item]))
+    describe('item is already selected', () => {
+      it('should remove single item from selection', () => {
+        const item = new Item()
+        const selection = new Selection(() => arrayIterator([item]))
 
         selection.toggle(item)
         selection.toggle(item)
@@ -197,9 +194,9 @@ describe('selection', function () {
         expectExactlySameMembers(selection.selectedItems, [])
       })
 
-      it('should mark item as deselected', function () {
-        let item = new Item()
-        let selection = new Selection(() => arrayIterator([item]))
+      it('should mark item as deselected', () => {
+        const item = new Item()
+        const selection = new Selection(() => arrayIterator([item]))
 
         selection.toggle(item)
         selection.toggle(item)
@@ -207,12 +204,12 @@ describe('selection', function () {
         expect(item._selected).to.be.false
       })
 
-      it('should remove single item from existing selection', function () {
-        let itemList = createItemList(5)
-        let selection = new Selection(() => arrayIterator(itemList))
+      it('should remove single item from existing selection', () => {
+        const itemList = createItemList(5)
+        const selection = new Selection(() => arrayIterator(itemList))
 
         for (let i = 0; i < itemList.length; i++) {
-          let item = itemList[i]
+          const item = itemList[i]
           selection.toggle(item)
         }
 
@@ -222,17 +219,17 @@ describe('selection', function () {
           itemList[0],
           itemList[1],
           itemList[3],
-          itemList[4]
+          itemList[4],
         ])
       })
 
-      it('should emit change event', function (done) {
-        let item = new Item()
-        let selection = new Selection(() => arrayIterator([item]))
+      it('should emit change event', (done) => {
+        const item = new Item()
+        const selection = new Selection(() => arrayIterator([item]))
 
         selection.toggle(item)
 
-        selection.on('change', function (selectedItems) {
+        selection.on('change', (selectedItems) => {
           expectExactlySameMembers(selectedItems, [])
           done()
         })
@@ -240,34 +237,34 @@ describe('selection', function () {
         selection.toggle(item)
       })
 
-      it('should emit copy of selected items on change event', function () {
-        let itemList = createItemList(3)
-        let selection = new Selection(() => arrayIterator(itemList))
+      it('should emit copy of selected items on change event', () => {
+        const itemList = createItemList(3)
+        const selection = new Selection(() => arrayIterator(itemList))
 
-        let changeEventParameters = []
+        const changeEventParameters = []
         selection.on('change', (selectedItems) => changeEventParameters.push(selectedItems))
 
         selection.toggle(itemList[0])
         selection.toggle(itemList[1])
 
         expect(changeEventParameters).to.have.length(2)
-        let [firstSelectedItems, secondSelectedItems] = changeEventParameters
+        const [firstSelectedItems, secondSelectedItems] = changeEventParameters
         expectExactlySameMembers(firstSelectedItems, [itemList[0]])
         expectExactlySameMembers(secondSelectedItems, [itemList[0], itemList[1]])
       })
     })
   })
 
-  describe('remove/removeAll', function () {
+  describe('remove/removeAll', () => {
     let itemList = null
     let selection = null
 
-    beforeEach(function () {
+    beforeEach(() => {
       itemList = createItemList(5)
       selection = new Selection(() => arrayIterator(itemList))
     })
 
-    it('should deselect a list of items', function () {
+    it('should deselect a list of items', () => {
       selection.toggle(itemList[0])
       selection.toggle(itemList[1])
       selection.toggle(itemList[2])
@@ -277,11 +274,11 @@ describe('selection', function () {
 
       expectItemsSelected(itemList, selection.selectedItems, [
         itemList[0],
-        itemList[4]
+        itemList[4],
       ])
     })
 
-    it('should deselect all items', function () {
+    it('should deselect all items', () => {
       selection.toggle(itemList[0])
       selection.toggle(itemList[1])
       selection.toggle(itemList[2])
@@ -292,27 +289,27 @@ describe('selection', function () {
       expectItemsSelected(itemList, selection.selectedItems, [])
     })
 
-    it('should keep already deselected items', function () {
+    it('should keep already deselected items', () => {
       selection.toggle(itemList[0])
       selection.toggle(itemList[1])
 
       selection.remove([itemList[1], itemList[2]])
 
       expectItemsSelected(itemList, selection.selectedItems, [
-        itemList[0]
+        itemList[0],
       ])
     })
 
-    it('should emit change event', function (done) {
+    it('should emit change event', (done) => {
       selection.toggle(itemList[0])
       selection.toggle(itemList[1])
       selection.toggle(itemList[2])
       selection.toggle(itemList[4])
 
-      selection.on('change', function (selectedItems) {
+      selection.on('change', (selectedItems) => {
         expectExactlySameMembers(selectedItems, [
           itemList[0],
-          itemList[4]
+          itemList[4],
         ])
         done()
       })
@@ -320,12 +317,12 @@ describe('selection', function () {
       selection.remove([itemList[1], itemList[2]])
     })
 
-    it('should not emit change event when selection does not change', function () {
+    it('should not emit change event when selection does not change', () => {
       selection.toggle(itemList[0])
       selection.toggle(itemList[1])
       selection.toggle(itemList[3])
 
-      let changeListener = sinon.stub()
+      const changeListener = sinon.stub()
       selection.on('change', changeListener)
 
       selection.remove([itemList[4], itemList[2]])
@@ -334,52 +331,53 @@ describe('selection', function () {
     })
   })
 
-  describe('range selection', function () {
+  describe('range selection', () => {
     let itemList = null
     let selection = null
 
-    beforeEach(function () {
+    beforeEach(() => {
       itemList = createItemList(5)
       selection = new Selection(() => arrayIterator(itemList))
     })
 
-    describe('from top to bottom', () => it('should select a range of items', function () {
-      selection.replace(itemList[1])
-      let endItem = itemList[3]
+    describe('from top to bottom', () => {
+      it('should select a range of items', () => {
+        selection.replace(itemList[1])
+        const endItem = itemList[3]
 
-      selection.rangeTo(endItem)
+        selection.rangeTo(endItem)
 
-      expectItemsSelected(itemList, selection.selectedItems, [
-        itemList[1],
-        itemList[2],
-        itemList[3]
-      ])
+        expectItemsSelected(itemList, selection.selectedItems, [
+          itemList[1],
+          itemList[2],
+          itemList[3],
+        ])
+      })
     })
-    )
 
-    describe('from bottom to top', () => it('should select a range of items', function () {
+    describe('from bottom to top', () => it('should select a range of items', () => {
       selection.replace(itemList[3])
-      let endItem = itemList[1]
+      const endItem = itemList[1]
 
       selection.rangeTo(endItem)
 
       expectItemsSelected(itemList, selection.selectedItems, [
         itemList[1],
         itemList[2],
-        itemList[3]
+        itemList[3],
       ])
     })
     )
 
-    it('should emit a change event with current selection', function (done) {
+    it('should emit a change event with current selection', (done) => {
       selection.replace(itemList[1])
-      let endItem = itemList[3]
+      const endItem = itemList[3]
 
-      selection.on('change', function (selectedItems) {
+      selection.on('change', (selectedItems) => {
         expectExactlySameMembers(selectedItems, [
           itemList[1],
           itemList[2],
-          itemList[3]
+          itemList[3],
         ])
         done()
       })
@@ -387,11 +385,11 @@ describe('selection', function () {
       selection.rangeTo(endItem)
     })
 
-    it("should not emit a change event if selection doesn't change", function () {
+    it("should not emit a change event if selection doesn't change", () => {
       selection.replace(itemList[1])
       selection.rangeTo(itemList[3])
 
-      let changeListener = sinon.stub()
+      const changeListener = sinon.stub()
       selection.on('change', changeListener)
 
       selection.rangeTo(itemList[3])
@@ -399,7 +397,7 @@ describe('selection', function () {
       expect(changeListener.callCount).to.equal(0)
     })
 
-    it('should keep selection status of items which are outside of range', function () {
+    it('should keep selection status of items which are outside of range', () => {
       selection.toggle(itemList[4])
       selection.toggle(itemList[0])
 
@@ -409,11 +407,11 @@ describe('selection', function () {
         itemList[0],
         itemList[1],
         itemList[2],
-        itemList[4]
+        itemList[4],
       ])
     })
 
-    it('should keep selection status of items which are inside of range', function () {
+    it('should keep selection status of items which are inside of range', () => {
       selection.toggle(itemList[2])
       selection.toggle(itemList[0])
 
@@ -423,22 +421,22 @@ describe('selection', function () {
         itemList[0],
         itemList[1],
         itemList[2],
-        itemList[3]
+        itemList[3],
       ])
     })
 
-    it('should keep selection when range selecting current anchor', function () {
+    it('should keep selection when range selecting current anchor', () => {
       selection.toggle(itemList[2])
 
       selection.rangeTo(itemList[2])
 
       expectItemsSelected(itemList, selection.selectedItems, [
-        itemList[2]
+        itemList[2],
       ])
     })
 
-    describe('change current range when selecting new range', function () {
-      it('should extend range', function () {
+    describe('change current range when selecting new range', () => {
+      it('should extend range', () => {
         selection.toggle(itemList[0])
 
         selection.rangeTo(itemList[2])
@@ -448,11 +446,11 @@ describe('selection', function () {
           itemList[0],
           itemList[1],
           itemList[2],
-          itemList[3]
+          itemList[3],
         ])
       })
 
-      it('should shorten range', function () {
+      it('should shorten range', () => {
         selection.toggle(itemList[0])
 
         selection.rangeTo(itemList[3])
@@ -461,11 +459,11 @@ describe('selection', function () {
         expectItemsSelected(itemList, selection.selectedItems, [
           itemList[0],
           itemList[1],
-          itemList[2]
+          itemList[2],
         ])
       })
 
-      it('should replace with range in different direction', function () {
+      it('should replace with range in different direction', () => {
         selection.toggle(itemList[2])
 
         selection.rangeTo(itemList[4])
@@ -474,45 +472,47 @@ describe('selection', function () {
         expectItemsSelected(itemList, selection.selectedItems, [
           itemList[0],
           itemList[1],
-          itemList[2]
+          itemList[2],
         ])
       })
     })
 
-    describe('range select after deselection happened', function () {
-      describe('when deselecting with toggle', () => it('should use bottommost selected item as start of range', function () {
-        selection.toggle(itemList[4])
-        selection.toggle(itemList[0])
-        selection.toggle(itemList[2])
-        selection.toggle(itemList[2])
+    describe('range select after deselection happened', () => {
+      describe('when deselecting with toggle', () => {
+        it('should use bottommost selected item as start of range', () => {
+          selection.toggle(itemList[4])
+          selection.toggle(itemList[0])
+          selection.toggle(itemList[2])
+          selection.toggle(itemList[2])
 
-        selection.rangeTo(itemList[3])
+          selection.rangeTo(itemList[3])
 
-        expectItemsSelected(itemList, selection.selectedItems, [
-          itemList[0],
-          itemList[3],
-          itemList[4]
-        ])
+          expectItemsSelected(itemList, selection.selectedItems, [
+            itemList[0],
+            itemList[3],
+            itemList[4],
+          ])
+        })
       })
-      )
 
-      describe('when deselecting with remove', () => it('should use bottommost selected item as start of range', function () {
-        selection.toggle(itemList[4])
-        selection.toggle(itemList[0])
-        selection.toggle(itemList[2])
-        selection.remove([itemList[2]])
+      describe('when deselecting with remove', () => {
+        it('should use bottommost selected item as start of range', () => {
+          selection.toggle(itemList[4])
+          selection.toggle(itemList[0])
+          selection.toggle(itemList[2])
+          selection.remove([itemList[2]])
 
-        selection.rangeTo(itemList[3])
+          selection.rangeTo(itemList[3])
 
-        expectItemsSelected(itemList, selection.selectedItems, [
-          itemList[0],
-          itemList[3],
-          itemList[4]
-        ])
+          expectItemsSelected(itemList, selection.selectedItems, [
+            itemList[0],
+            itemList[3],
+            itemList[4],
+          ])
+        })
       })
-      )
 
-      it('should use previous end item as the start for the next range', function () {
+      it('should use previous end item as the start for the next range', () => {
         selection.toggle(itemList[4])
         selection.toggle(itemList[2])
         selection.toggle(itemList[4])
@@ -522,36 +522,36 @@ describe('selection', function () {
 
         expectItemsSelected(itemList, selection.selectedItems, [
           itemList[1],
-          itemList[2]
+          itemList[2],
         ])
       })
     })
 
-    describe('range select without selected item', function () {
-      it('should use first item as start of range', function () {
+    describe('range select without selected item', () => {
+      it('should use first item as start of range', () => {
         selection.rangeTo(itemList[2])
 
         expectItemsSelected(itemList, selection.selectedItems, [
           itemList[0],
           itemList[1],
-          itemList[2]
+          itemList[2],
         ])
       })
 
-      it('should use previous end item as the start for the next range', function () {
+      it('should use previous end item as the start for the next range', () => {
         selection.rangeTo(itemList[2])
         selection.rangeTo(itemList[4])
 
         expectItemsSelected(itemList, selection.selectedItems, [
           itemList[2],
           itemList[3],
-          itemList[4]
+          itemList[4],
         ])
       })
     })
 
-    describe('selection of multiple ranges', function () {
-      it('should keep previous range selection of items which are outside of range', function () {
+    describe('selection of multiple ranges', () => {
+      it('should keep previous range selection of items which are outside of range', () => {
         selection.toggle(itemList[4])
         selection.rangeTo(itemList[3])
 
@@ -562,11 +562,11 @@ describe('selection', function () {
           itemList[0],
           itemList[1],
           itemList[3],
-          itemList[4]
+          itemList[4],
         ])
       })
 
-      it('should merge ranges if they are adjacent', function () {
+      it('should merge ranges if they are adjacent', () => {
         selection.toggle(itemList[4])
         selection.rangeTo(itemList[3])
 
@@ -576,12 +576,12 @@ describe('selection', function () {
 
         expectItemsSelected(itemList, selection.selectedItems, [
           itemList[0],
-          itemList[1]
+          itemList[1],
         ])
       })
 
       // Deviant from MacOS X Finder
-      it('should keep previous range selection of items if ranges intersect', function () {
+      it('should keep previous range selection of items if ranges intersect', () => {
         selection.toggle(itemList[4])
         selection.rangeTo(itemList[3])
 
@@ -592,27 +592,25 @@ describe('selection', function () {
           itemList[1],
           itemList[2],
           itemList[3],
-          itemList[4]
+          itemList[4],
         ])
       })
     })
   })
 
-  function createItemList (amount) {
-    let items = []
-    let iterable = __range__(0, amount, false)
-    for (let j = 0; j < iterable.length; j++) {
-      let i = iterable[j]
+  function createItemList(amount) {
+    const items = []
+    for (let i = 0; i < amount; i++) {
       items.push(new Item(i))
     }
     return items
   }
 
-  function expectItemsSelected (itemList, actualItems, expectedItems) {
+  function expectItemsSelected(itemList, actualItems, expectedItems) {
     expectExactlySameMembers(actualItems, expectedItems)
 
     for (let i = 0; i < itemList.length; i++) {
-      let item = itemList[i]
+      const item = itemList[i]
       if (__in__(item, expectedItems)) {
         expect(item._selected, `item ${item._index} should be selected`).to.be.true
       } else {
@@ -621,21 +619,12 @@ describe('selection', function () {
     }
   }
 
-  function expectExactlySameMembers (actual, expected) {
+  function expectExactlySameMembers(actual, expected) {
     expect(actual).to.have.members(expected)
     expect(actual).to.have.length(expected.length)
   }
 })
 
-function __range__ (left, right, inclusive) {
-  let range = []
-  let ascending = left < right
-  let end = !inclusive ? right : ascending ? right + 1 : right - 1
-  for (let i = left; ascending ? i < end : i > end; ascending ? i++ : i--) {
-    range.push(i)
-  }
-  return range
-}
-function __in__ (needle, haystack) {
+function __in__(needle, haystack) {
   return haystack.indexOf(needle) >= 0
 }
