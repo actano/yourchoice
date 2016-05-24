@@ -8,6 +8,7 @@
     "clean": "rimraf lib dist",
     "karma": "./node_modules/karma/bin/karma start",
     "test": "npm run karma",
+    "test:watch": "npm run karma -- --no-single-run --auto-watch",
     "build:commonjs": "babel src --out-dir lib",
     "build:umd": "BABEL_ENV=commonjs webpack src/index.js dist/yourchoice.js",
     "build": "npm run build:commonjs && npm run build:umd",
