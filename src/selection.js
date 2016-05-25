@@ -103,23 +103,17 @@ class Selection extends Emitter {
   }
 
   _getBottommostSelectedItem() {
-    const iterator = this.iterable[Symbol.iterator]()
     let previousItem = null
 
-    // TODO: Change to for of
-    while (true) {
-      const { value: item, done } = iterator.next()
-
-      if (done) {
-        return previousItem
-      } else if (this._isSelected(item)) {
+    for (const item of this.iterable) {
+      if (this._isSelected(item)) {
         previousItem = item
       }
     }
+    return previousItem
   }
 
   _performActionInRange(startItem, endItem, action) {
-    const iterator = this.iterable[Symbol.iterator]()
     assert((startItem != null), '_performActionInRange: no start item')
     assert((endItem != null), '_performActionInRange: no end item')
 
@@ -128,34 +122,20 @@ class Selection extends Emitter {
       return
     }
 
-    let item
-
-    while (true) {
-      const next = iterator.next()
-      item = next.value
-
+    let performAction = false
+    for (const item of this.iterable) {
       if (item === startItem || item === endItem) {
-        break
+        if (!performAction) {
+          performAction = true
+        } else if (performAction) {
+          action(item)
+          performAction = false
+        }
+      }
+      if (performAction) {
+        action(item)
       }
     }
-
-    action(item)
-
-    let bottomOfRangeFound = false
-
-    while (true) {
-      const next = iterator.next()
-      item = next.value
-      const done = next.done
-      if (done) { break }
-
-      action(item)
-
-      bottomOfRangeFound = item === startItem || item === endItem
-      if (bottomOfRangeFound) { break }
-    }
-
-    assert(bottomOfRangeFound, '_performActionInRange: bottom of range not found')
   }
 
   _isOnlySelectedItem(item) {
@@ -180,18 +160,10 @@ class Selection extends Emitter {
   }
 
   _deselectItemsConnectedWith(targetItem) {
-    const iterator = this.iterable[Symbol.iterator]()
     let range = []
     let isRangeWithTargetItem = false
-    let item
-    let done
 
-    while (true) {
-      const next = iterator.next()
-      item = next.value
-      done = next.done
-      if (done) { break }
-
+    for (const item of this.iterable) {
       if (this._isSelected(item)) {
         range.push(item)
 
@@ -207,8 +179,7 @@ class Selection extends Emitter {
       }
     }
 
-    for (let i = 0; i < range.length; i++) {
-      item = range[i]
+    for (const item of range) {
       this._removeFromSelection(item)
       item.deselect()
     }
