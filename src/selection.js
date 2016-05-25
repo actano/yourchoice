@@ -77,9 +77,10 @@ class Selection extends Emitter {
 
     this._deselectItemsConnectedWith(startItem)
 
-    this._performActionInRange(startItem, endItem, (item) => {
+    const { from, to } = this._orderStartAndEndItems(startItem, endItem)
+    this._performActionInRange(from, to, (item) => {
       this._addToSelection(item)
-      return item.select()
+      item.select()
     })
 
     if (!sameMembers(oldSelectedItems, this.selectedItems)) {
@@ -96,6 +97,22 @@ class Selection extends Emitter {
     }
     const iterator = this.iterable[Symbol.iterator]()
     return iterator.next().value
+  }
+
+  _orderStartAndEndItems(startItem, endItem) {
+    const array = Array.from(this.iterable)
+    const startItemIndex = array.indexOf(startItem)
+    const endItemIndex = array.indexOf(endItem)
+    if (startItemIndex > endItemIndex) {
+      return {
+        from: endItem,
+        to: startItem,
+      }
+    }
+    return {
+      from: startItem,
+      to: endItem,
+    }
   }
 
   _emitChangeEvent() {
@@ -117,23 +134,16 @@ class Selection extends Emitter {
     assert((startItem != null), '_performActionInRange: no start item')
     assert((endItem != null), '_performActionInRange: no end item')
 
-    if (startItem === endItem) {
-      action(startItem)
-      return
-    }
-
     let performAction = false
     for (const item of this.iterable) {
-      if (item === startItem || item === endItem) {
-        if (!performAction) {
-          performAction = true
-        } else if (performAction) {
-          action(item)
-          performAction = false
-        }
+      if (item === startItem) {
+        performAction = true
       }
       if (performAction) {
         action(item)
+      }
+      if (item === endItem) {
+        performAction = false
       }
     }
   }
