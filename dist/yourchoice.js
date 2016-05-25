@@ -89,6 +89,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -103,7 +105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Selection).call(this));
 
-	    _this.iteratorFactory = iteratorFactory;
+	    _this.iterable = _defineProperty({}, Symbol.iterator, iteratorFactory);
 	    _this.selectedItems = [];
 	    _this.lastAnchor = null;
 	    return _this;
@@ -122,7 +124,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        item.select();
 	      }
 
-	      return this._emitChangeEvent();
+	      this._emitChangeEvent();
 	    }
 	  }, {
 	    key: 'replace',
@@ -137,7 +139,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.selectedItems = [item];
 	        item.select();
 
-	        return this._emitChangeEvent();
+	        this._emitChangeEvent();
 	      }
 	    }
 	  }, {
@@ -156,7 +158,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      this.lastAnchor = null;
 	      if (atLeastOneItemRemoved) {
-	        return this._emitChangeEvent();
+	        this._emitChangeEvent();
 	      }
 	    }
 	  }, {
@@ -180,13 +182,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      this._deselectItemsConnectedWith(startItem);
 
-	      this._performActionInRange(startItem, endItem, function (item) {
+	      var _orderStartAndEndItem = this._orderStartAndEndItems(startItem, endItem);
+
+	      var from = _orderStartAndEndItem.from;
+	      var to = _orderStartAndEndItem.to;
+
+	      this._performActionInRange(from, to, function (item) {
 	        _this2._addToSelection(item);
-	        return item.select();
+	        item.select();
 	      });
 
 	      if (!(0, _array.sameMembers)(oldSelectedItems, this.selectedItems)) {
-	        return this._emitChangeEvent();
+	        this._emitChangeEvent();
 	      }
 	    }
 	  }, {
@@ -194,14 +201,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _getRangeStart() {
 	      if (this.lastAnchor != null) {
 	        return this.lastAnchor;
-	      } else {
-	        if (this.selectedItems.length > 0) {
-	          return this._getBottommostSelectedItem();
-	        } else {
-	          var iterator = this.iteratorFactory();
-	          return iterator.next().value;
-	        }
 	      }
+	      if (this.selectedItems.length > 0) {
+	        return this._getBottommostSelectedItem();
+	      }
+	      var iterator = this.iterable[Symbol.iterator]();
+	      return iterator.next().value;
+	    }
+	  }, {
+	    key: '_orderStartAndEndItems',
+	    value: function _orderStartAndEndItems(startItem, endItem) {
+	      var array = Array.from(this.iterable);
+	      var startItemIndex = array.indexOf(startItem);
+	      var endItemIndex = array.indexOf(endItem);
+	      if (startItemIndex > endItemIndex) {
+	        return {
+	          from: endItem,
+	          to: startItem
+	        };
+	      }
+	      return {
+	        from: startItem,
+	        to: endItem
+	      };
 	    }
 	  }, {
 	    key: '_emitChangeEvent',
@@ -211,66 +233,76 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_getBottommostSelectedItem',
 	    value: function _getBottommostSelectedItem() {
-	      var iterator = this.iteratorFactory();
 	      var previousItem = null;
 
-	      while (true) {
-	        var _iterator$next = iterator.next();
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
 
-	        var item = _iterator$next.value;
-	        var done = _iterator$next.done;
+	      try {
+	        for (var _iterator = this.iterable[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var item = _step.value;
 
-
-	        if (done) {
-	          return previousItem;
-	        } else if (this._isSelected(item)) {
-	          previousItem = item;
+	          if (this._isSelected(item)) {
+	            previousItem = item;
+	          }
+	        }
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator.return) {
+	            _iterator.return();
+	          }
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
 	        }
 	      }
+
+	      return previousItem;
 	    }
 	  }, {
 	    key: '_performActionInRange',
 	    value: function _performActionInRange(startItem, endItem, action) {
-	      var iterator = this.iteratorFactory();
 	      (0, _assert2.default)(startItem != null, '_performActionInRange: no start item');
 	      (0, _assert2.default)(endItem != null, '_performActionInRange: no end item');
 
-	      if (startItem === endItem) {
-	        action(startItem);
-	        return;
-	      }
+	      var performAction = false;
+	      var _iteratorNormalCompletion2 = true;
+	      var _didIteratorError2 = false;
+	      var _iteratorError2 = undefined;
 
-	      var current = void 0;
-	      var item = void 0;
-	      var done = void 0;
-	      while (!(current = iterator.next()).done) {
-	        item = current.value;
-	        if (item === startItem || item === endItem) {
-	          break;
+	      try {
+	        for (var _iterator2 = this.iterable[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	          var item = _step2.value;
+
+	          if (item === startItem) {
+	            performAction = true;
+	          }
+	          if (performAction) {
+	            action(item);
+	          }
+	          if (item === endItem) {
+	            performAction = false;
+	          }
+	        }
+	      } catch (err) {
+	        _didIteratorError2 = true;
+	        _iteratorError2 = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	            _iterator2.return();
+	          }
+	        } finally {
+	          if (_didIteratorError2) {
+	            throw _iteratorError2;
+	          }
 	        }
 	      }
-
-	      action(item);
-
-	      var bottomOfRangeFound = false;
-
-	      while (true) {
-	        var next = iterator.next();
-	        item = next.value;
-	        done = next.done;
-	        if (done) {
-	          break;
-	        }
-
-	        action(item);
-
-	        bottomOfRangeFound = item === startItem || item === endItem;
-	        if (bottomOfRangeFound) {
-	          break;
-	        }
-	      }
-
-	      return (0, _assert2.default)(bottomOfRangeFound, '_performActionInRange: bottom of range not found');
 	    }
 	  }, {
 	    key: '_isOnlySelectedItem',
@@ -286,7 +318,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: '_addToSelection',
 	    value: function _addToSelection(item) {
 	      if (!this._isSelected(item)) {
-	        return this.selectedItems.push(item);
+	        this.selectedItems.push(item);
 	      }
 	    }
 	  }, {
@@ -294,45 +326,76 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _removeFromSelection(item) {
 	      if (this._isSelected(item)) {
 	        var index = this.selectedItems.indexOf(item);
-	        return this.selectedItems.splice(index, 1);
+	        this.selectedItems.splice(index, 1);
 	      }
 	    }
 	  }, {
 	    key: '_deselectItemsConnectedWith',
 	    value: function _deselectItemsConnectedWith(targetItem) {
-	      var iterator = this.iteratorFactory();
 	      var range = [];
 	      var isRangeWithTargetItem = false;
-	      var item = void 0;
-	      var done = void 0;
 
-	      while (true) {
-	        var next = iterator.next();
-	        item = next.value;
-	        done = next.done;
-	        if (done) {
-	          break;
-	        }
+	      var _iteratorNormalCompletion3 = true;
+	      var _didIteratorError3 = false;
+	      var _iteratorError3 = undefined;
 
-	        if (this._isSelected(item)) {
-	          range.push(item);
+	      try {
+	        for (var _iterator3 = this.iterable[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+	          var item = _step3.value;
 
-	          if (item === targetItem) {
-	            isRangeWithTargetItem = true;
-	          }
-	        } else {
-	          if (isRangeWithTargetItem) {
-	            break;
+	          if (this._isSelected(item)) {
+	            range.push(item);
+
+	            if (item === targetItem) {
+	              isRangeWithTargetItem = true;
+	            }
 	          } else {
-	            range = [];
+	            if (isRangeWithTargetItem) {
+	              break;
+	            } else {
+	              range = [];
+	            }
+	          }
+	        }
+	      } catch (err) {
+	        _didIteratorError3 = true;
+	        _iteratorError3 = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+	            _iterator3.return();
+	          }
+	        } finally {
+	          if (_didIteratorError3) {
+	            throw _iteratorError3;
 	          }
 	        }
 	      }
 
-	      for (var i = 0; i < range.length; i++) {
-	        item = range[i];
-	        this._removeFromSelection(item);
-	        item.deselect();
+	      var _iteratorNormalCompletion4 = true;
+	      var _didIteratorError4 = false;
+	      var _iteratorError4 = undefined;
+
+	      try {
+	        for (var _iterator4 = range[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+	          var _item = _step4.value;
+
+	          this._removeFromSelection(_item);
+	          _item.deselect();
+	        }
+	      } catch (err) {
+	        _didIteratorError4 = true;
+	        _iteratorError4 = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+	            _iterator4.return();
+	          }
+	        } finally {
+	          if (_didIteratorError4) {
+	            throw _iteratorError4;
+	          }
+	        }
 	      }
 	    }
 	  }]);
@@ -344,14 +407,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	
 	/**
 	 * Expose `Emitter`.
 	 */
 
-	module.exports = Emitter;
+	if (true) {
+	  module.exports = Emitter;
+	}
 
 	/**
 	 * Initialize a new `Emitter`.
@@ -520,14 +585,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 
 	exports.default = function () {
+	  /* eslint-disable no-console */
 	  if (typeof console !== 'undefined' && console !== null && console.assert != null) {
 	    var _console;
 
 	    return (_console = console).assert.apply(_console, arguments);
+	    /* eslint-enable no-console */
 	  }
+	  return null;
 	};
-
-	;
 
 /***/ },
 /* 4 */
@@ -546,12 +612,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var sameMembers = function sameMembers(array1, array2) {
+	function sameMembers(array1, array2) {
 	  if (array1.length !== array2.length) {
 	    return false;
 	  }
 	  return _lodash2.default.union(array1, array2).length === array2.length;
-	};
+	}
 
 	exports.sameMembers = sameMembers;
 
