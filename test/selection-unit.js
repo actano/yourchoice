@@ -6,7 +6,7 @@
 import { Selection } from '../src/selection'
 
 describe('selection', () => {
-  class Item {
+  class Item{
     constructor(_index = 0) {
       this._index = _index
       this._selected = false
@@ -51,7 +51,7 @@ describe('selection', () => {
       expectExactlySameMembers(selection.selectedItems, [item])
     })
 
-    describe('with existing selection', () => {
+    describe('with existing selection', function() {
       let itemList = null
       let item = null
       let selection = null

@@ -131,7 +131,7 @@ class Selection extends Emitter {
   }
 
   _performActionInRange(startItem, endItem, action) {
-    assert((startItem != null), '_performActionInRange: no start item')
+    assert((startItem != null), "_performActionInRange: no start item")
     assert((endItem != null), '_performActionInRange: no end item')
 
     let performAction = false
@@ -164,8 +164,8 @@ class Selection extends Emitter {
 
   _removeFromSelection(item) {
     if (this._isSelected(item)) {
-      const index = this.selectedItems.indexOf(item)
-      this.selectedItems.splice(index, 1)
+      let index = this.selectedItems.indexOf(item)
+      this.selectedItems.splice(index, 1);
     }
   }
 
