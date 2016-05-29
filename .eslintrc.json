@@ -1,14 +1,3 @@
 {
-    "parser": "babel-eslint",
-    "env": {
-        "browser": true
-    },
-    "extends": "airbnb",
-    "rules": {
-        "semi": ["error", "never"],
-        "no-underscore-dangle": "off",
-        "no-constant-condition": "off",
-        "no-use-before-define": "off",
-        "no-iterator": "off"
-    }
+    "extends": "actano"
 }
