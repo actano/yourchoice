@@ -3,7 +3,6 @@ module.exports = function(config) {
     basePath: '',
     frameworks: [
         'mocha',
-        'sinon-chai',
         'chai'
     ],
     files: [
@@ -16,6 +15,9 @@ module.exports = function(config) {
     reporters: ['spec'],
     webpack: {
       module: {
+        noParse: [
+            /node_modules\/sinon\//,
+        ],
         loaders: [
           {
             test: /\.js/,
@@ -31,7 +33,10 @@ module.exports = function(config) {
         extensions: [
             '',
             '.js'
-        ]
+        ],
+        alias: {
+            sinon: 'sinon/pkg/sinon'
+        }
       }
     },
     webpackMiddleware: {

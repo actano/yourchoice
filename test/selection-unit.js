@@ -4,6 +4,7 @@
 /* eslint-disable no-unused-expressions */
 
 import { Selection } from '../src/selection'
+import sinon from 'sinon'
 
 describe('selection', () => {
   class Item {
