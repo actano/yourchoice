@@ -1,22 +1,22 @@
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
     basePath: '',
     frameworks: [
-        'mocha',
-        'chai'
+      'mocha',
+      'chai',
     ],
     files: [
-        'test/*.js',
+      'test/*.js',
     ],
     preprocessors: {
-        'test/*.js': ['webpack'],
-        'src/*.js': ['webpack'],
+      'test/*.js': ['webpack'],
+      'src/*.js': ['webpack'],
     },
     reporters: ['spec'],
     webpack: {
       module: {
         noParse: [
-            /node_modules\/sinon\//,
+          /node_modules\/sinon\//,
         ],
         loaders: [
           {
@@ -24,23 +24,23 @@ module.exports = function(config) {
             loader: 'babel-loader',
             exclude: /node_modules/,
             query: {
-              presets: ['es2015']
-            }
-          }
-        ]
+              presets: ['es2015'],
+            },
+          },
+        ],
       },
       resolve: {
         extensions: [
-            '',
-            '.js'
+          '',
+          '.js',
         ],
         alias: {
-            sinon: 'sinon/pkg/sinon'
-        }
-      }
+          sinon: 'sinon/pkg/sinon',
+        },
+      },
     },
     webpackMiddleware: {
-      noInfo: true
+      noInfo: true,
     },
     port: 9876,
     colors: true,
@@ -49,7 +49,7 @@ module.exports = function(config) {
     browsers: ['Firefox'],
     singleRun: true,
     plugins: [
-        'karma-*'
-    ]
+      'karma-*',
+    ],
   })
 }

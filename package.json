@@ -13,7 +13,7 @@
     "build:umd": "BABEL_ENV=commonjs webpack src/index.js dist/yourchoice.js",
     "build": "npm run build:commonjs && npm run build:umd",
     "prepublish": "npm run clean && npm run build",
-    "lint": "eslint \"src/**/*.js\" \"test/**/*.js\""
+    "lint": "eslint karma.conf.js \"src/**/*.js\" \"test/**/*.js\""
   },
   "main": "lib/index.js",
   "repository": {
