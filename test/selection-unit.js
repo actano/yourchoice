@@ -1,6 +1,4 @@
 /* eslint-env mocha */
-/* global expect */
-/* global sinon */
 /* eslint-disable no-unused-expressions */
 
 import { Selection } from '../src/selection'
