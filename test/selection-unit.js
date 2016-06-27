@@ -4,7 +4,11 @@
 /* eslint-disable no-unused-expressions */
 
 import { Selection } from '../src/selection'
+import chai from 'chai'
 import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
+const expect = chai.expect
+chai.use(sinonChai)
 
 describe('selection', () => {
   class Item {
@@ -135,7 +139,7 @@ describe('selection', () => {
 
       selection.replace(item)
 
-      expect(changeListener.callCount).to.equal(0)
+      expect(changeListener).to.not.have.been.called
     })
   })
 
@@ -328,7 +332,7 @@ describe('selection', () => {
 
       selection.remove([itemList[4], itemList[2]])
 
-      expect(changeListener.callCount).to.equal(0)
+      expect(changeListener).to.not.have.been.called
     })
   })
 
@@ -395,7 +399,7 @@ describe('selection', () => {
 
       selection.rangeTo(itemList[3])
 
-      expect(changeListener.callCount).to.equal(0)
+      expect(changeListener).to.not.have.been.called
     })
 
     it('should keep selection status of items which are outside of range', () => {
