@@ -26,7 +26,7 @@ describe('selection', () => {
 
   function arrayIterator(array) {
     let index = 0
-    return ({
+    return {
       next() {
         const value = index < array.length ? array[index] : undefined
         index++
@@ -35,9 +35,8 @@ describe('selection', () => {
           done: !(value != null),
         })
       },
-    })
+    }
   }
-
 
   it('should have no selected items initially', () => {
     const selection = new Selection(arrayIterator([]))
