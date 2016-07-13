@@ -25,17 +25,7 @@ describe('selection', () => {
   }
 
   function arrayIterator(array) {
-    let index = 0
-    return {
-      next() {
-        const value = index < array.length ? array[index] : undefined
-        index++
-        return ({
-          value,
-          done: !(value != null),
-        })
-      },
-    }
+    return array[Symbol.iterator]()
   }
 
   it('should have no selected items initially', () => {
