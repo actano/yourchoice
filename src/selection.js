@@ -5,11 +5,9 @@ import { sameMembers } from './array'
 
 class Selection extends Emitter {
 
-  constructor(iteratorFactory) {
+  constructor(iterable) {
     super()
-    this.iterable = {
-      [Symbol.iterator]: iteratorFactory,
-    }
+    this.iterable = iterable
     this.selectedItems = []
     this.lastAnchor = null
   }

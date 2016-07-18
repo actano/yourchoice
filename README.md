@@ -37,33 +37,17 @@ Is invoked when item is added to the selection.
 
 Is invoked when item is removed from the selection.
 
-## Iterator Interface
+## Iterable Interface
 
-Any [javascript iterator](http://www.ecma-international.org/ecma-262/6.0/#sec-iterator-interface). Should iterate over the data structure that represents the items that can be selected. This enables YourChoice to operate on any data structure. A simple array iterator could look like this:
+Any [javascript iterable](http://www.ecma-international.org/ecma-262/6.0/#sec-iterable-interface). Should be implemented by the data structure that represents the items that can be selected. This enables YourChoice to operate on any data structure. Native data types such as `Array` or `Map` implement the iterable protocol.
 
-```javascript
-var arrayIterator = {
-  next: function() {
-    var value = index < array.length ? array[index] : undefined;
-    index++;
-    return {
-      value: value,
-      done: value == null
-    };
-  }
-}
-```
+## YourChoice(iterable)
 
-## YourChoice(iteratorFactory)
-
-`iteratorFactory` – a function returning an iterator
+`iterable` – an object that implements the `Iterable` interface, representing the list of items that can be selected.
 
 ```javascript
-var iteratorFactory = function() {
-  var iterator = {...};
-  return iterator;
-}
-var yourChoice = new YourChoice(iteratorFactory);
+var iterable = ['A', 'B', 'C', 'D']
+var yourChoice = new YourChoice(iterable);
 ```
 
 ## YourChoice.selectedItems

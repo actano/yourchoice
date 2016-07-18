@@ -24,19 +24,15 @@ describe('selection', () => {
     }
   }
 
-  function arrayIterator(array) {
-    return array[Symbol.iterator]()
-  }
-
   it('should have no selected items initially', () => {
-    const selection = new Selection(arrayIterator([]))
+    const selection = new Selection([])
     expectExactlySameMembers(selection.selectedItems, [])
   })
 
   describe('replace selection with single item', () => {
     it('should replace empty selection with single item', () => {
       const item = new Item()
-      const selection = new Selection(() => arrayIterator([item]))
+      const selection = new Selection([item])
 
       selection.replace(item)
 
@@ -51,7 +47,7 @@ describe('selection', () => {
       beforeEach(() => {
         itemList = createItemList(5)
         item = new Item()
-        selection = new Selection(() => arrayIterator(itemList))
+        selection = new Selection(itemList)
 
         for (let i = 0; i < itemList.length; i++) {
           const otherItem = itemList[i]
@@ -119,7 +115,7 @@ describe('selection', () => {
 
     it('should not emit change event when only this item was selected', () => {
       const item = new Item()
-      const selection = new Selection(() => arrayIterator([item]))
+      const selection = new Selection([item])
       selection.replace(item)
       const changeListener = sinon.stub()
       selection.on('change', changeListener)
@@ -134,7 +130,7 @@ describe('selection', () => {
     describe('item is not selected', () => {
       it('should add single item to empty selection', () => {
         const item = new Item()
-        const selection = new Selection(() => arrayIterator([item]))
+        const selection = new Selection([item])
 
         selection.toggle(item)
 
@@ -143,7 +139,7 @@ describe('selection', () => {
 
       it('should mark item as selected', () => {
         const item = new Item()
-        const selection = new Selection(() => arrayIterator([item]))
+        const selection = new Selection([item])
 
         selection.toggle(item)
 
@@ -152,7 +148,7 @@ describe('selection', () => {
 
       it('should add single item to existing selection', () => {
         const itemList = createItemList(5)
-        const selection = new Selection(() => arrayIterator(itemList))
+        const selection = new Selection(itemList)
 
         for (let i = 0; i < itemList.length; i++) {
           const item = itemList[i]
@@ -164,7 +160,7 @@ describe('selection', () => {
 
       it('should emit change event with selected items', (done) => {
         const item = new Item()
-        const selection = new Selection(() => arrayIterator([item]))
+        const selection = new Selection([item])
 
         selection.on('change', (selectedItems) => {
           expectExactlySameMembers(selectedItems, [item])
@@ -178,7 +174,7 @@ describe('selection', () => {
     describe('item is already selected', () => {
       it('should remove single item from selection', () => {
         const item = new Item()
-        const selection = new Selection(() => arrayIterator([item]))
+        const selection = new Selection([item])
 
         selection.toggle(item)
         selection.toggle(item)
@@ -188,7 +184,7 @@ describe('selection', () => {
 
       it('should mark item as deselected', () => {
         const item = new Item()
-        const selection = new Selection(() => arrayIterator([item]))
+        const selection = new Selection([item])
 
         selection.toggle(item)
         selection.toggle(item)
@@ -198,7 +194,7 @@ describe('selection', () => {
 
       it('should remove single item from existing selection', () => {
         const itemList = createItemList(5)
-        const selection = new Selection(() => arrayIterator(itemList))
+        const selection = new Selection(itemList)
 
         for (let i = 0; i < itemList.length; i++) {
           const item = itemList[i]
@@ -217,7 +213,7 @@ describe('selection', () => {
 
       it('should emit change event', (done) => {
         const item = new Item()
-        const selection = new Selection(() => arrayIterator([item]))
+        const selection = new Selection([item])
 
         selection.toggle(item)
 
@@ -231,7 +227,7 @@ describe('selection', () => {
 
       it('should emit copy of selected items on change event', () => {
         const itemList = createItemList(3)
-        const selection = new Selection(() => arrayIterator(itemList))
+        const selection = new Selection(itemList)
 
         const changeEventParameters = []
         selection.on('change', (selectedItems) => changeEventParameters.push(selectedItems))
@@ -253,7 +249,7 @@ describe('selection', () => {
 
     beforeEach(() => {
       itemList = createItemList(5)
-      selection = new Selection(() => arrayIterator(itemList))
+      selection = new Selection(itemList)
     })
 
     it('should deselect a list of items', () => {
@@ -329,7 +325,7 @@ describe('selection', () => {
 
     beforeEach(() => {
       itemList = createItemList(5)
-      selection = new Selection(() => arrayIterator(itemList))
+      selection = new Selection(itemList)
     })
 
     describe('from top to bottom', () => {
