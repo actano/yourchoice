@@ -4,6 +4,7 @@ node_js:
 script:
 - npm run lint
 - npm test
+after_success: npm run coverage
 deploy:
   provider: npm
   email: marcus.mennemeier@actano.de
