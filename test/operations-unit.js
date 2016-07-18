@@ -14,17 +14,16 @@ import {
   rangeTo,
   getSelection,
   getChangedSelection,
-  getChangedDeselection
+  getChangedDeselection,
 } from '../src/operations'
 
 function iterable(array) {
   return {
-    [Symbol.iterator]: array[Symbol.iterator].bind(array)
+    [Symbol.iterator]: array[Symbol.iterator].bind(array),
   }
 }
 
 describe('operations', () => {
-
   it('should have no selected items by default', () => {
     const state = init()
 
@@ -43,7 +42,6 @@ describe('operations', () => {
   })
 
   describe('replace selection with single item', () => {
-
     it('should replace empty selection with single item', () => {
       const state = init()
 
@@ -56,9 +54,7 @@ describe('operations', () => {
     })
 
     describe('with existing selection', () => {
-
       describe('item is not selected', () => {
-
         let newState = null
 
         beforeEach(() => {
@@ -82,11 +78,9 @@ describe('operations', () => {
         it('should return other items as newly deselected', () => {
           expectExactlySameMembers(getChangedDeselection(newState), ['A', 'B'])
         })
-
       })
 
       describe('item is selected', () => {
-
         let newState = null
 
         beforeEach(() => {
@@ -110,17 +104,12 @@ describe('operations', () => {
         it('should return other items as newly deselected', () => {
           expectExactlySameMembers(getChangedDeselection(newState), ['A', 'B'])
         })
-
       })
-
     })
-
   })
 
   describe('toggle single selection', () => {
-
     describe('item is not selected', () => {
-
       let newState = null
 
       beforeEach(() => {
@@ -144,11 +133,9 @@ describe('operations', () => {
       it('should return empty list as newly deselected', () => {
         expectExactlySameMembers(getChangedDeselection(newState), [])
       })
-
     })
 
     describe('item is already selected', () => {
-
       let newState = null
 
       beforeEach(() => {
@@ -173,13 +160,10 @@ describe('operations', () => {
       it('should return item as newly deselected', () => {
         expectExactlySameMembers(getChangedDeselection(newState), ['C'])
       })
-
     })
-
   })
 
   describe('remove items from selection', () => {
-
     let newState = null
 
     beforeEach(() => {
@@ -209,7 +193,7 @@ describe('operations', () => {
       const items = iterable(['A', 'B', 'C', 'D'])
       const state = init()
 
-      const newState = flow(
+      newState = flow(
         setItems(items),
         setSelection(['A', 'B']),
         remove(['A', 'B', 'C'])
@@ -217,7 +201,6 @@ describe('operations', () => {
 
       expectExactlySameMembers(getChangedDeselection(newState), ['A', 'B'])
     })
-
   })
 
   describe('remove all items from selection', () => {
@@ -245,13 +228,10 @@ describe('operations', () => {
     it('should return empty list as newly selected', () => {
       expectExactlySameMembers(getChangedSelection(newState), [])
     })
-
   })
 
   describe('range selection', () => {
-
     describe('from top to bottom', () => {
-
       let newState = null
 
       beforeEach(() => {
@@ -276,11 +256,9 @@ describe('operations', () => {
       it('should return empty list as newly deselected', () => {
         expectExactlySameMembers(getChangedDeselection(newState), [])
       })
-
     })
 
     describe('from bottom to top', () => {
-
       let newState = null
 
       beforeEach(() => {
@@ -305,11 +283,9 @@ describe('operations', () => {
       it('should return empty list as newly deselected', () => {
         expectExactlySameMembers(getChangedDeselection(newState), [])
       })
-
     })
 
     describe('with already selected items in the range', () => {
-
       let newState = null
 
       beforeEach(() => {
@@ -335,11 +311,9 @@ describe('operations', () => {
       it('should return empty list as newly deselected', () => {
         expectExactlySameMembers(getChangedDeselection(newState), [])
       })
-
     })
 
     describe('with already selected items outside of range', () => {
-
       let newState = null
 
       beforeEach(() => {
@@ -365,11 +339,9 @@ describe('operations', () => {
       it('should return empty list as newly deselected', () => {
         expectExactlySameMembers(getChangedDeselection(newState), [])
       })
-
     })
 
     describe('when selecting current anchor', () => {
-
       let newState = null
 
       beforeEach(() => {
@@ -395,13 +367,10 @@ describe('operations', () => {
       it('should return empty list as newly deselected items', () => {
         expectExactlySameMembers(getChangedDeselection(newState), [])
       })
-
     })
 
     describe('change current range when selecting new range', () => {
-
       describe('when extending range', () => {
-
         let newState = null
 
         beforeEach(() => {
@@ -427,11 +396,9 @@ describe('operations', () => {
         it('should return empty list as newly deselected items', () => {
           expectExactlySameMembers(getChangedDeselection(newState), [])
         })
-
       })
 
       describe('when shortening range', () => {
-
         let newState = null
 
         beforeEach(() => {
@@ -457,11 +424,9 @@ describe('operations', () => {
         it('should return list of deselected items', () => {
           expectExactlySameMembers(getChangedDeselection(newState), ['E', 'F'])
         })
-
       })
 
       describe('when replacing with range into different direction', () => {
-
         let newState = null
 
         beforeEach(() => {
@@ -487,13 +452,10 @@ describe('operations', () => {
         it('should return list of deselected items', () => {
           expectExactlySameMembers(getChangedDeselection(newState), ['E', 'F'])
         })
-
       })
 
       describe('range select after deselection happened', () => {
-
         describe('when deselecting the anchor with toggle', () => {
-
           let newState = null
 
           beforeEach(() => {
@@ -521,11 +483,9 @@ describe('operations', () => {
           it('should return list of deselected items', () => {
             expectExactlySameMembers(getChangedDeselection(newState), [])
           })
-
         })
 
         describe('when deselecting the anchor with remove', () => {
-
           let newState = null
 
           beforeEach(() => {
@@ -553,11 +513,9 @@ describe('operations', () => {
           it('should return list of deselected items', () => {
             expectExactlySameMembers(getChangedDeselection(newState), [])
           })
-
         })
 
         describe('when deselecting a different item than the anchor', () => {
-
           let newState = null
 
           beforeEach(() => {
@@ -585,17 +543,12 @@ describe('operations', () => {
           it('should return list of deselected items', () => {
             expectExactlySameMembers(getChangedDeselection(newState), ['D'])
           })
-
         })
-
       })
-
     })
 
     describe('range select without selected item', () => {
-
       describe('when performing single range selection', () => {
-
         let newState = null
 
         beforeEach(() => {
@@ -619,11 +572,9 @@ describe('operations', () => {
         it('should return list of deselected items', () => {
           expectExactlySameMembers(getChangedDeselection(newState), [])
         })
-
       })
 
       describe('when performing multiple range selections', () => {
-
         let newState = null
 
         beforeEach(() => {
@@ -648,13 +599,10 @@ describe('operations', () => {
         it('should return list of deselected items', () => {
           expectExactlySameMembers(getChangedDeselection(newState), ['A', 'B'])
         })
-
       })
-
     })
 
     describe('selection of mulitple ranges', () => {
-
       it('should keep previous range selection of items which are outside of range', () => {
         const items = iterable(['A', 'B', 'C', 'D', 'E', 'F', 'G'])
         const state = init()
@@ -704,9 +652,7 @@ describe('operations', () => {
 
         expectExactlySameMembers(getSelection(newState), ['B', 'C', 'D', 'E'])
       })
-
     })
-
   })
 
   function expectExactlySameMembers(actual, expected) {

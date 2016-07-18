@@ -1,12 +1,9 @@
 import Emitter from 'component-emitter'
 import { flow } from 'lodash/fp'
 
-import assert from './assert'
-import { sameMembers } from './array'
 import {
   init,
   setItems,
-  setSelection,
   replace,
   toggle,
   remove,
@@ -14,7 +11,7 @@ import {
   rangeTo,
   getSelection,
   getChangedSelection,
-  getChangedDeselection
+  getChangedDeselection,
 } from './operations'
 
 class Selection extends Emitter {
@@ -99,7 +96,7 @@ class Selection extends Emitter {
       (getChangedDeselection(this.state).length > 0)
 
     if (change) {
-      return this.emit('change', this.selectedItems.slice())
+      this.emit('change', this.selectedItems.slice())
     }
   }
 

@@ -4,7 +4,7 @@ import {
   without,
   includes,
   intersection,
-  union
+  union,
 } from 'lodash/fp'
 
 function init() {
@@ -13,35 +13,35 @@ function init() {
     selected: [],
     changed: {
       selected: [],
-      deselected: []
+      deselected: [],
     },
-    anchor: null
+    anchor: null,
   }
 }
 
-const setItems = curry(function(items, state) {
-  return {
-    items: items,
+const setItems = curry((items, state) =>
+  ({
+    items,
     selected: state.selected,
     changed: {
       selected: [],
       deselected: [],
     },
-    anchor: state.anchor
-  }
-})
+    anchor: state.anchor,
+  })
+)
 
-const setSelection = curry(function(selection, state){
-  return {
+const setSelection = curry((selection, state) =>
+  ({
     items: state.items,
     selected: selection,
     changed: {
       selected: without(state.selected, selection),
-      deselected: without(selection, state.selected)
+      deselected: without(selection, state.selected),
     },
-    anchor: state.anchor
-  }
-})
+    anchor: state.anchor,
+  })
+)
 
 function getSelection(state) {
   return state.selected
@@ -58,11 +58,13 @@ function getChangedDeselection(state) {
 function getAnchor(state) {
   if (state.anchor !== null && state.anchor !== undefined) {
     return state.anchor
-  } else if (state.selected.length > 0) {
-    return getBottommostSelectedItem(state)
-  } else {
-    return state.items[Symbol.iterator]().next().value
   }
+
+  if (state.selected.length > 0) {
+    return getBottommostSelectedItem(state)
+  }
+
+  return state.items[Symbol.iterator]().next().value
 }
 
 function getBottommostSelectedItem(state) {
@@ -83,23 +85,23 @@ function getBottommostSelectedItem(state) {
 function emptyIterable() {
   const array = []
   return {
-    [Symbol.iterator]: array[Symbol.iterator].bind(array)
+    [Symbol.iterator]: array[Symbol.iterator].bind(array),
   }
 }
 
-const replace = curry(function(selectedItem, state) {
-  return {
+const replace = curry((selectedItem, state) =>
+  ({
     items: state.items,
     selected: [selectedItem],
     changed: {
       selected: without(state.selected, [selectedItem]),
-      deselected: without([selectedItem], state.selected)
+      deselected: without([selectedItem], state.selected),
     },
-    anchor: selectedItem
-  }
-})
+    anchor: selectedItem,
+  })
+)
 
-const toggle = curry(function(toggledItem, state) {
+const toggle = curry((toggledItem, state) => {
   const itemIsAdded = !includes(toggledItem, state.selected)
 
   if (itemIsAdded) {
@@ -110,49 +112,49 @@ const toggle = curry(function(toggledItem, state) {
         selected: [toggledItem],
         deselected: [],
       },
-      anchor: toggledItem
-    }
-  } else {
-    const anchorIsRemoved = (toggledItem === state.anchor)
-    const newAnchor = anchorIsRemoved ? null : state.anchor
-
-    return {
-      items: state.items,
-      selected: without([toggledItem], state.selected),
-      changed: {
-        selected: [],
-        deselected: [toggledItem],
-      },
-      anchor: newAnchor
+      anchor: toggledItem,
     }
   }
-})
 
-const remove = curry(function(removedItem, state) {
-  return {
-      items: state.items,
-      selected: without(removedItem, state.selected),
-      changed: {
-        selected: [],
-        deselected: intersection(removedItem, state.selected),
-      },
-      anchor: null
-  }
-})
+  const anchorIsRemoved = (toggledItem === state.anchor)
+  const newAnchor = anchorIsRemoved ? null : state.anchor
 
-const removeAll = curry(function(state) {
   return {
-      items: state.items,
+    items: state.items,
+    selected: without([toggledItem], state.selected),
+    changed: {
       selected: [],
-      changed: {
-        selected: [],
-        deselected: state.selected,
-      },
-      anchor: null
+      deselected: [toggledItem],
+    },
+    anchor: newAnchor,
   }
 })
 
-const rangeTo = curry(function(toItem, state){
+const remove = curry((removedItem, state) =>
+  ({
+    items: state.items,
+    selected: without(removedItem, state.selected),
+    changed: {
+      selected: [],
+      deselected: intersection(removedItem, state.selected),
+    },
+    anchor: null,
+  })
+)
+
+const removeAll = curry((state) =>
+  ({
+    items: state.items,
+    selected: [],
+    changed: {
+      selected: [],
+      deselected: state.selected,
+    },
+    anchor: null,
+  })
+)
+
+const rangeTo = curry((toItem, state) => {
   const anchor = getAnchor(state, state.items)
   const connected = connectedWith(anchor, state.selected, state.items)
   const range = between(anchor, toItem, state.items)
@@ -163,25 +165,26 @@ const rangeTo = curry(function(toItem, state){
   )(state.selected)
 
   return {
-      items: state.items,
-      selected: selected,
-      changed: {
-        selected: without(state.selected, selected),
-        deselected: without(selected, state.selected),
-      },
-      anchor: state.anchor
+    items: state.items,
+    selected,
+    changed: {
+      selected: without(state.selected, selected),
+      deselected: without(selected, state.selected),
+    },
+    anchor: state.anchor,
   }
 })
 
 function between(start, end, iterable) {
-  if (start === end)
+  if (start === end) {
     return [start]
+  }
 
+  const result = []
   let inRange = false
-  let result = []
   let foundStartEnd = 0
 
-  for (let item of iterable) {
+  for (const item of iterable) {
     if (inRange) {
       result.push(item)
 
@@ -200,9 +203,9 @@ function between(start, end, iterable) {
 
   if (foundStartEnd === 2) {
     return result
-  } else {
-    return []
   }
+
+  return []
 }
 
 function connectedWith(targetItem, selected, iterable) {
@@ -242,5 +245,5 @@ export {
   rangeTo,
   getSelection,
   getChangedSelection,
-  getChangedDeselection
+  getChangedDeselection,
 }
