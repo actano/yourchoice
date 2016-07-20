@@ -1,5 +1,5 @@
 import { Selection } from './selection'
-import {
+export {
   init,
   setItems,
   setSelection,
@@ -14,16 +14,3 @@ import {
 } from './operations'
 
 export default Selection
-export {
-  init,
-  setItems,
-  setSelection,
-  replace,
-  toggle,
-  remove,
-  removeAll,
-  rangeTo,
-  getSelection,
-  getChangedSelection,
-  getChangedDeselection,
-}
