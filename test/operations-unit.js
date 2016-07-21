@@ -349,6 +349,19 @@ describe('operations', () => {
       })
     })
 
+    it('should do nothing if given target isn\'t in the given selectable items', () => {
+      const items = iterable(['A', 'B', 'C', 'D', 'E'])
+      const state = init()
+
+      const newState = flow(
+        setItems(items),
+        replace('D'),
+        rangeTo('nonExisting')
+      )(state)
+
+      expectExactlySameMembers(getSelection(newState), ['D'])
+    })
+
     describe('with already selected items in the range', () => {
       let newState = null
 
