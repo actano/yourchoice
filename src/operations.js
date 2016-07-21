@@ -207,30 +207,27 @@ function _between(start, end, array) {
   return array.slice(startIndex, endIndex + 1)
 }
 
-function _connectedWith(targetItem, selected, iterable) {
-  let range = []
-  let isRangeWithTargetItem = false
-
+function _connectedWith(targetItem, selected, array) {
   const isSelected = (item) =>
     selected.indexOf(item) !== -1
+  const result = []
+  const targetIndex = array.indexOf(targetItem)
 
-  for (const item of iterable) {
-    if (isSelected(item)) {
-      range.push(item)
-
-      if (item === targetItem) {
-        isRangeWithTargetItem = true
-      }
-    } else {
-      if (isRangeWithTargetItem) {
-        break
-      } else {
-        range = []
-      }
+  for (let i = targetIndex; i >= 0; i--) {
+    if (!isSelected(array[i])) {
+      break
     }
+    result.push(array[i])
   }
 
-  return range
+  for (let i = targetIndex; i < array.length; i++) {
+    if (!isSelected(array[i])) {
+      break
+    }
+    result.push(array[i])
+  }
+
+  return result
 }
 
 export {
