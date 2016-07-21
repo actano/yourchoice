@@ -190,37 +190,21 @@ const rangeTo = curry((toItem, state) => {
   }
 })
 
-function _between(start, end, iterable) {
+function _between(start, end, array) {
   if (start === end) {
     return [start]
   }
 
-  const result = []
-  let inRange = false
-  let foundStartEnd = 0
+  let startIndex = array.indexOf(start)
+  let endIndex = array.indexOf(end)
 
-  for (const item of iterable) {
-    if (inRange) {
-      result.push(item)
-
-      if ((item === start) || (item === end)) {
-        foundStartEnd++
-        inRange = false
-      }
-    } else {
-      if ((item === start) || (item === end)) {
-        foundStartEnd++
-        inRange = true
-        result.push(item)
-      }
-    }
+  if (startIndex > endIndex) {
+    const temp = startIndex
+    startIndex = endIndex
+    endIndex = temp
   }
 
-  if (foundStartEnd === 2) {
-    return result
-  }
-
-  return []
+  return array.slice(startIndex, endIndex + 1)
 }
 
 function _connectedWith(targetItem, selected, iterable) {
