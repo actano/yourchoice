@@ -41,96 +41,30 @@ describe('operations', () => {
     expectExactlySameMembers(getSelection(newState), ['B', 'C'])
   })
 
-  it('should unselect items that never exist', () => {
-    const state = init()
+  describe('updating the list of selectable items', () => {
+    it('should remove items from selection don\'t exist anymore', () => {
+      const state = init()
 
-    const newState = flow(
-      setItems(iterable(['A', 'B', 'C', 'D'])),
-      setSelection(['B', 'C']),
-      setItems(iterable(['A', 'C', 'D']))
-    )(state)
-
-    expectExactlySameMembers(getSelection(newState), ['C'])
-  })
-
-  it('should unselect selection anchor that never exist', () => {
-    const state = init()
-
-    const newState = flow(
-      setItems(iterable(['A', 'B', 'C', 'D'])),
-      replace('C'),
-      setItems(iterable(['A', 'B', 'D'])),
-      rangeTo('D')
-    )(state)
-
-    expectExactlySameMembers(getSelection(newState), ['A', 'B', 'D'])
-  })
-
-  describe('never allow access to internal objects of state', () => {
-    it('should not use extern items object in state', () => {
-      const itemsArray = ['B', 'C']
-      const state1 = flow(
-        init,
-        setItems(itemsArray)
-      )()
-      itemsArray.unshift('A')
-      const state2 = flow(
-        rangeTo('C')
-      )(state1)
-
-      expectExactlySameMembers(getSelection(state2), ['B', 'C'])
-    })
-
-    it('should not use extern selection object in state', () => {
-      const selectionArray = ['B', 'C']
-      const state = flow(
-        init,
-        setItems(iterable(['A', 'B', 'C'])),
-        setSelection(selectionArray)
-      )(state)
-      selectionArray.push('D')
-
-      expectExactlySameMembers(getSelection(state), ['B', 'C'])
-    })
-
-    it('should not return intern selection object', () => {
-      const state = flow(
-        init,
-        setItems(iterable(['A', 'B', 'C'])),
-        setSelection(['A', 'B'])
+      const newState = flow(
+        setItems(iterable(['A', 'B', 'C', 'D'])),
+        setSelection(['B', 'C']),
+        setItems(iterable(['A', 'C', 'D']))
       )(state)
 
-      const selectionArray = getSelection(state)
-      expectExactlySameMembers(selectionArray, ['A', 'B'])
-      selectionArray.push('C')
-      expectExactlySameMembers(getSelection(state), ['A', 'B'])
+      expectExactlySameMembers(getSelection(newState), ['C'])
     })
 
-    it('should not return intern changed selection object', () => {
-      const state = flow(
-        init,
-        setItems(iterable(['A', 'B', 'C'])),
-        replace('B')
+    it('should remove item from anchor that doesn\'t exist anymore', () => {
+      const state = init()
+
+      const newState = flow(
+        setItems(iterable(['A', 'B', 'C', 'D'])),
+        replace('C'),
+        setItems(iterable(['A', 'B', 'D'])),
+        rangeTo('D')
       )(state)
 
-      const changedSelectionArray = getChangedSelection(state)
-      expectExactlySameMembers(changedSelectionArray, ['B'])
-      changedSelectionArray.push('C')
-      expectExactlySameMembers(getChangedSelection(state), ['B'])
-    })
-
-    it('should not return intern changed deselection object', () => {
-      const state = flow(
-        init,
-        setItems(iterable(['A', 'B', 'C'])),
-        replace('B'),
-        toggle('B')
-      )(state)
-
-      const changedDeselectionArray = getChangedDeselection(state)
-      expectExactlySameMembers(changedDeselectionArray, ['B'])
-      changedDeselectionArray.push('C')
-      expectExactlySameMembers(getChangedDeselection(state), ['B'])
+      expectExactlySameMembers(getSelection(newState), ['A', 'B', 'D'])
     })
   })
 
@@ -745,6 +679,74 @@ describe('operations', () => {
 
         expectExactlySameMembers(getSelection(newState), ['B', 'C', 'D', 'E'])
       })
+    })
+  })
+
+  describe('ignoring and preventing external changes', () => {
+    it('should ignore external changes to the given items iterable', () => {
+      const itemsIterable = ['B', 'C']
+      const state1 = flow(
+        init,
+        setItems(itemsIterable)
+      )()
+      itemsIterable.unshift('A')
+      const state2 = flow(
+        rangeTo('C')
+      )(state1)
+
+      expectExactlySameMembers(getSelection(state2), ['B', 'C'])
+    })
+
+    it('should ignore external changes to the given selection array', () => {
+      const selectionArray = ['B', 'C']
+      const state = flow(
+        init,
+        setItems(iterable(['A', 'B', 'C'])),
+        setSelection(selectionArray)
+      )(state)
+      selectionArray.push('D')
+
+      expectExactlySameMembers(getSelection(state), ['B', 'C'])
+    })
+
+    it('should prevent external changes of selection array', () => {
+      const state = flow(
+        init,
+        setItems(iterable(['A', 'B', 'C'])),
+        setSelection(['A', 'B'])
+      )(state)
+
+      const selectionArray = getSelection(state)
+      selectionArray.push('C')
+
+      expectExactlySameMembers(getSelection(state), ['A', 'B'])
+    })
+
+    it('should prevent external changes of changed-selection array', () => {
+      const state = flow(
+        init,
+        setItems(iterable(['A', 'B', 'C'])),
+        replace('B')
+      )(state)
+
+      const changedSelectionArray = getChangedSelection(state)
+      changedSelectionArray.push('C')
+
+      expectExactlySameMembers(getChangedSelection(state), ['B'])
+    })
+
+    it('should prevent external changes of changed-deselection array', () => {
+      const state = flow(
+        init,
+        setItems(iterable(['A', 'B', 'C'])),
+        replace('B'),
+        toggle('B')
+      )(state)
+
+      const changedDeselectionArray = getChangedDeselection(state)
+      changedDeselectionArray.push('C')
+
+      expectExactlySameMembers(getChangedDeselection(state), ['B'])
     })
   })
 
