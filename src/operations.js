@@ -55,19 +55,19 @@ function getChangedDeselection(state) {
   return state.changed.deselected
 }
 
-function getAnchor(state) {
+function _getAnchor(state) {
   if (state.anchor !== null && state.anchor !== undefined) {
     return state.anchor
   }
 
   if (state.selected.length > 0) {
-    return getBottommostSelectedItem(state)
+    return _getBottommostSelectedItem(state)
   }
 
   return state.items[Symbol.iterator]().next().value
 }
 
-function getBottommostSelectedItem(state) {
+function _getBottommostSelectedItem(state) {
   let previousItem = null
 
   const isSelected = (item) =>
@@ -155,9 +155,9 @@ const removeAll = curry((state) =>
 )
 
 const rangeTo = curry((toItem, state) => {
-  const anchor = getAnchor(state, state.items)
-  const connected = connectedWith(anchor, state.selected, state.items)
-  const range = between(anchor, toItem, state.items)
+  const anchor = _getAnchor(state, state.items)
+  const connected = _connectedWith(anchor, state.selected, state.items)
+  const range = _between(anchor, toItem, state.items)
 
   const selected = flow(
     without(connected),
@@ -175,7 +175,7 @@ const rangeTo = curry((toItem, state) => {
   }
 })
 
-function between(start, end, iterable) {
+function _between(start, end, iterable) {
   if (start === end) {
     return [start]
   }
@@ -208,7 +208,7 @@ function between(start, end, iterable) {
   return []
 }
 
-function connectedWith(targetItem, selected, iterable) {
+function _connectedWith(targetItem, selected, iterable) {
   let range = []
   let isRangeWithTargetItem = false
 
