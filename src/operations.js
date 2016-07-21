@@ -67,7 +67,7 @@ function _getAnchor(state) {
     return _getBottommostSelectedItem(state)
   }
 
-  return state.items[Symbol.iterator]().next().value
+  return state.items[0]
 }
 
 function _getBottommostSelectedItem(state) {
