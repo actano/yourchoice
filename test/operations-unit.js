@@ -41,6 +41,17 @@ describe('operations', () => {
 
       expectExactlySameMembers(getSelection(newState), ['B', 'C'])
     })
+
+    it('should not select items that are not part if the given selectable items', () => {
+      const state = init()
+
+      const newState = flow(
+        setItems(iterable(['A', 'B', 'C', 'D'])),
+        setSelection(['A', 'notExisting', 'C'])
+      )(state)
+
+      expectExactlySameMembers(getSelection(newState), ['A', 'C'])
+    })
   })
 
   describe('updating the list of selectable items', () => {
