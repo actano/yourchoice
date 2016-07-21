@@ -1,4 +1,5 @@
 import {
+  clone,
   curry,
   flow,
   without,
@@ -9,7 +10,7 @@ import {
 
 function init() {
   return {
-    items: emptyIterable(),
+    items: [],
     selected: [],
     changed: {
       selected: [],
@@ -19,8 +20,9 @@ function init() {
   }
 }
 
-const setItems = curry((items, state) =>
-  ({
+const setItems = curry((itemsIterable, state) => {
+  const items = _iterableToArray(itemsIterable)
+  return ({
     items,
     selected: state.selected,
     changed: {
@@ -29,12 +31,12 @@ const setItems = curry((items, state) =>
     },
     anchor: state.anchor,
   })
-)
+})
 
 const setSelection = curry((selection, state) =>
   ({
     items: state.items,
-    selected: selection,
+    selected: clone(selection),
     changed: {
       selected: without(state.selected, selection),
       deselected: without(selection, state.selected),
@@ -44,15 +46,15 @@ const setSelection = curry((selection, state) =>
 )
 
 function getSelection(state) {
-  return state.selected
+  return clone(state.selected)
 }
 
 function getChangedSelection(state) {
-  return state.changed.selected
+  return clone(state.changed.selected)
 }
 
 function getChangedDeselection(state) {
-  return state.changed.deselected
+  return clone(state.changed.deselected)
 }
 
 function _getAnchor(state) {
@@ -82,11 +84,12 @@ function _getBottommostSelectedItem(state) {
   return previousItem
 }
 
-function emptyIterable() {
+function _iterableToArray(iterable) {
   const array = []
-  return {
-    [Symbol.iterator]: array[Symbol.iterator].bind(array),
+  for (const item of iterable) {
+    array.push(item)
   }
+  return array
 }
 
 const replace = curry((selectedItem, state) =>

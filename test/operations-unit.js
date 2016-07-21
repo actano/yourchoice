@@ -41,6 +41,74 @@ describe('operations', () => {
     expectExactlySameMembers(getSelection(newState), ['B', 'C'])
   })
 
+  describe('never allow access to internal objects of state', () => {
+    it('should not use extern items object in state', () => {
+      const itemsArray = ['B', 'C']
+      const state1 = flow(
+        init,
+        setItems(itemsArray)
+      )()
+      itemsArray.unshift('A')
+      const state2 = flow(
+        rangeTo('C')
+      )(state1)
+
+      expectExactlySameMembers(getSelection(state2), ['B', 'C'])
+    })
+
+    it('should not use extern selection object in state', () => {
+      const selectionArray = ['B', 'C']
+      const state = flow(
+        init,
+        setItems(iterable(['A', 'B', 'C'])),
+        setSelection(selectionArray)
+      )(state)
+      selectionArray.push('D')
+
+      expectExactlySameMembers(getSelection(state), ['B', 'C'])
+    })
+
+    it('should not return intern selection object', () => {
+      const state = flow(
+        init,
+        setItems(iterable(['A', 'B', 'C'])),
+        setSelection(['A', 'B'])
+      )(state)
+
+      const selectionArray = getSelection(state)
+      expectExactlySameMembers(selectionArray, ['A', 'B'])
+      selectionArray.push('C')
+      expectExactlySameMembers(getSelection(state), ['A', 'B'])
+    })
+
+    it('should not return intern changed selection object', () => {
+      const state = flow(
+        init,
+        setItems(iterable(['A', 'B', 'C'])),
+        replace('B')
+      )(state)
+
+      const changedSelectionArray = getChangedSelection(state)
+      expectExactlySameMembers(changedSelectionArray, ['B'])
+      changedSelectionArray.push('C')
+      expectExactlySameMembers(getChangedSelection(state), ['B'])
+    })
+
+    it('should not return intern changed deselection object', () => {
+      const state = flow(
+        init,
+        setItems(iterable(['A', 'B', 'C'])),
+        replace('B'),
+        toggle('B')
+      )(state)
+
+      const changedDeselectionArray = getChangedDeselection(state)
+      expectExactlySameMembers(changedDeselectionArray, ['B'])
+      changedDeselectionArray.push('C')
+      expectExactlySameMembers(getChangedDeselection(state), ['B'])
+    })
+  })
+
   describe('replace selection with single item', () => {
     it('should replace empty selection with single item', () => {
       const state = init()
