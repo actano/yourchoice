@@ -22,28 +22,29 @@ function init() {
 
 const setItems = curry((itemsIterable, state) => {
   const items = _iterableToArray(itemsIterable)
-  return ({
+  return {
     items,
-    selected: state.selected,
+    selected: intersection(state.selected, items),
     changed: {
       selected: [],
       deselected: [],
     },
-    anchor: state.anchor,
-  })
+    anchor: includes(state.anchor, items) ? state.anchor : null,
+  }
 })
 
-const setSelection = curry((selection, state) =>
-  ({
+const setSelection = curry((selectionExtern, state) => {
+  const selection = intersection(state.items, selectionExtern)
+  return {
     items: state.items,
-    selected: clone(selection),
+    selected: selection,
     changed: {
       selected: without(state.selected, selection),
       deselected: without(selection, state.selected),
     },
     anchor: state.anchor,
-  })
-)
+  }
+})
 
 function getSelection(state) {
   return clone(state.selected)
@@ -92,8 +93,11 @@ function _iterableToArray(iterable) {
   return array
 }
 
-const replace = curry((selectedItem, state) =>
-  ({
+const replace = curry((selectedItem, state) => {
+  if (!includes(selectedItem, state.items)) {
+    return state
+  }
+  return {
     items: state.items,
     selected: [selectedItem],
     changed: {
@@ -101,10 +105,14 @@ const replace = curry((selectedItem, state) =>
       deselected: without([selectedItem], state.selected),
     },
     anchor: selectedItem,
-  })
-)
+  }
+})
 
 const toggle = curry((toggledItem, state) => {
+  if (!includes(toggledItem, state.items)) {
+    return state
+  }
+
   const itemIsAdded = !includes(toggledItem, state.selected)
 
   if (itemIsAdded) {
@@ -158,6 +166,10 @@ const removeAll = curry((state) =>
 )
 
 const rangeTo = curry((toItem, state) => {
+  if (!includes(toItem, state.items)) {
+    return state
+  }
+
   const anchor = _getAnchor(state, state.items)
   const connected = _connectedWith(anchor, state.selected, state.items)
   const range = _between(anchor, toItem, state.items)

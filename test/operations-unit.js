@@ -41,6 +41,31 @@ describe('operations', () => {
     expectExactlySameMembers(getSelection(newState), ['B', 'C'])
   })
 
+  it('should unselect items that never exist', () => {
+    const state = init()
+
+    const newState = flow(
+      setItems(iterable(['A', 'B', 'C', 'D'])),
+      setSelection(['B', 'C']),
+      setItems(iterable(['A', 'C', 'D']))
+    )(state)
+
+    expectExactlySameMembers(getSelection(newState), ['C'])
+  })
+
+  it('should unselect selection anchor that never exist', () => {
+    const state = init()
+
+    const newState = flow(
+      setItems(iterable(['A', 'B', 'C', 'D'])),
+      replace('C'),
+      setItems(iterable(['A', 'B', 'D'])),
+      rangeTo('D')
+    )(state)
+
+    expectExactlySameMembers(getSelection(newState), ['A', 'B', 'D'])
+  })
+
   describe('never allow access to internal objects of state', () => {
     it('should not use extern items object in state', () => {
       const itemsArray = ['B', 'C']
