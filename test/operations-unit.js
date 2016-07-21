@@ -30,15 +30,17 @@ describe('operations', () => {
     expectExactlySameMembers(getSelection(state), [])
   })
 
-  it('should select given items', () => {
-    const state = init()
+  describe('manually setting the selection', () => {
+    it('should select given items', () => {
+      const state = init()
 
-    const newState = flow(
-      setItems(iterable(['A', 'B', 'C', 'D'])),
-      setSelection(['B', 'C'])
-    )(state)
+      const newState = flow(
+        setItems(iterable(['A', 'B', 'C', 'D'])),
+        setSelection(['B', 'C'])
+      )(state)
 
-    expectExactlySameMembers(getSelection(newState), ['B', 'C'])
+      expectExactlySameMembers(getSelection(newState), ['B', 'C'])
+    })
   })
 
   describe('updating the list of selectable items', () => {
