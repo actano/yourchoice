@@ -93,6 +93,18 @@ describe('operations', () => {
       expectExactlySameMembers(getSelection(newState), ['B'])
     })
 
+    it('should not select item that is not part if the given selectable items', () => {
+      const state = init()
+
+      const newState = flow(
+        setItems(iterable(['A', 'B', 'C', 'D'])),
+        setSelection(['A']),
+        replace('nonExisting')
+      )(state)
+
+      expectExactlySameMembers(getSelection(newState), ['A'])
+    })
+
     describe('with existing selection', () => {
       describe('item is not selected', () => {
         let newState = null
@@ -172,6 +184,18 @@ describe('operations', () => {
 
       it('should return empty list as newly deselected', () => {
         expectExactlySameMembers(getChangedDeselection(newState), [])
+      })
+
+      it('should not select item that is not part if the given selectable items', () => {
+        const state = init()
+
+        newState = flow(
+          setItems(iterable(['A', 'B', 'C', 'D'])),
+          setSelection(['A', 'D']),
+          toggle('nonExisting')
+        )(state)
+
+        expectExactlySameMembers(getSelection(newState), ['A', 'D'])
       })
     })
 
