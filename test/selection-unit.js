@@ -40,16 +40,20 @@ describe('selection', () => {
     })
 
     describe('with existing selection', () => {
+      let numberOfItems = null
+      let numberOfSelectedItems = null
       let itemList = null
       let item = null
       let selection = null
 
       beforeEach(() => {
-        itemList = createItemList(5)
-        item = new Item()
+        numberOfItems = 6
+        numberOfSelectedItems = numberOfItems - 1
+        itemList = createItemList(numberOfItems)
+        item = itemList[numberOfItems - 1]
         selection = new Selection(itemList)
 
-        for (let i = 0; i < itemList.length; i++) {
+        for (let i = 0; i < numberOfSelectedItems; i++) {
           const otherItem = itemList[i]
           selection.toggle(otherItem)
         }
@@ -71,7 +75,7 @@ describe('selection', () => {
         it('should mark other items as deselected', () => {
           selection.replace(item)
 
-          for (let i = 0; i < itemList.length; i++) {
+          for (let i = 0; i < numberOfSelectedItems; i++) {
             const otherItem = itemList[i]
             expect(otherItem._selected).to.be.false
           }
@@ -103,7 +107,7 @@ describe('selection', () => {
         it('should mark other items as deselected', () => {
           selection.replace(item)
 
-          for (let i = 0; i < itemList.length; i++) {
+          for (let i = 0; i < numberOfSelectedItems; i++) {
             const otherItem = itemList[i]
             if (i !== 2) {
               expect(otherItem._selected).to.be.false
