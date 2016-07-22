@@ -96,8 +96,8 @@ Returns an array containing the currently selected items.
 
 ### getChangedSelection(state) : Array
 
-Returns an array containing those items that have been added to the selection by the preceding operation. E.g. calling this after a call to [`rangeTo()`](#rangetoitem-state--state) will return all the items that have been added to the selection by this operation.
+Returns an array containing those items that have been added to the selection by the directly preceding operation. E.g. calling this after a call to [`rangeTo()`](#rangetoitem-state--state) will return all the items that have been added to the selection by this operation.
 
 ### getChangedDeselection(state) : Array
 
-Returns an array containing those items that have been removed from the selection by the preceding operation. E.g. calling this after a call to [`rangeTo()`](#rangetoitem-state--state) will return all the items that have been removed from the selection by this operation.
+Returns an array containing those items that have been removed from the selection by the directly preceding operation. E.g. calling this after a call to [`rangeTo()`](#rangetoitem-state--state) will return all the items that have been removed from the selection by this operation.
