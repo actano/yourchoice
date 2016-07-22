@@ -2,3 +2,10 @@ src/
 test/
 dist/
 webpack.config.js
+coverage
+coverage.lcov
+.nyc_output
+.babelrc
+.eslintrc.json
+.tern-project
+.travis.yml
