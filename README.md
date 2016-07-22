@@ -72,7 +72,7 @@ Replaces the current selection with the given `item`. Also defines this item as 
 
 ### toggle(item, state) : State
 
-Adds or removes the given `item` to/from the selection. Other currently selected items are not affected. Also defines this item as the starting point for a subsequent [`rangeTo()`](#rangetoitem-state--state) selection if it is added to the selection. This is equivalent to an alt+click by the user in a file manager.
+Adds or removes the given `item` to/from the selection. Other currently selected items are not affected. Also defines this item as the starting point for a subsequent [`rangeTo()`](#rangetoitem-state--state) selection if it is added to the selection. This is equivalent to an alt+click (cmd+click) by the user in a file manager.
 
 ### rangeTo(item, state) : State
 
