@@ -92,7 +92,7 @@ Removes all items from the current selection.
 
 ### getSelection(state) : Array
 
-Returns an array containing the currenlty selected items.
+Returns an array containing the currently selected items.
 
 ### getChangedSelection(state) : Array
 
