@@ -5,7 +5,7 @@
   "license": "MIT",
   "author": "Actano GmbH (https://rplan.com/)",
   "scripts": {
-    "clean": "rimraf lib dist",
+    "clean": "rimraf lib",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha test/**/*.js",
     "test:watch": "mocha test/**/*.js --watch",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
