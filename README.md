@@ -32,7 +32,7 @@ If you are the retro kind of person, you can also download [the JavaScript file]
 
 Yourchoice provides a functional interface. It is well-suited to be used in conjunction with [lodash/flow](https://lodash.com/docs#flow) or [Redux](http://redux.js.org/). Of course, this interface can also be used in a non-functional environment. The [imperative interface](README_deprecated.md) of yourchoice is considered *deprecated*.
 
-The functions of yourchoice usually take an argument of type `State` and sometimes return a similar object.
+All functions of yourchoice take an object of type `State` as their last argument. Some of the functions also return an updated `State` object.
 The `state` object is an opaque object representing the current state of yourchoice. The properties of this object are private and one should *not* depended upon them.
 In order to read properties form the state yourchoice provides accessor methods such as [`getSelection()`](#getselectionstate--array).
 
