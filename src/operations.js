@@ -141,13 +141,13 @@ const toggle = curry((toggledItem, state) => {
   }
 })
 
-const remove = curry((removedItem, state) =>
+const remove = curry((removedItems, state) =>
   ({
     items: state.items,
-    selected: without(removedItem, state.selected),
+    selected: without(removedItems, state.selected),
     changed: {
       selected: [],
-      deselected: intersection(removedItem, state.selected),
+      deselected: intersection(removedItems, state.selected),
     },
     anchor: null,
   })
