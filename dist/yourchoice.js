@@ -61,22 +61,78 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.getChangedDeselection = exports.getChangedSelection = exports.getSelection = exports.rangeTo = exports.removeAll = exports.remove = exports.toggle = exports.replace = exports.setSelection = exports.setItems = exports.init = undefined;
 
-	var _selection = __webpack_require__(1);
+	var _operations = __webpack_require__(1);
 
-	var _operations = __webpack_require__(9);
+	Object.defineProperty(exports, 'init', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.init;
+	  }
+	});
+	Object.defineProperty(exports, 'setItems', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.setItems;
+	  }
+	});
+	Object.defineProperty(exports, 'setSelection', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.setSelection;
+	  }
+	});
+	Object.defineProperty(exports, 'replace', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.replace;
+	  }
+	});
+	Object.defineProperty(exports, 'toggle', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.toggle;
+	  }
+	});
+	Object.defineProperty(exports, 'remove', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.remove;
+	  }
+	});
+	Object.defineProperty(exports, 'removeAll', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.removeAll;
+	  }
+	});
+	Object.defineProperty(exports, 'rangeTo', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.rangeTo;
+	  }
+	});
+	Object.defineProperty(exports, 'getSelection', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.getSelection;
+	  }
+	});
+	Object.defineProperty(exports, 'getChangedSelection', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.getChangedSelection;
+	  }
+	});
+	Object.defineProperty(exports, 'getChangedDeselection', {
+	  enumerable: true,
+	  get: function get() {
+	    return _operations.getChangedDeselection;
+	  }
+	});
+
+	var _selection = __webpack_require__(8);
 
 	exports.default = _selection.Selection;
-	exports.init = _operations.init;
-	exports.setItems = _operations.setItems;
-	exports.setSelection = _operations.setSelection;
-	exports.replace = _operations.replace;
-	exports.toggle = _operations.toggle;
-	exports.remove = _operations.remove;
-	exports.removeAll = _operations.removeAll;
-	exports.rangeTo = _operations.rangeTo;
-	exports.getSelection = _operations.getSelection;
-	exports.getChangedSelection = _operations.getChangedSelection;
-	exports.getChangedDeselection = _operations.getChangedDeselection;
 
 /***/ },
 /* 1 */
@@ -87,338 +143,296 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Selection = undefined;
+	exports.getChangedDeselection = exports.getChangedSelection = exports.getSelection = exports.rangeTo = exports.removeAll = exports.remove = exports.toggle = exports.replace = exports.setSelection = exports.setItems = exports.init = undefined;
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _fp = __webpack_require__(2);
 
-	var _componentEmitter = __webpack_require__(2);
+	function init() {
+	  return {
+	    items: [],
+	    selected: [],
+	    changed: {
+	      selected: [],
+	      deselected: []
+	    },
+	    anchor: null
+	  };
+	}
 
-	var _componentEmitter2 = _interopRequireDefault(_componentEmitter);
+	var setItems = (0, _fp.curry)(function (itemsIterable, state) {
+	  var items = _iterableToArray(itemsIterable);
+	  return {
+	    items: items,
+	    selected: (0, _fp.intersection)(state.selected, items),
+	    changed: {
+	      selected: [],
+	      deselected: []
+	    },
+	    anchor: (0, _fp.includes)(state.anchor, items) ? state.anchor : null
+	  };
+	});
 
-	var _fp = __webpack_require__(3);
+	var setSelection = (0, _fp.curry)(function (selectedItems, state) {
+	  var selection = (0, _fp.intersection)(selectedItems, state.items);
+	  return {
+	    items: state.items,
+	    selected: selection,
+	    changed: {
+	      selected: (0, _fp.without)(state.selected, selection),
+	      deselected: (0, _fp.without)(selection, state.selected)
+	    },
+	    anchor: state.anchor
+	  };
+	});
 
-	var _operations = __webpack_require__(9);
+	function getSelection(state) {
+	  return (0, _fp.clone)(state.selected);
+	}
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function getChangedSelection(state) {
+	  return (0, _fp.clone)(state.changed.selected);
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function getChangedDeselection(state) {
+	  return (0, _fp.clone)(state.changed.deselected);
+	}
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Selection = function (_Emitter) {
-	  _inherits(Selection, _Emitter);
-
-	  function Selection(iterable) {
-	    _classCallCheck(this, Selection);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Selection).call(this));
-
-	    _this.iterable = iterable;
-	    _this.state = (0, _operations.init)();
-	    _this._updateSelectedItems();
-	    return _this;
+	function _getAnchor(state) {
+	  if (state.anchor !== null && state.anchor !== undefined) {
+	    return state.anchor;
 	  }
 
-	  _createClass(Selection, [{
-	    key: 'toggle',
-	    value: function toggle(item) {
-	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.toggle)(item))(this.state);
+	  if (state.selected.length > 0) {
+	    return _getBottommostSelectedItem(state);
+	  }
 
-	      this._updateSelectedItems();
-	      this._notifyChangedItems();
-	      this._emitChangeEvent();
-	    }
-	  }, {
-	    key: 'replace',
-	    value: function replace(item) {
-	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.replace)(item))(this.state);
+	  return state.items[0];
+	}
 
-	      this._updateSelectedItems();
-	      this._notifyChangedItems();
-	      this._emitChangeEvent();
-	    }
-	  }, {
-	    key: 'remove',
-	    value: function remove(items) {
-	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.remove)(items))(this.state);
+	function _getBottommostSelectedItem(state) {
+	  var previousItem = null;
 
-	      this._updateSelectedItems();
-	      this._notifyChangedItems();
-	      this._emitChangeEvent();
-	    }
-	  }, {
-	    key: 'removeAll',
-	    value: function removeAll() {
-	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.removeAll)())(this.state);
+	  var isSelected = function isSelected(item) {
+	    return state.selected.indexOf(item) !== -1;
+	  };
 
-	      this._updateSelectedItems();
-	      this._notifyChangedItems();
-	      this._emitChangeEvent();
-	    }
-	  }, {
-	    key: 'rangeTo',
-	    value: function rangeTo(endItem) {
-	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.rangeTo)(endItem))(this.state);
+	  var _iteratorNormalCompletion = true;
+	  var _didIteratorError = false;
+	  var _iteratorError = undefined;
 
-	      this._updateSelectedItems();
-	      this._notifyChangedItems();
-	      this._emitChangeEvent();
-	    }
-	  }, {
-	    key: '_updateSelectedItems',
-	    value: function _updateSelectedItems() {
-	      this.selectedItems = (0, _operations.getSelection)(this.state);
-	    }
-	  }, {
-	    key: '_notifyChangedItems',
-	    value: function _notifyChangedItems() {
-	      var _iteratorNormalCompletion = true;
-	      var _didIteratorError = false;
-	      var _iteratorError = undefined;
+	  try {
+	    for (var _iterator = state.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	      var item = _step.value;
 
-	      try {
-	        for (var _iterator = (0, _operations.getChangedSelection)(this.state)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	          var item = _step.value;
-
-	          item.select();
-	        }
-	      } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	      } finally {
-	        try {
-	          if (!_iteratorNormalCompletion && _iterator.return) {
-	            _iterator.return();
-	          }
-	        } finally {
-	          if (_didIteratorError) {
-	            throw _iteratorError;
-	          }
-	        }
-	      }
-
-	      var _iteratorNormalCompletion2 = true;
-	      var _didIteratorError2 = false;
-	      var _iteratorError2 = undefined;
-
-	      try {
-	        for (var _iterator2 = (0, _operations.getChangedDeselection)(this.state)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	          var _item = _step2.value;
-
-	          _item.deselect();
-	        }
-	      } catch (err) {
-	        _didIteratorError2 = true;
-	        _iteratorError2 = err;
-	      } finally {
-	        try {
-	          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-	            _iterator2.return();
-	          }
-	        } finally {
-	          if (_didIteratorError2) {
-	            throw _iteratorError2;
-	          }
-	        }
+	      if (isSelected(item)) {
+	        previousItem = item;
 	      }
 	    }
-	  }, {
-	    key: '_emitChangeEvent',
-	    value: function _emitChangeEvent() {
-	      var change = (0, _operations.getChangedSelection)(this.state).length > 0 || (0, _operations.getChangedDeselection)(this.state).length > 0;
-
-	      if (change) {
-	        this.emit('change', this.selectedItems.slice());
+	  } catch (err) {
+	    _didIteratorError = true;
+	    _iteratorError = err;
+	  } finally {
+	    try {
+	      if (!_iteratorNormalCompletion && _iterator.return) {
+	        _iterator.return();
+	      }
+	    } finally {
+	      if (_didIteratorError) {
+	        throw _iteratorError;
 	      }
 	    }
-	  }]);
+	  }
 
-	  return Selection;
-	}(_componentEmitter2.default);
+	  return previousItem;
+	}
 
-	exports.Selection = Selection;
+	function _iterableToArray(iterable) {
+	  var array = [];
+	  var _iteratorNormalCompletion2 = true;
+	  var _didIteratorError2 = false;
+	  var _iteratorError2 = undefined;
+
+	  try {
+	    for (var _iterator2 = iterable[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	      var item = _step2.value;
+
+	      array.push(item);
+	    }
+	  } catch (err) {
+	    _didIteratorError2 = true;
+	    _iteratorError2 = err;
+	  } finally {
+	    try {
+	      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	        _iterator2.return();
+	      }
+	    } finally {
+	      if (_didIteratorError2) {
+	        throw _iteratorError2;
+	      }
+	    }
+	  }
+
+	  return array;
+	}
+
+	var replace = (0, _fp.curry)(function (selectedItem, state) {
+	  if (!(0, _fp.includes)(selectedItem, state.items)) {
+	    return state;
+	  }
+	  return {
+	    items: state.items,
+	    selected: [selectedItem],
+	    changed: {
+	      selected: (0, _fp.without)(state.selected, [selectedItem]),
+	      deselected: (0, _fp.without)([selectedItem], state.selected)
+	    },
+	    anchor: selectedItem
+	  };
+	});
+
+	var toggle = (0, _fp.curry)(function (toggledItem, state) {
+	  if (!(0, _fp.includes)(toggledItem, state.items)) {
+	    return state;
+	  }
+
+	  var itemIsAdded = !(0, _fp.includes)(toggledItem, state.selected);
+
+	  if (itemIsAdded) {
+	    return {
+	      items: state.items,
+	      selected: state.selected.concat([toggledItem]),
+	      changed: {
+	        selected: [toggledItem],
+	        deselected: []
+	      },
+	      anchor: toggledItem
+	    };
+	  }
+
+	  var anchorIsRemoved = toggledItem === state.anchor;
+	  var newAnchor = anchorIsRemoved ? null : state.anchor;
+
+	  return {
+	    items: state.items,
+	    selected: (0, _fp.without)([toggledItem], state.selected),
+	    changed: {
+	      selected: [],
+	      deselected: [toggledItem]
+	    },
+	    anchor: newAnchor
+	  };
+	});
+
+	var remove = (0, _fp.curry)(function (removedItems, state) {
+	  return {
+	    items: state.items,
+	    selected: (0, _fp.without)(removedItems, state.selected),
+	    changed: {
+	      selected: [],
+	      deselected: (0, _fp.intersection)(removedItems, state.selected)
+	    },
+	    anchor: null
+	  };
+	});
+
+	var removeAll = (0, _fp.curry)(function (state) {
+	  return {
+	    items: state.items,
+	    selected: [],
+	    changed: {
+	      selected: [],
+	      deselected: state.selected
+	    },
+	    anchor: null
+	  };
+	});
+
+	var rangeTo = (0, _fp.curry)(function (toItem, state) {
+	  if (!(0, _fp.includes)(toItem, state.items)) {
+	    return state;
+	  }
+
+	  var anchor = _getAnchor(state, state.items);
+	  var connected = _connectedWith(anchor, state.selected, state.items);
+	  var range = _between(anchor, toItem, state.items);
+
+	  var selected = (0, _fp.flow)((0, _fp.without)(connected), (0, _fp.union)(range))(state.selected);
+
+	  return {
+	    items: state.items,
+	    selected: selected,
+	    changed: {
+	      selected: (0, _fp.without)(state.selected, selected),
+	      deselected: (0, _fp.without)(selected, state.selected)
+	    },
+	    anchor: state.anchor
+	  };
+	});
+
+	function _between(start, end, array) {
+	  if (start === end) {
+	    return [start];
+	  }
+
+	  var startIndex = array.indexOf(start);
+	  var endIndex = array.indexOf(end);
+
+	  if (startIndex > endIndex) {
+	    var temp = startIndex;
+	    startIndex = endIndex;
+	    endIndex = temp;
+	  }
+
+	  return array.slice(startIndex, endIndex + 1);
+	}
+
+	function _connectedWith(targetItem, selected, array) {
+	  var isSelected = function isSelected(item) {
+	    return selected.indexOf(item) !== -1;
+	  };
+	  var result = [];
+	  var targetIndex = array.indexOf(targetItem);
+
+	  for (var i = targetIndex; i >= 0; i--) {
+	    if (!isSelected(array[i])) {
+	      break;
+	    }
+	    result.push(array[i]);
+	  }
+
+	  for (var _i = targetIndex; _i < array.length; _i++) {
+	    if (!isSelected(array[_i])) {
+	      break;
+	    }
+	    result.push(array[_i]);
+	  }
+
+	  return result;
+	}
+
+	exports.init = init;
+	exports.setItems = setItems;
+	exports.setSelection = setSelection;
+	exports.replace = replace;
+	exports.toggle = toggle;
+	exports.remove = remove;
+	exports.removeAll = removeAll;
+	exports.rangeTo = rangeTo;
+	exports.getSelection = getSelection;
+	exports.getChangedSelection = getChangedSelection;
+	exports.getChangedDeselection = getChangedDeselection;
 
 /***/ },
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
-	/**
-	 * Expose `Emitter`.
-	 */
-
-	if (true) {
-	  module.exports = Emitter;
-	}
-
-	/**
-	 * Initialize a new `Emitter`.
-	 *
-	 * @api public
-	 */
-
-	function Emitter(obj) {
-	  if (obj) return mixin(obj);
-	};
-
-	/**
-	 * Mixin the emitter properties.
-	 *
-	 * @param {Object} obj
-	 * @return {Object}
-	 * @api private
-	 */
-
-	function mixin(obj) {
-	  for (var key in Emitter.prototype) {
-	    obj[key] = Emitter.prototype[key];
-	  }
-	  return obj;
-	}
-
-	/**
-	 * Listen on the given `event` with `fn`.
-	 *
-	 * @param {String} event
-	 * @param {Function} fn
-	 * @return {Emitter}
-	 * @api public
-	 */
-
-	Emitter.prototype.on =
-	Emitter.prototype.addEventListener = function(event, fn){
-	  this._callbacks = this._callbacks || {};
-	  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
-	    .push(fn);
-	  return this;
-	};
-
-	/**
-	 * Adds an `event` listener that will be invoked a single
-	 * time then automatically removed.
-	 *
-	 * @param {String} event
-	 * @param {Function} fn
-	 * @return {Emitter}
-	 * @api public
-	 */
-
-	Emitter.prototype.once = function(event, fn){
-	  function on() {
-	    this.off(event, on);
-	    fn.apply(this, arguments);
-	  }
-
-	  on.fn = fn;
-	  this.on(event, on);
-	  return this;
-	};
-
-	/**
-	 * Remove the given callback for `event` or all
-	 * registered callbacks.
-	 *
-	 * @param {String} event
-	 * @param {Function} fn
-	 * @return {Emitter}
-	 * @api public
-	 */
-
-	Emitter.prototype.off =
-	Emitter.prototype.removeListener =
-	Emitter.prototype.removeAllListeners =
-	Emitter.prototype.removeEventListener = function(event, fn){
-	  this._callbacks = this._callbacks || {};
-
-	  // all
-	  if (0 == arguments.length) {
-	    this._callbacks = {};
-	    return this;
-	  }
-
-	  // specific event
-	  var callbacks = this._callbacks['$' + event];
-	  if (!callbacks) return this;
-
-	  // remove all handlers
-	  if (1 == arguments.length) {
-	    delete this._callbacks['$' + event];
-	    return this;
-	  }
-
-	  // remove specific handler
-	  var cb;
-	  for (var i = 0; i < callbacks.length; i++) {
-	    cb = callbacks[i];
-	    if (cb === fn || cb.fn === fn) {
-	      callbacks.splice(i, 1);
-	      break;
-	    }
-	  }
-	  return this;
-	};
-
-	/**
-	 * Emit `event` with the given args.
-	 *
-	 * @param {String} event
-	 * @param {Mixed} ...
-	 * @return {Emitter}
-	 */
-
-	Emitter.prototype.emit = function(event){
-	  this._callbacks = this._callbacks || {};
-	  var args = [].slice.call(arguments, 1)
-	    , callbacks = this._callbacks['$' + event];
-
-	  if (callbacks) {
-	    callbacks = callbacks.slice(0);
-	    for (var i = 0, len = callbacks.length; i < len; ++i) {
-	      callbacks[i].apply(this, args);
-	    }
-	  }
-
-	  return this;
-	};
-
-	/**
-	 * Return array of callbacks for `event`.
-	 *
-	 * @param {String} event
-	 * @return {Array}
-	 * @api public
-	 */
-
-	Emitter.prototype.listeners = function(event){
-	  this._callbacks = this._callbacks || {};
-	  return this._callbacks['$' + event] || [];
-	};
-
-	/**
-	 * Check if this emitter has `event` handlers.
-	 *
-	 * @param {String} event
-	 * @return {Boolean}
-	 * @api public
-	 */
-
-	Emitter.prototype.hasListeners = function(event){
-	  return !! this.listeners(event).length;
-	};
+	var _ = __webpack_require__(3).runInContext();
+	module.exports = __webpack_require__(5)(_, _);
 
 
 /***/ },
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var _ = __webpack_require__(4).runInContext();
-	module.exports = __webpack_require__(6)(_, _);
-
-
-/***/ },
-/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -548,10 +562,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	Ct["[object Error]"]=Ct["[object Function]"]=Ct["[object WeakMap]"]=false;var zt={"\xc0":"A","\xc1":"A","\xc2":"A","\xc3":"A","\xc4":"A","\xc5":"A","\xe0":"a","\xe1":"a","\xe2":"a","\xe3":"a","\xe4":"a","\xe5":"a","\xc7":"C","\xe7":"c","\xd0":"D","\xf0":"d","\xc8":"E","\xc9":"E","\xca":"E","\xcb":"E","\xe8":"e","\xe9":"e","\xea":"e","\xeb":"e","\xcc":"I","\xcd":"I","\xce":"I","\xcf":"I","\xec":"i","\xed":"i","\xee":"i","\xef":"i","\xd1":"N","\xf1":"n","\xd2":"O","\xd3":"O","\xd4":"O","\xd5":"O","\xd6":"O",
 	"\xd8":"O","\xf2":"o","\xf3":"o","\xf4":"o","\xf5":"o","\xf6":"o","\xf8":"o","\xd9":"U","\xda":"U","\xdb":"U","\xdc":"U","\xf9":"u","\xfa":"u","\xfb":"u","\xfc":"u","\xdd":"Y","\xfd":"y","\xff":"y","\xc6":"Ae","\xe6":"ae","\xde":"Th","\xfe":"th","\xdf":"ss"},Ut={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","`":"&#96;"},$t={"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&#39;":"'","&#96;":"`"},Dt={"\\":"\\","'":"'","\n":"n","\r":"r","\u2028":"u2028","\u2029":"u2029"},Ft=parseFloat,Nt=parseInt,Pt=typeof exports=="object"&&exports,Zt=Pt&&typeof module=="object"&&module,Tt=Zt&&Zt.exports===Pt,qt=R(typeof self=="object"&&self),Vt=R(typeof this=="object"&&this),Kt=R(typeof global=="object"&&global)||qt||Vt||Function("return this")(),Gt=Z();
 	(qt||{})._=Gt, true? !(__WEBPACK_AMD_DEFINE_RESULT__ = function(){return Gt}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):Zt?((Zt.exports=Gt)._=Gt,Pt._=Gt):Kt._=Gt}).call(this);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module), (function() { return this; }())))
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -567,12 +581,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapping = __webpack_require__(7),
+	var mapping = __webpack_require__(6),
 	    mutateMap = mapping.mutate,
-	    fallbackHolder = __webpack_require__(8);
+	    fallbackHolder = __webpack_require__(7);
 
 	/**
 	 * Creates a function, with an arity of `n`, that invokes `func` with the
@@ -1039,7 +1053,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports) {
 
 	/** Used to map aliases to their real names. */
@@ -1354,7 +1368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	/**
@@ -1366,7 +1380,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1374,310 +1388,327 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.getChangedDeselection = exports.getChangedSelection = exports.getSelection = exports.rangeTo = exports.removeAll = exports.remove = exports.toggle = exports.replace = exports.setSelection = exports.setItems = exports.init = undefined;
+	exports.Selection = undefined;
 
-	var _fp = __webpack_require__(3);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	var _componentEmitter = __webpack_require__(9);
 
-	function init() {
-	  return {
-	    items: emptyIterable(),
-	    selected: [],
-	    changed: {
-	      selected: [],
-	      deselected: []
-	    },
-	    anchor: null
-	  };
-	}
+	var _componentEmitter2 = _interopRequireDefault(_componentEmitter);
 
-	var setItems = (0, _fp.curry)(function (items, state) {
-	  return {
-	    items: items,
-	    selected: state.selected,
-	    changed: {
-	      selected: [],
-	      deselected: []
-	    },
-	    anchor: state.anchor
-	  };
-	});
+	var _fp = __webpack_require__(2);
 
-	var setSelection = (0, _fp.curry)(function (selection, state) {
-	  return {
-	    items: state.items,
-	    selected: selection,
-	    changed: {
-	      selected: (0, _fp.without)(state.selected, selection),
-	      deselected: (0, _fp.without)(selection, state.selected)
-	    },
-	    anchor: state.anchor
-	  };
-	});
+	var _operations = __webpack_require__(1);
 
-	function getSelection(state) {
-	  return state.selected;
-	}
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function getChangedSelection(state) {
-	  return state.changed.selected;
-	}
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function getChangedDeselection(state) {
-	  return state.changed.deselected;
-	}
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function getAnchor(state) {
-	  if (state.anchor !== null && state.anchor !== undefined) {
-	    return state.anchor;
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Selection = function (_Emitter) {
+	  _inherits(Selection, _Emitter);
+
+	  function Selection(iterable) {
+	    _classCallCheck(this, Selection);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Selection).call(this));
+
+	    _this.iterable = iterable;
+	    _this.state = (0, _operations.init)();
+	    _this._updateSelectedItems();
+	    return _this;
 	  }
 
-	  if (state.selected.length > 0) {
-	    return getBottommostSelectedItem(state);
-	  }
+	  _createClass(Selection, [{
+	    key: 'toggle',
+	    value: function toggle(item) {
+	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.toggle)(item))(this.state);
 
-	  return state.items[Symbol.iterator]().next().value;
-	}
-
-	function getBottommostSelectedItem(state) {
-	  var previousItem = null;
-
-	  var isSelected = function isSelected(item) {
-	    return state.selected.indexOf(item) !== -1;
-	  };
-
-	  var _iteratorNormalCompletion = true;
-	  var _didIteratorError = false;
-	  var _iteratorError = undefined;
-
-	  try {
-	    for (var _iterator = state.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	      var item = _step.value;
-
-	      if (isSelected(item)) {
-	        previousItem = item;
-	      }
+	      this._updateSelectedItems();
+	      this._notifyChangedItems();
+	      this._emitChangeEvent();
 	    }
-	  } catch (err) {
-	    _didIteratorError = true;
-	    _iteratorError = err;
-	  } finally {
-	    try {
-	      if (!_iteratorNormalCompletion && _iterator.return) {
-	        _iterator.return();
-	      }
-	    } finally {
-	      if (_didIteratorError) {
-	        throw _iteratorError;
-	      }
+	  }, {
+	    key: 'replace',
+	    value: function replace(item) {
+	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.replace)(item))(this.state);
+
+	      this._updateSelectedItems();
+	      this._notifyChangedItems();
+	      this._emitChangeEvent();
 	    }
-	  }
+	  }, {
+	    key: 'remove',
+	    value: function remove(items) {
+	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.remove)(items))(this.state);
 
-	  return previousItem;
-	}
+	      this._updateSelectedItems();
+	      this._notifyChangedItems();
+	      this._emitChangeEvent();
+	    }
+	  }, {
+	    key: 'removeAll',
+	    value: function removeAll() {
+	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.removeAll)())(this.state);
 
-	function emptyIterable() {
-	  var array = [];
-	  return _defineProperty({}, Symbol.iterator, array[Symbol.iterator].bind(array));
-	}
+	      this._updateSelectedItems();
+	      this._notifyChangedItems();
+	      this._emitChangeEvent();
+	    }
+	  }, {
+	    key: 'rangeTo',
+	    value: function rangeTo(endItem) {
+	      this.state = (0, _fp.flow)((0, _operations.setItems)(this.iterable), (0, _operations.rangeTo)(endItem))(this.state);
 
-	var replace = (0, _fp.curry)(function (selectedItem, state) {
-	  return {
-	    items: state.items,
-	    selected: [selectedItem],
-	    changed: {
-	      selected: (0, _fp.without)(state.selected, [selectedItem]),
-	      deselected: (0, _fp.without)([selectedItem], state.selected)
-	    },
-	    anchor: selectedItem
-	  };
-	});
+	      this._updateSelectedItems();
+	      this._notifyChangedItems();
+	      this._emitChangeEvent();
+	    }
+	  }, {
+	    key: '_updateSelectedItems',
+	    value: function _updateSelectedItems() {
+	      this.selectedItems = (0, _operations.getSelection)(this.state);
+	    }
+	  }, {
+	    key: '_notifyChangedItems',
+	    value: function _notifyChangedItems() {
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
 
-	var toggle = (0, _fp.curry)(function (toggledItem, state) {
-	  var itemIsAdded = !(0, _fp.includes)(toggledItem, state.selected);
+	      try {
+	        for (var _iterator = (0, _operations.getChangedSelection)(this.state)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var item = _step.value;
 
-	  if (itemIsAdded) {
-	    return {
-	      items: state.items,
-	      selected: state.selected.concat([toggledItem]),
-	      changed: {
-	        selected: [toggledItem],
-	        deselected: []
-	      },
-	      anchor: toggledItem
-	    };
-	  }
-
-	  var anchorIsRemoved = toggledItem === state.anchor;
-	  var newAnchor = anchorIsRemoved ? null : state.anchor;
-
-	  return {
-	    items: state.items,
-	    selected: (0, _fp.without)([toggledItem], state.selected),
-	    changed: {
-	      selected: [],
-	      deselected: [toggledItem]
-	    },
-	    anchor: newAnchor
-	  };
-	});
-
-	var remove = (0, _fp.curry)(function (removedItem, state) {
-	  return {
-	    items: state.items,
-	    selected: (0, _fp.without)(removedItem, state.selected),
-	    changed: {
-	      selected: [],
-	      deselected: (0, _fp.intersection)(removedItem, state.selected)
-	    },
-	    anchor: null
-	  };
-	});
-
-	var removeAll = (0, _fp.curry)(function (state) {
-	  return {
-	    items: state.items,
-	    selected: [],
-	    changed: {
-	      selected: [],
-	      deselected: state.selected
-	    },
-	    anchor: null
-	  };
-	});
-
-	var rangeTo = (0, _fp.curry)(function (toItem, state) {
-	  var anchor = getAnchor(state, state.items);
-	  var connected = connectedWith(anchor, state.selected, state.items);
-	  var range = between(anchor, toItem, state.items);
-
-	  var selected = (0, _fp.flow)((0, _fp.without)(connected), (0, _fp.union)(range))(state.selected);
-
-	  return {
-	    items: state.items,
-	    selected: selected,
-	    changed: {
-	      selected: (0, _fp.without)(state.selected, selected),
-	      deselected: (0, _fp.without)(selected, state.selected)
-	    },
-	    anchor: state.anchor
-	  };
-	});
-
-	function between(start, end, iterable) {
-	  if (start === end) {
-	    return [start];
-	  }
-
-	  var result = [];
-	  var inRange = false;
-	  var foundStartEnd = 0;
-
-	  var _iteratorNormalCompletion2 = true;
-	  var _didIteratorError2 = false;
-	  var _iteratorError2 = undefined;
-
-	  try {
-	    for (var _iterator2 = iterable[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	      var item = _step2.value;
-
-	      if (inRange) {
-	        result.push(item);
-
-	        if (item === start || item === end) {
-	          foundStartEnd++;
-	          inRange = false;
+	          item.select();
 	        }
-	      } else {
-	        if (item === start || item === end) {
-	          foundStartEnd++;
-	          inRange = true;
-	          result.push(item);
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator.return) {
+	            _iterator.return();
+	          }
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
+	        }
+	      }
+
+	      var _iteratorNormalCompletion2 = true;
+	      var _didIteratorError2 = false;
+	      var _iteratorError2 = undefined;
+
+	      try {
+	        for (var _iterator2 = (0, _operations.getChangedDeselection)(this.state)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	          var _item = _step2.value;
+
+	          _item.deselect();
+	        }
+	      } catch (err) {
+	        _didIteratorError2 = true;
+	        _iteratorError2 = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	            _iterator2.return();
+	          }
+	        } finally {
+	          if (_didIteratorError2) {
+	            throw _iteratorError2;
+	          }
 	        }
 	      }
 	    }
-	  } catch (err) {
-	    _didIteratorError2 = true;
-	    _iteratorError2 = err;
-	  } finally {
-	    try {
-	      if (!_iteratorNormalCompletion2 && _iterator2.return) {
-	        _iterator2.return();
-	      }
-	    } finally {
-	      if (_didIteratorError2) {
-	        throw _iteratorError2;
+	  }, {
+	    key: '_emitChangeEvent',
+	    value: function _emitChangeEvent() {
+	      var change = (0, _operations.getChangedSelection)(this.state).length > 0 || (0, _operations.getChangedDeselection)(this.state).length > 0;
+
+	      if (change) {
+	        this.emit('change', this.selectedItems.slice());
 	      }
 	    }
-	  }
+	  }]);
 
-	  if (foundStartEnd === 2) {
-	    return result;
-	  }
+	  return Selection;
+	}(_componentEmitter2.default);
 
-	  return [];
+	exports.Selection = Selection;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * Expose `Emitter`.
+	 */
+
+	if (true) {
+	  module.exports = Emitter;
 	}
 
-	function connectedWith(targetItem, selected, iterable) {
-	  var range = [];
-	  var isRangeWithTargetItem = false;
+	/**
+	 * Initialize a new `Emitter`.
+	 *
+	 * @api public
+	 */
 
-	  var isSelected = function isSelected(item) {
-	    return selected.indexOf(item) !== -1;
-	  };
+	function Emitter(obj) {
+	  if (obj) return mixin(obj);
+	};
 
-	  var _iteratorNormalCompletion3 = true;
-	  var _didIteratorError3 = false;
-	  var _iteratorError3 = undefined;
+	/**
+	 * Mixin the emitter properties.
+	 *
+	 * @param {Object} obj
+	 * @return {Object}
+	 * @api private
+	 */
 
-	  try {
-	    for (var _iterator3 = iterable[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-	      var item = _step3.value;
+	function mixin(obj) {
+	  for (var key in Emitter.prototype) {
+	    obj[key] = Emitter.prototype[key];
+	  }
+	  return obj;
+	}
 
-	      if (isSelected(item)) {
-	        range.push(item);
+	/**
+	 * Listen on the given `event` with `fn`.
+	 *
+	 * @param {String} event
+	 * @param {Function} fn
+	 * @return {Emitter}
+	 * @api public
+	 */
 
-	        if (item === targetItem) {
-	          isRangeWithTargetItem = true;
-	        }
-	      } else {
-	        if (isRangeWithTargetItem) {
-	          break;
-	        } else {
-	          range = [];
-	        }
-	      }
+	Emitter.prototype.on =
+	Emitter.prototype.addEventListener = function(event, fn){
+	  this._callbacks = this._callbacks || {};
+	  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
+	    .push(fn);
+	  return this;
+	};
+
+	/**
+	 * Adds an `event` listener that will be invoked a single
+	 * time then automatically removed.
+	 *
+	 * @param {String} event
+	 * @param {Function} fn
+	 * @return {Emitter}
+	 * @api public
+	 */
+
+	Emitter.prototype.once = function(event, fn){
+	  function on() {
+	    this.off(event, on);
+	    fn.apply(this, arguments);
+	  }
+
+	  on.fn = fn;
+	  this.on(event, on);
+	  return this;
+	};
+
+	/**
+	 * Remove the given callback for `event` or all
+	 * registered callbacks.
+	 *
+	 * @param {String} event
+	 * @param {Function} fn
+	 * @return {Emitter}
+	 * @api public
+	 */
+
+	Emitter.prototype.off =
+	Emitter.prototype.removeListener =
+	Emitter.prototype.removeAllListeners =
+	Emitter.prototype.removeEventListener = function(event, fn){
+	  this._callbacks = this._callbacks || {};
+
+	  // all
+	  if (0 == arguments.length) {
+	    this._callbacks = {};
+	    return this;
+	  }
+
+	  // specific event
+	  var callbacks = this._callbacks['$' + event];
+	  if (!callbacks) return this;
+
+	  // remove all handlers
+	  if (1 == arguments.length) {
+	    delete this._callbacks['$' + event];
+	    return this;
+	  }
+
+	  // remove specific handler
+	  var cb;
+	  for (var i = 0; i < callbacks.length; i++) {
+	    cb = callbacks[i];
+	    if (cb === fn || cb.fn === fn) {
+	      callbacks.splice(i, 1);
+	      break;
 	    }
-	  } catch (err) {
-	    _didIteratorError3 = true;
-	    _iteratorError3 = err;
-	  } finally {
-	    try {
-	      if (!_iteratorNormalCompletion3 && _iterator3.return) {
-	        _iterator3.return();
-	      }
-	    } finally {
-	      if (_didIteratorError3) {
-	        throw _iteratorError3;
-	      }
+	  }
+	  return this;
+	};
+
+	/**
+	 * Emit `event` with the given args.
+	 *
+	 * @param {String} event
+	 * @param {Mixed} ...
+	 * @return {Emitter}
+	 */
+
+	Emitter.prototype.emit = function(event){
+	  this._callbacks = this._callbacks || {};
+	  var args = [].slice.call(arguments, 1)
+	    , callbacks = this._callbacks['$' + event];
+
+	  if (callbacks) {
+	    callbacks = callbacks.slice(0);
+	    for (var i = 0, len = callbacks.length; i < len; ++i) {
+	      callbacks[i].apply(this, args);
 	    }
 	  }
 
-	  return range;
-	}
+	  return this;
+	};
 
-	exports.init = init;
-	exports.setItems = setItems;
-	exports.setSelection = setSelection;
-	exports.replace = replace;
-	exports.toggle = toggle;
-	exports.remove = remove;
-	exports.removeAll = removeAll;
-	exports.rangeTo = rangeTo;
-	exports.getSelection = getSelection;
-	exports.getChangedSelection = getChangedSelection;
-	exports.getChangedDeselection = getChangedDeselection;
+	/**
+	 * Return array of callbacks for `event`.
+	 *
+	 * @param {String} event
+	 * @return {Array}
+	 * @api public
+	 */
+
+	Emitter.prototype.listeners = function(event){
+	  this._callbacks = this._callbacks || {};
+	  return this._callbacks['$' + event] || [];
+	};
+
+	/**
+	 * Check if this emitter has `event` handlers.
+	 *
+	 * @param {String} event
+	 * @return {Boolean}
+	 * @api public
+	 */
+
+	Emitter.prototype.hasListeners = function(event){
+	  return !! this.listeners(event).length;
+	};
+
 
 /***/ }
 /******/ ])
