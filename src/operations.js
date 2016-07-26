@@ -34,7 +34,7 @@ const setItems = curry((itemsIterable, state) => {
 })
 
 const setSelection = curry((selectedItems, state) => {
-  const selection = intersection(state.items, selectedItems)
+  const selection = intersection(selectedItems, state.items)
   return {
     items: state.items,
     selected: selection,
