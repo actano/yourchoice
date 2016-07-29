@@ -55,7 +55,7 @@ describe('operations', () => {
   })
 
   describe('updating the list of selectable items', () => {
-    it('should remove items from selection don\'t exist anymore', () => {
+    it('should remove items from selection that don\'t exist anymore', () => {
       const state = init()
 
       const newState = flow(
