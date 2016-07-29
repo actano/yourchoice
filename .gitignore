@@ -3,4 +3,3 @@ lib
 coverage
 coverage.lcov
 .nyc_output
-.idea
