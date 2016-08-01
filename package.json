@@ -50,7 +50,7 @@
     "codecov": "^1.0.1",
     "cross-env": "^2.0.0",
     "eslint": "^2.9.0",
-    "eslint-config-actano": "^1.0.1",
+    "eslint-config-actano": "^2.0.0",
     "eslint-plugin-import": "^1.8.1",
     "eslint-plugin-jsx-a11y": "^1.5.4",
     "eslint-plugin-react": "^5.1.1",
