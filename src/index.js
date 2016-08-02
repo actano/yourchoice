@@ -1,4 +1,5 @@
-import { Selection } from './selection'
+import Selection from './selection'
+
 export {
   init,
   setItems,
@@ -12,5 +13,4 @@ export {
   getChangedSelection,
   getChangedDeselection,
 } from './operations'
-
 export default Selection

@@ -1,10 +1,11 @@
 /* eslint-env mocha */
 /* eslint-disable no-unused-expressions */
 
-import { Selection } from '../src/selection'
 import chai from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
+import Selection from '../src/selection'
+
 const expect = chai.expect
 chai.use(sinonChai)
 

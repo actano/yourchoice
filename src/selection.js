@@ -102,4 +102,4 @@ class Selection extends Emitter {
 
 }
 
-export { Selection }
+export default Selection
