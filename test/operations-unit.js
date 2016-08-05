@@ -1,6 +1,3 @@
-/* eslint-env mocha */
-/* eslint-disable no-unused-expressions */
-
 import { flow } from 'lodash/fp'
 import { expect } from 'chai'
 import {
