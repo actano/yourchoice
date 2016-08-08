@@ -1,4 +1,4 @@
-# YourChoice
+# Yourchoice
 
 [![npm](https://img.shields.io/npm/v/yourchoice.svg)](https://www.npmjs.com/package/yourchoice)
 [![code style: actano](https://img.shields.io/badge/code%20style-actano-blue.svg)](https://www.npmjs.com/package/eslint-config-actano)
@@ -70,7 +70,7 @@ Returns an empty state with no selection and no items that can be selected.
 Changes the current set of items that can be selected/deselected.
 
 The `selectableItems` can be **any [javascript iterable](http://www.ecma-international.org/ecma-262/6.0/#sec-iterable-interface)**. 
-This enables YourChoice to operate on any data structure. Native data types such as `Array` or `Map` implement the iterable protocol.
+This enables yourchoice to operate on any data structure. Native data types such as `Array` or `Map` implement the iterable protocol.
 
 This function is usually called initially before any selection is performed. This function should be called in order to update the yourchoice state when selectable items have been added or removed. For example, if some of the currently selected items are not present in the given `selectableItems` anymore, then these items will be automatically removed from the current selection.
 
