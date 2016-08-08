@@ -1,5 +1,4 @@
 import Emitter from 'component-emitter'
-import { flow } from 'lodash/fp'
 
 import {
   init,
@@ -24,10 +23,8 @@ class Selection extends Emitter {
   }
 
   toggle(item) {
-    this.state = flow(
-      setItems(this.iterable),
-      toggle(item)
-    )(this.state)
+    this._setItemsAndNotify()
+    this.state = toggle(item, this.state)
 
     this._updateSelectedItems()
     this._notifyChangedItems()
@@ -35,10 +32,8 @@ class Selection extends Emitter {
   }
 
   replace(item) {
-    this.state = flow(
-      setItems(this.iterable),
-      replace(item)
-    )(this.state)
+    this._setItemsAndNotify()
+    this.state = replace(item, this.state)
 
     this._updateSelectedItems()
     this._notifyChangedItems()
@@ -46,11 +41,7 @@ class Selection extends Emitter {
   }
 
   remove(items) {
-    this.state = setItems(this.iterable, this.state)
-    this._updateSelectedItems()
-    this._notifyChangedItems()
-    this._emitChangeEvent()
-
+    this._setItemsAndNotify()
     this.state = remove(items, this.state)
 
     this._updateSelectedItems()
@@ -59,10 +50,8 @@ class Selection extends Emitter {
   }
 
   removeAll() {
-    this.state = flow(
-      setItems(this.iterable),
-      removeAll()
-    )(this.state)
+    this._setItemsAndNotify()
+    this.state = removeAll(this.state)
 
     this._updateSelectedItems()
     this._notifyChangedItems()
@@ -70,10 +59,8 @@ class Selection extends Emitter {
   }
 
   rangeTo(endItem) {
-    this.state = flow(
-      setItems(this.iterable),
-      rangeTo(endItem)
-    )(this.state)
+    this._setItemsAndNotify()
+    this.state = rangeTo(endItem, this.state)
 
     this._updateSelectedItems()
     this._notifyChangedItems()
@@ -100,6 +87,13 @@ class Selection extends Emitter {
     if (change) {
       this.emit('change', this.selectedItems.slice())
     }
+  }
+
+  _setItemsAndNotify() {
+    this.state = setItems(this.iterable, this.state)
+    this._updateSelectedItems()
+    this._notifyChangedItems()
+    this._emitChangeEvent()
   }
 
 }
