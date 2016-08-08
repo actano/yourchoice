@@ -2,10 +2,10 @@ import {
   clone,
   curry,
   flow,
-  without,
   includes,
   intersection,
   union,
+  without,
 } from 'lodash/fp'
 
 function init() {
