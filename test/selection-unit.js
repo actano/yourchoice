@@ -308,6 +308,25 @@ describe('selection', () => {
       selection.remove([itemList[1], itemList[2]])
     })
 
+    it('should emit change event even if iterable has been changed from the outside', () => {
+      selection.toggle(itemList[0])
+      selection.toggle(itemList[1])
+      selection.toggle(itemList[2])
+      selection.toggle(itemList[4])
+
+      const changeListener = sinon.spy()
+
+      selection.on('change', changeListener)
+
+      const itemToRemove = itemList[0]
+      itemList.splice(0, 1)
+
+      selection.remove([itemToRemove])
+
+      expect(changeListener).to.have.been.calledWith([itemList[0], itemList[1], itemList[3]])
+    })
+
+
     it('should not emit change event when selection does not change', () => {
       selection.toggle(itemList[0])
       selection.toggle(itemList[1])

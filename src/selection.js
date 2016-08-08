@@ -46,10 +46,12 @@ class Selection extends Emitter {
   }
 
   remove(items) {
-    this.state = flow(
-      setItems(this.iterable),
-      remove(items)
-    )(this.state)
+    this.state = setItems(this.iterable, this.state)
+    this._updateSelectedItems()
+    this._notifyChangedItems()
+    this._emitChangeEvent()
+
+    this.state = remove(items, this.state)
 
     this._updateSelectedItems()
     this._notifyChangedItems()
