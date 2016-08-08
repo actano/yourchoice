@@ -2,6 +2,7 @@ import chai from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import Selection from '../src/selection'
+import { expectExactlySameMembers } from './helper'
 
 const expect = chai.expect
 chai.use(sinonChai)
@@ -607,11 +608,6 @@ describe('selection', () => {
         expect(item._selected, `item ${item._index} should be deselected`).to.be.false
       }
     }
-  }
-
-  function expectExactlySameMembers(actual, expected) {
-    expect(actual).to.have.members(expected)
-    expect(actual).to.have.length(expected.length)
   }
 })
 
