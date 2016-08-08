@@ -588,6 +588,24 @@ describe('selection', () => {
       })
     })
   })
+  describe('notify about changed items when setting items with iterable', () => {
+    it('should notify on iterable change from the outside', () => {
+      const itemList = createItemList(2)
+      const selection = new Selection(itemList)
+
+      selection.toggle(itemList[0])
+      selection.toggle(itemList[1])
+
+      const changeListener = sinon.spy()
+      selection.on('change', changeListener)
+      const item1 = itemList[1]
+
+      itemList.splice(0, 1)
+      selection._setItemsAndNotify()
+
+      expect(changeListener).to.have.been.calledWith([item1])
+    })
+  })
 
   function createItemList(amount) {
     const items = []

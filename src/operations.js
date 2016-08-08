@@ -1,6 +1,7 @@
 import {
   clone,
   curry,
+  difference,
   flow,
   includes,
   intersection,
@@ -27,7 +28,7 @@ const setItems = curry((itemsIterable, state) => {
     selected: intersection(state.selected, items),
     changed: {
       selected: [],
-      deselected: [],
+      deselected: difference(state.selected, items),
     },
     anchor: includes(state.anchor, items) ? state.anchor : null,
   }
