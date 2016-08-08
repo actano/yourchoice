@@ -1,5 +1,6 @@
 import { flow } from 'lodash/fp'
 import {
+  getChangedDeselection,
   getSelection,
   init,
   rangeTo,
@@ -24,6 +25,17 @@ describe('setItems - updating the list of selectable items', () => {
       expectExactlySameMembers(getSelection(newState), ['C'])
     })
 
+    it('should return previously selected items as newly deselected', () => {
+      const state = init()
+
+      const newState = flow(
+        setItems(iterable(['A', 'B'])),
+        setSelection(['B']),
+        setItems(iterable(['A']))
+      )(state)
+
+      expectExactlySameMembers(getChangedDeselection(newState), ['B'])
+    })
   })
 
   it('should remove item from anchor that doesn\'t exist anymore', () => {
