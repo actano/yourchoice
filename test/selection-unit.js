@@ -120,7 +120,7 @@ describe('selection', () => {
       const item = new Item()
       const selection = new Selection([item])
       selection.replace(item)
-      const changeListener = sinon.stub()
+      const changeListener = sinon.spy()
       selection.on('change', changeListener)
 
       selection.replace(item)
@@ -313,7 +313,7 @@ describe('selection', () => {
       selection.toggle(itemList[1])
       selection.toggle(itemList[3])
 
-      const changeListener = sinon.stub()
+      const changeListener = sinon.spy()
       selection.on('change', changeListener)
 
       selection.remove([itemList[4], itemList[2]])
@@ -380,7 +380,7 @@ describe('selection', () => {
       selection.replace(itemList[1])
       selection.rangeTo(itemList[3])
 
-      const changeListener = sinon.stub()
+      const changeListener = sinon.spy()
       selection.on('change', changeListener)
 
       selection.rangeTo(itemList[3])
