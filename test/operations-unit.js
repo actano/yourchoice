@@ -6,7 +6,6 @@ import {
   replace,
   toggle,
   remove,
-  removeAll,
   rangeTo,
   getSelection,
   getChangedSelection,
@@ -21,33 +20,6 @@ describe('operations', () => {
     expectExactlySameMembers(getSelection(state), [])
   })
 
-
-  describe('remove all items from selection', () => {
-    let newState = null
-
-    beforeEach(() => {
-      const items = iterable(['A', 'B', 'C', 'D'])
-      const state = init()
-
-      newState = flow(
-        setItems(items),
-        setSelection(['A', 'C']),
-        removeAll()
-      )(state)
-    })
-
-    it('should return empty selection', () => {
-      expectExactlySameMembers(getSelection(newState), [])
-    })
-
-    it('should return previously selected items as newly deselected', () => {
-      expectExactlySameMembers(getChangedDeselection(newState), ['A', 'C'])
-    })
-
-    it('should return empty list as newly selected', () => {
-      expectExactlySameMembers(getChangedSelection(newState), [])
-    })
-  })
 
   describe('range selection', () => {
     describe('from top to bottom', () => {
