@@ -1,5 +1,4 @@
 import { flow } from 'lodash/fp'
-import { expect } from 'chai'
 import {
   init,
   setItems,
@@ -13,12 +12,7 @@ import {
   getChangedSelection,
   getChangedDeselection,
 } from '../src/operations'
-
-function iterable(array) {
-  return {
-    [Symbol.iterator]: array[Symbol.iterator].bind(array),
-  }
-}
+import { iterable, expectExactlySameMembers } from './helper'
 
 describe('operations', () => {
   it('should have no selected items by default', () => {
@@ -796,9 +790,4 @@ describe('operations', () => {
       expectExactlySameMembers(getChangedDeselection(state), ['B'])
     })
   })
-
-  function expectExactlySameMembers(actual, expected) {
-    expect(actual).to.have.members(expected)
-    expect(actual).to.have.length(expected.length)
-  }
 })
