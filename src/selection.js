@@ -18,6 +18,10 @@ class Selection extends Emitter {
 
   constructor(iterable) {
     super()
+    /* eslint-disable no-console */
+    console.warn('DEPRECATION warning: The imperative interface of '
+      + 'yourchoice is deprecated and will be removed in yourchoice 3.0.0')
+    /* eslint-enable no-console */
     this.iterable = iterable
     this.state = init()
     this._updateSelectedItems()
