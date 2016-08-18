@@ -6,6 +6,7 @@ import {
   replace,
   toggle,
   rangeTo,
+  getItems,
   getSelection,
   getChangedSelection,
   getChangedDeselection,
@@ -17,6 +18,12 @@ describe('operations', () => {
     const state = init()
 
     expectExactlySameMembers(getSelection(state), [])
+  })
+
+  it('should have no selectable items by default', () => {
+    const state = init()
+
+    expectExactlySameMembers(getItems(state), [])
   })
 
   describe('ignoring and preventing external changes', () => {
@@ -31,6 +38,22 @@ describe('operations', () => {
         rangeTo('C')
       )(state1)
 
+      expectExactlySameMembers(getItems(state2), ['B', 'C'])
+      expectExactlySameMembers(getSelection(state2), ['B', 'C'])
+    })
+
+    it('should ignore external changes of got items iterable', () => {
+      const state1 = flow(
+        init,
+        setItems(['B', 'C'])
+      )()
+      const itemsIterable = getItems(state1)
+      itemsIterable.unshift('A')
+      const state2 = flow(
+        rangeTo('C')
+      )(state1)
+
+      expectExactlySameMembers(getItems(state2), ['B', 'C'])
       expectExactlySameMembers(getSelection(state2), ['B', 'C'])
     })
 

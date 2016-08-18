@@ -9,6 +9,7 @@ export {
   remove,
   removeAll,
   rangeTo,
+  getItems,
   getSelection,
   getChangedSelection,
   getChangedDeselection,

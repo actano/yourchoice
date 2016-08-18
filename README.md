@@ -98,6 +98,10 @@ Removes the given `items` from the current selection.
 
 Removes all items from the current selection.
 
+### getItems(state) : Array
+
+Returns an array containing all selectable items.
+
 ### getSelection(state) : Array
 
 Returns an array containing the currently selected items.

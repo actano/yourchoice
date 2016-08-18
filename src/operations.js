@@ -47,6 +47,10 @@ const setSelection = curry((selectedItems, state) => {
   }
 })
 
+function getItems(state) {
+  return clone(state.items)
+}
+
 function getSelection(state) {
   return clone(state.selected)
 }
@@ -240,6 +244,7 @@ export {
   remove,
   removeAll,
   rangeTo,
+  getItems,
   getSelection,
   getChangedSelection,
   getChangedDeselection,
