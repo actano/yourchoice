@@ -78,7 +78,7 @@ function _getAnchor(state) {
 function _getBottommostSelectedItem(state) {
   let previousItem = null
 
-  const isSelected = (item) =>
+  const isSelected = item =>
     state.selected.indexOf(item) !== -1
 
   for (const item of state.items) {
@@ -158,7 +158,7 @@ const remove = curry((removedItems, state) =>
   })
 )
 
-const removeAll = curry((state) =>
+const removeAll = curry(state =>
   ({
     items: state.items,
     selected: [],
@@ -213,19 +213,19 @@ function _between(start, end, array) {
 }
 
 function _connectedWith(targetItem, selected, array) {
-  const isSelected = (item) =>
+  const isSelected = item =>
     selected.indexOf(item) !== -1
   const result = []
   const targetIndex = array.indexOf(targetItem)
 
-  for (let i = targetIndex; i >= 0; i--) {
+  for (let i = targetIndex; i >= 0; i -= 1) {
     if (!isSelected(array[i])) {
       break
     }
     result.push(array[i])
   }
 
-  for (let i = targetIndex; i < array.length; i++) {
+  for (let i = targetIndex; i < array.length; i += 1) {
     if (!isSelected(array[i])) {
       break
     }
