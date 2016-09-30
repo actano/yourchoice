@@ -52,7 +52,7 @@ describe('selection', () => {
         item = itemList[numberOfItems - 1]
         selection = new Selection(itemList)
 
-        for (let i = 0; i < numberOfSelectedItems; i++) {
+        for (let i = 0; i < numberOfSelectedItems; i += 1) {
           const otherItem = itemList[i]
           selection.toggle(otherItem)
         }
@@ -74,7 +74,7 @@ describe('selection', () => {
         it('should mark other items as deselected', () => {
           selection.replace(item)
 
-          for (let i = 0; i < numberOfSelectedItems; i++) {
+          for (let i = 0; i < numberOfSelectedItems; i += 1) {
             const otherItem = itemList[i]
             expect(otherItem._selected).to.be.false
           }
@@ -106,7 +106,7 @@ describe('selection', () => {
         it('should mark other items as deselected', () => {
           selection.replace(item)
 
-          for (let i = 0; i < numberOfSelectedItems; i++) {
+          for (let i = 0; i < numberOfSelectedItems; i += 1) {
             const otherItem = itemList[i]
             if (i !== 2) {
               expect(otherItem._selected).to.be.false
@@ -153,7 +153,7 @@ describe('selection', () => {
         const itemList = createItemList(5)
         const selection = new Selection(itemList)
 
-        for (let i = 0; i < itemList.length; i++) {
+        for (let i = 0; i < itemList.length; i += 1) {
           const item = itemList[i]
           selection.toggle(item)
         }
@@ -199,7 +199,7 @@ describe('selection', () => {
         const itemList = createItemList(5)
         const selection = new Selection(itemList)
 
-        for (let i = 0; i < itemList.length; i++) {
+        for (let i = 0; i < itemList.length; i += 1) {
           const item = itemList[i]
           selection.toggle(item)
         }
@@ -233,7 +233,7 @@ describe('selection', () => {
         const selection = new Selection(itemList)
 
         const changeEventParameters = []
-        selection.on('change', (selectedItems) => changeEventParameters.push(selectedItems))
+        selection.on('change', selectedItems => changeEventParameters.push(selectedItems))
 
         selection.toggle(itemList[0])
         selection.toggle(itemList[1])
@@ -591,7 +591,7 @@ describe('selection', () => {
 
   function createItemList(amount) {
     const items = []
-    for (let i = 0; i < amount; i++) {
+    for (let i = 0; i < amount; i += 1) {
       items.push(new Item(i))
     }
     return items
@@ -600,7 +600,7 @@ describe('selection', () => {
   function expectItemsSelected(itemList, actualItems, expectedItems) {
     expectExactlySameMembers(actualItems, expectedItems)
 
-    for (let i = 0; i < itemList.length; i++) {
+    for (let i = 0; i < itemList.length; i += 1) {
       const item = itemList[i]
       if (__in__(item, expectedItems)) {
         expect(item._selected, `item ${item._index} should be selected`).to.be.true
