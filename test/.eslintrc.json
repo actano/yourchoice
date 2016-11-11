@@ -1,9 +1,0 @@
-{
-  "env": {
-      "mocha": true
-  },
-  "rules": {
-    "no-unused-expressions": "off",
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": true, "peerDependencies": false}]
-  }
-}
