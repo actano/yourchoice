@@ -23,7 +23,7 @@ describe('rangeTo - range selection', () => {
       newState = flow(
         setItems(items),
         replace('B'),
-        rangeTo('D')
+        rangeTo('D'),
       )(state)
     })
 
@@ -50,7 +50,7 @@ describe('rangeTo - range selection', () => {
       newState = flow(
         setItems(items),
         replace('D'),
-        rangeTo('B')
+        rangeTo('B'),
       )(state)
     })
 
@@ -74,7 +74,7 @@ describe('rangeTo - range selection', () => {
     const newState = flow(
       setItems(items),
       replace('D'),
-      rangeTo('nonExisting')
+      rangeTo('nonExisting'),
     )(state)
 
     expectExactlySameMembers(getSelection(newState), ['D'])
@@ -91,7 +91,7 @@ describe('rangeTo - range selection', () => {
         setItems(items),
         toggle('D'),
         toggle('B'),
-        rangeTo('F')
+        rangeTo('F'),
       )(state)
     })
 
@@ -119,7 +119,7 @@ describe('rangeTo - range selection', () => {
         setItems(items),
         toggle('B'),
         toggle('D'),
-        rangeTo('F')
+        rangeTo('F'),
       )(state)
     })
 
@@ -147,7 +147,7 @@ describe('rangeTo - range selection', () => {
         setItems(items),
         toggle('D'),
         toggle('B'),
-        rangeTo('B')
+        rangeTo('B'),
       )(state)
     })
 
@@ -176,7 +176,7 @@ describe('rangeTo - range selection', () => {
           setItems(items),
           toggle('B'),
           rangeTo('D'),
-          rangeTo('F')
+          rangeTo('F'),
         )(state)
       })
 
@@ -204,7 +204,7 @@ describe('rangeTo - range selection', () => {
           setItems(items),
           toggle('B'),
           rangeTo('F'),
-          rangeTo('D')
+          rangeTo('D'),
         )(state)
       })
 
@@ -232,7 +232,7 @@ describe('rangeTo - range selection', () => {
           setItems(items),
           toggle('D'),
           rangeTo('F'),
-          rangeTo('B')
+          rangeTo('B'),
         )(state)
       })
 
@@ -263,7 +263,7 @@ describe('rangeTo - range selection', () => {
             toggle('A'),
             toggle('C'),
             toggle('C'),
-            rangeTo('D')
+            rangeTo('D'),
           )(state)
         })
 
@@ -293,7 +293,7 @@ describe('rangeTo - range selection', () => {
             toggle('A'),
             toggle('C'),
             remove('C'),
-            rangeTo('D')
+            rangeTo('D'),
           )(state)
         })
 
@@ -323,7 +323,7 @@ describe('rangeTo - range selection', () => {
             toggle('C'),
             toggle('E'),
             rangeTo('D'),
-            rangeTo('B')
+            rangeTo('B'),
           )(state)
         })
 
@@ -352,7 +352,7 @@ describe('rangeTo - range selection', () => {
 
         newState = flow(
           setItems(items),
-          rangeTo('C')
+          rangeTo('C'),
         )(state)
       })
 
@@ -379,7 +379,7 @@ describe('rangeTo - range selection', () => {
         newState = flow(
           setItems(items),
           rangeTo('C'),
-          rangeTo('E')
+          rangeTo('E'),
         )(state)
       })
 
@@ -407,7 +407,7 @@ describe('rangeTo - range selection', () => {
         toggle('E'),
         rangeTo('D'),
         toggle('A'),
-        rangeTo('B')
+        rangeTo('B'),
       )(state)
 
       expectExactlySameMembers(getSelection(newState), ['A', 'B', 'D', 'E'])
@@ -425,7 +425,7 @@ describe('rangeTo - range selection', () => {
         toggle('B'),
         rangeTo('C'),
 
-        rangeTo('A')
+        rangeTo('A'),
       )(state)
 
       expectExactlySameMembers(getSelection(newState), ['A', 'B'])
@@ -442,7 +442,7 @@ describe('rangeTo - range selection', () => {
         rangeTo('D'),
 
         toggle('B'),
-        rangeTo('D')
+        rangeTo('D'),
       )(state)
 
       expectExactlySameMembers(getSelection(newState), ['B', 'C', 'D', 'E'])

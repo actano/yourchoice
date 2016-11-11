@@ -20,7 +20,7 @@ describe('toggle - toggle single selection', () => {
       newState = flow(
         setItems(iterable(['A', 'B', 'C', 'D'])),
         setSelection(['A', 'D']),
-        toggle('C')
+        toggle('C'),
       )(state)
     })
 
@@ -42,7 +42,7 @@ describe('toggle - toggle single selection', () => {
       newState = flow(
         setItems(iterable(['A', 'B', 'C', 'D'])),
         setSelection(['A', 'D']),
-        toggle('nonExisting')
+        toggle('nonExisting'),
       )(state)
 
       expectExactlySameMembers(getSelection(newState), ['A', 'D'])
@@ -59,7 +59,7 @@ describe('toggle - toggle single selection', () => {
       newState = flow(
         setItems(items),
         setSelection(['A', 'C', 'D']),
-        toggle('C')
+        toggle('C'),
       )(state)
     })
 

@@ -20,7 +20,7 @@ describe('removeAll - remove all items from selection', () => {
     newState = flow(
       setItems(items),
       setSelection(['A', 'C']),
-      removeAll()
+      removeAll(),
     )(state)
   })
 

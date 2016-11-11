@@ -357,7 +357,7 @@ describe('selection', () => {
         itemList[2],
         itemList[3],
       ])
-    })
+    }),
     )
 
     it('should emit a change event with current selection', (done) => {

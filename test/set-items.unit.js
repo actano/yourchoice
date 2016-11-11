@@ -19,7 +19,7 @@ describe('setItems - updating the list of selectable items', () => {
       const newState = flow(
         setItems(iterable(['A', 'B', 'C', 'D'])),
         setSelection(['B', 'C']),
-        setItems(iterable(['A', 'C', 'D']))
+        setItems(iterable(['A', 'C', 'D'])),
       )(state)
 
       expectExactlySameMembers(getSelection(newState), ['C'])
@@ -31,7 +31,7 @@ describe('setItems - updating the list of selectable items', () => {
       const newState = flow(
         setItems(iterable(['A', 'B'])),
         setSelection(['B']),
-        setItems(iterable(['A']))
+        setItems(iterable(['A'])),
       )(state)
 
       expectExactlySameMembers(getChangedDeselection(newState), ['B'])
@@ -45,7 +45,7 @@ describe('setItems - updating the list of selectable items', () => {
       setItems(iterable(['A', 'B', 'C', 'D'])),
       replace('C'),
       setItems(iterable(['A', 'B', 'D'])),
-      rangeTo('D')
+      rangeTo('D'),
     )(state)
 
     expectExactlySameMembers(getSelection(newState), ['A', 'B', 'D'])

@@ -14,7 +14,7 @@ describe('setSelection - manually setting the selection', () => {
 
     const newState = flow(
       setItems(iterable(['A', 'B', 'C', 'D'])),
-      setSelection(['B', 'C'])
+      setSelection(['B', 'C']),
     )(state)
 
     expectExactlySameMembers(getSelection(newState), ['B', 'C'])
@@ -25,7 +25,7 @@ describe('setSelection - manually setting the selection', () => {
 
     const newState = flow(
       setItems(iterable(['A', 'B', 'C', 'D'])),
-      setSelection(['A', 'notExisting', 'C'])
+      setSelection(['A', 'notExisting', 'C']),
     )(state)
 
     expectExactlySameMembers(getSelection(newState), ['A', 'C'])

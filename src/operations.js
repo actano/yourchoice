@@ -155,7 +155,7 @@ const remove = curry((removedItems, state) =>
       deselected: intersection(removedItems, state.selected),
     },
     anchor: null,
-  })
+  }),
 )
 
 const removeAll = curry(state =>
@@ -167,7 +167,7 @@ const removeAll = curry(state =>
       deselected: state.selected,
     },
     anchor: null,
-  })
+  }),
 )
 
 const rangeTo = curry((toItem, state) => {
@@ -181,7 +181,7 @@ const rangeTo = curry((toItem, state) => {
 
   const selected = flow(
     without(connected),
-    union(range)
+    union(range),
   )(state.selected)
 
   return {

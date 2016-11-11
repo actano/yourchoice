@@ -20,7 +20,7 @@ describe('remove - remove items from selection', () => {
     newState = flow(
       setItems(items),
       setSelection(['A', 'B', 'C', 'D', 'F']),
-      remove(['A', 'D', 'B'])
+      remove(['A', 'D', 'B']),
     )(state)
   })
 
@@ -43,7 +43,7 @@ describe('remove - remove items from selection', () => {
     newState = flow(
       setItems(items),
       setSelection(['A', 'B']),
-      remove(['A', 'B', 'C'])
+      remove(['A', 'B', 'C']),
     )(state)
 
     expectExactlySameMembers(getChangedDeselection(newState), ['A', 'B'])

@@ -31,11 +31,11 @@ describe('operations', () => {
       const itemsIterable = ['B', 'C']
       const state1 = flow(
         init,
-        setItems(itemsIterable)
+        setItems(itemsIterable),
       )()
       itemsIterable.unshift('A')
       const state2 = flow(
-        rangeTo('C')
+        rangeTo('C'),
       )(state1)
 
       expectExactlySameMembers(getItems(state2), ['B', 'C'])
@@ -45,12 +45,12 @@ describe('operations', () => {
     it('should ignore external changes of got items iterable', () => {
       const state1 = flow(
         init,
-        setItems(['B', 'C'])
+        setItems(['B', 'C']),
       )()
       const itemsIterable = getItems(state1)
       itemsIterable.unshift('A')
       const state2 = flow(
-        rangeTo('C')
+        rangeTo('C'),
       )(state1)
 
       expectExactlySameMembers(getItems(state2), ['B', 'C'])
@@ -62,7 +62,7 @@ describe('operations', () => {
       const state = flow(
         init,
         setItems(iterable(['A', 'B', 'C'])),
-        setSelection(selectionArray)
+        setSelection(selectionArray),
       )(state)
       selectionArray.push('D')
 
@@ -73,7 +73,7 @@ describe('operations', () => {
       const state = flow(
         init,
         setItems(iterable(['A', 'B', 'C'])),
-        setSelection(['A', 'B'])
+        setSelection(['A', 'B']),
       )(state)
 
       const selectionArray = getSelection(state)
@@ -86,7 +86,7 @@ describe('operations', () => {
       const state = flow(
         init,
         setItems(iterable(['A', 'B', 'C'])),
-        replace('B')
+        replace('B'),
       )(state)
 
       const changedSelectionArray = getChangedSelection(state)
@@ -100,7 +100,7 @@ describe('operations', () => {
         init,
         setItems(iterable(['A', 'B', 'C'])),
         replace('B'),
-        toggle('B')
+        toggle('B'),
       )(state)
 
       const changedDeselectionArray = getChangedDeselection(state)

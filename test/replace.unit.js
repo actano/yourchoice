@@ -16,7 +16,7 @@ describe('replace - replace selection with single item', () => {
 
     const newState = flow(
       setItems(iterable(['A', 'B', 'C', 'D'])),
-      replace('B')
+      replace('B'),
     )(state)
 
     expectExactlySameMembers(getSelection(newState), ['B'])
@@ -28,7 +28,7 @@ describe('replace - replace selection with single item', () => {
     const newState = flow(
       setItems(iterable(['A', 'B', 'C', 'D'])),
       setSelection(['A']),
-      replace('nonExisting')
+      replace('nonExisting'),
     )(state)
 
     expectExactlySameMembers(getSelection(newState), ['A'])
@@ -44,7 +44,7 @@ describe('replace - replace selection with single item', () => {
         newState = flow(
           setItems(iterable(['A', 'B', 'C', 'D'])),
           setSelection(['A', 'B']),
-          replace('C')
+          replace('C'),
         )(state)
       })
 
@@ -70,7 +70,7 @@ describe('replace - replace selection with single item', () => {
         newState = flow(
           setItems(iterable(['A', 'B', 'C', 'D'])),
           setSelection(['A', 'B', 'C']),
-          replace('C')
+          replace('C'),
         )(state)
       })
 

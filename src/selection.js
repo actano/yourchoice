@@ -30,7 +30,7 @@ class Selection extends Emitter {
   toggle(item) {
     this.state = flow(
       setItems(this.iterable),
-      toggle(item)
+      toggle(item),
     )(this.state)
 
     this._updateSelectedItems()
@@ -41,7 +41,7 @@ class Selection extends Emitter {
   replace(item) {
     this.state = flow(
       setItems(this.iterable),
-      replace(item)
+      replace(item),
     )(this.state)
 
     this._updateSelectedItems()
@@ -52,7 +52,7 @@ class Selection extends Emitter {
   remove(items) {
     this.state = flow(
       setItems(this.iterable),
-      remove(items)
+      remove(items),
     )(this.state)
 
     this._updateSelectedItems()
@@ -63,7 +63,7 @@ class Selection extends Emitter {
   removeAll() {
     this.state = flow(
       setItems(this.iterable),
-      removeAll()
+      removeAll(),
     )(this.state)
 
     this._updateSelectedItems()
@@ -74,7 +74,7 @@ class Selection extends Emitter {
   rangeTo(endItem) {
     this.state = flow(
       setItems(this.iterable),
-      rangeTo(endItem)
+      rangeTo(endItem),
     )(this.state)
 
     this._updateSelectedItems()
