@@ -63,6 +63,6 @@
   },
   "dependencies": {
     "component-emitter": "^1.2.0",
-    "lodash": "^4.5.1"
+    "lodash": "^4.17.2"
   }
 }
