@@ -292,7 +292,7 @@ describe('rangeTo - range selection', () => {
             toggle('F'),
             toggle('A'),
             toggle('C'),
-            remove('C'),
+            remove(['C']),
             rangeTo('D'),
           )(state)
         })
