@@ -17,6 +17,9 @@
     "lint": "eslint \"src/**/*.js\" \"__test__/**/*.js\""
   },
   "main": "lib/index.js",
+  "jest": {
+    "testEnvironment": "node"
+  },
   "nyc": {
     "include": [
       "src/*.js"
