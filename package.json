@@ -5,15 +5,15 @@
   "license": "MIT",
   "author": "Actano GmbH (https://rplan.com/)",
   "scripts": {
-    "clean": "rimraf lib",
     "test": "jest --coverage --verbose",
     "test:watch": "jest --watch",
     "test-ci": "yarn run lint && jest --coverage && codecov",
+    "build": "yarn run build:commonjs && yarn run build:umd",
     "build:commonjs": "babel src --out-dir lib",
     "build:umd": "BABEL_ENV=commonjs webpack src/index.js dist/yourchoice.js",
-    "build": "yarn run build:commonjs && yarn run build:umd",
     "prepublish": "yarn run clean && yarn run build",
-    "lint": "eslint \"src/**/*.js\" \"__test__/**/*.js\""
+    "lint": "eslint \"src/**/*.js\" \"__test__/**/*.js\"",
+    "clean": "rimraf lib"
   },
   "main": "lib/index.js",
   "jest": {
