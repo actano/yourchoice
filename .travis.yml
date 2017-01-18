@@ -9,9 +9,8 @@ cache:
     yarn: true
 
 script:
-- npm run lint
-- npm test
-after_success: npm run coverage
+  - yarn run test-ci
+
 deploy:
   provider: npm
   email: marcus.mennemeier@actano.de
