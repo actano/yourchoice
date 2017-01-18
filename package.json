@@ -12,8 +12,8 @@
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "build:commonjs": "babel src --out-dir lib",
     "build:umd": "BABEL_ENV=commonjs webpack src/index.js dist/yourchoice.js",
-    "build": "npm run build:commonjs && npm run build:umd",
-    "prepublish": "npm run clean && npm run build",
+    "build": "yarn run build:commonjs && yarn run build:umd",
+    "prepublish": "yarn run clean && yarn run build",
     "lint": "eslint \"src/**/*.js\" \"__test__/**/*.js\""
   },
   "main": "lib/index.js",
