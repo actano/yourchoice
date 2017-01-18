@@ -1,6 +1,2 @@
 node_modules
-lib
-coverage
-coverage.lcov
-.nyc_output
-dist/bundle.js.map
+dist/
