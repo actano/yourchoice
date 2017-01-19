@@ -7,7 +7,7 @@ const Description = () =>
       <p>
         Yourchoice is a tiny npm module handling selection logic for you.
         It resembles the selection behavior of popular file managers.
-        It is simple, <a href="https://github.com/actano/yourchoice/tree/master/test">well tested</a> and
+        It is simple, <a href="https://github.com/actano/yourchoice/tree/master/__test__">well tested</a> and
         works with any iterable data structure.
       </p>
       <p>
