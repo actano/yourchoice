@@ -6,7 +6,6 @@ import ActionDescription from './action-description'
 import Description from './description'
 import DescriptionNot from './description-not'
 import StateInspector from './state-inspector'
-import items from '../items'
 
 const Page = () => (
   <div id="page">
@@ -29,7 +28,7 @@ const Page = () => (
           <hr />
           <Row>
             <Col xs={12} md={6}>
-              <ListContainer items={items} />
+              <ListContainer />
             </Col>
             <Col xs={12} md={6}>
               <ActionDescription />

@@ -21,7 +21,7 @@ const Item = (props) => {
   return (
     <ListGroupItem {...myProps}>
       <div className="item__name"> {props.item.name} </div>
-      <div className="item__id"> {props.item.id} </div>
+      <div className="item__id"> {props.item.id.slice(0, 6)} </div>
       <div className="item__info"> {props.isAnchor ? 'anchor' : '' } </div>
     </ListGroupItem>
   )
