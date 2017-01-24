@@ -2,10 +2,8 @@ import React from 'react'
 import { render } from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-
 import boundSelection from './bound-selection'
-import addItem from './items/actions'
-import { getItemIdOrder } from './items/selectors'
+
 import Page from './components/page'
 import reducer from './reducer'
 import items from './items'
@@ -15,9 +13,8 @@ const store = createStore(reducer,
   && window.__REDUX_DEVTOOLS_EXTENSION__(),
 )
 
-items.map(name => store.dispatch(addItem(name)))
-const itemIdOrder = getItemIdOrder(store.getState())
-store.dispatch(boundSelection.actions.setItems(itemIdOrder))
+const itemIds = items.map(item => item.id)
+store.dispatch(boundSelection.actions.setItems(itemIds))
 
 render(
   <Provider store={store}>

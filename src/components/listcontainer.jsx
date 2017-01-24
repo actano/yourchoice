@@ -6,7 +6,6 @@ import flow from 'lodash.flow'
 import boundSelection from '../bound-selection'
 import ItemContainer from './item'
 import itemPropType from '../item-prop-type'
-import { getItemIdOrder, resolveNameById } from '../items/selectors'
 
 const List = props =>
   (
@@ -36,14 +35,6 @@ function handleClick(event, props, id) {
   }
 }
 
-const mapStateToProps = state => ({
-  items: getItemIdOrder(state).map(id => ({
-    id: `${id}`,
-    name: resolveNameById(state, { id }),
-  })),
-})
-
-
 const mapDispatchToProps = dispatch =>
   bindActionCreators({
     rangeTo: boundSelection.actions.rangeTo,
@@ -52,7 +43,7 @@ const mapDispatchToProps = dispatch =>
   }, dispatch)
 
 const ListContainer = flow(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(undefined, mapDispatchToProps),
 )(List)
 
 export default ListContainer
