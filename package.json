@@ -5,6 +5,8 @@
   "scripts": {
     "start": "webpack-dev-server --hot --inline --progress",
     "build": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'production'\" --progress",
+    "build:dll": "webpack --config vendor.webpack.config.js --progress",
+    "postinstall": "yarn run build:dll",
     "lint": "eslint src/**/*.js src/**/*.jsx"
   },
   "description": "Showcase of yourchoice-redux",
