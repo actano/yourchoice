@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
+yarn run build:dll
 yarn run build
 git checkout --orphan temp-gh-pages
 rm .gitignore
