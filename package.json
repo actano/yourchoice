@@ -18,8 +18,7 @@
   "main": "lib/index.js",
   "jest": {
     "testEnvironment": "node",
-    "coverageDirectory": "./coverage/",
-    "collectCoverage": true
+    "coverageDirectory": "./coverage/"
   },
   "repository": {
     "type": "git",
