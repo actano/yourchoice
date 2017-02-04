@@ -63,7 +63,7 @@ describe('operations', () => {
         init,
         setItems(iterable(['A', 'B', 'C'])),
         setSelection(selectionArray),
-      )(state)
+      )(undefined)
       selectionArray.push('D')
 
       expectExactlySameMembers(getSelection(state), ['B', 'C'])
@@ -74,7 +74,7 @@ describe('operations', () => {
         init,
         setItems(iterable(['A', 'B', 'C'])),
         setSelection(['A', 'B']),
-      )(state)
+      )(undefined)
 
       const selectionArray = getSelection(state)
       selectionArray.push('C')
@@ -87,7 +87,7 @@ describe('operations', () => {
         init,
         setItems(iterable(['A', 'B', 'C'])),
         replace('B'),
-      )(state)
+      )(undefined)
 
       const changedSelectionArray = getChangedSelection(state)
       changedSelectionArray.push('C')
@@ -101,7 +101,7 @@ describe('operations', () => {
         setItems(iterable(['A', 'B', 'C'])),
         replace('B'),
         toggle('B'),
-      )(state)
+      )(undefined)
 
       const changedDeselectionArray = getChangedDeselection(state)
       changedDeselectionArray.push('C')

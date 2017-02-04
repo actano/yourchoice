@@ -1216,9 +1216,9 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-actano@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-actano/-/eslint-config-actano-5.0.0.tgz#561855a2e169d05d079745e8a35c1f45cdd61669"
+eslint-config-actano@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-actano/-/eslint-config-actano-6.0.0.tgz#223bc584babbe329cdd7ed9557d0df00cd539719"
   dependencies:
     eslint-config-airbnb "^14.0.0"
 

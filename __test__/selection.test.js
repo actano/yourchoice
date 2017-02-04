@@ -22,6 +22,30 @@ describe('selection', () => {
       this._selected = false
     }
   }
+  function __in__(needle, haystack) {
+    return haystack.indexOf(needle) >= 0
+  }
+
+  function createItemList(amount) {
+    const items = []
+    for (let i = 0; i < amount; i += 1) {
+      items.push(new Item(i))
+    }
+    return items
+  }
+
+  function expectItemsSelected(itemList, actualItems, expectedItems) {
+    expectExactlySameMembers(actualItems, expectedItems)
+
+    for (let i = 0; i < itemList.length; i += 1) {
+      const item = itemList[i]
+      if (__in__(item, expectedItems)) {
+        expect(item._selected, `item ${item._index} should be selected`).to.be.true
+      } else {
+        expect(item._selected, `item ${item._index} should be deselected`).to.be.false
+      }
+    }
+  }
 
   it('should have no selected items initially', () => {
     const selection = new Selection([])
@@ -588,29 +612,4 @@ describe('selection', () => {
       })
     })
   })
-
-  function createItemList(amount) {
-    const items = []
-    for (let i = 0; i < amount; i += 1) {
-      items.push(new Item(i))
-    }
-    return items
-  }
-
-  function expectItemsSelected(itemList, actualItems, expectedItems) {
-    expectExactlySameMembers(actualItems, expectedItems)
-
-    for (let i = 0; i < itemList.length; i += 1) {
-      const item = itemList[i]
-      if (__in__(item, expectedItems)) {
-        expect(item._selected, `item ${item._index} should be selected`).to.be.true
-      } else {
-        expect(item._selected, `item ${item._index} should be deselected`).to.be.false
-      }
-    }
-  }
 })
-
-function __in__(needle, haystack) {
-  return haystack.indexOf(needle) >= 0
-}

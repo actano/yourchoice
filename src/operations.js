@@ -21,6 +21,14 @@ function init() {
   }
 }
 
+function _iterableToArray(iterable) {
+  const array = []
+  for (const item of iterable) {
+    array.push(item)
+  }
+  return array
+}
+
 const setItems = curry((itemsIterable, state) => {
   const items = _iterableToArray(itemsIterable)
   return {
@@ -63,18 +71,6 @@ function getChangedDeselection(state) {
   return clone(state.changed.deselected)
 }
 
-function _getAnchor(state) {
-  if (state.anchor !== null && state.anchor !== undefined) {
-    return state.anchor
-  }
-
-  if (state.selected.length > 0) {
-    return _getBottommostSelectedItem(state)
-  }
-
-  return state.items[0]
-}
-
 function _getBottommostSelectedItem(state) {
   let previousItem = null
 
@@ -90,12 +86,16 @@ function _getBottommostSelectedItem(state) {
   return previousItem
 }
 
-function _iterableToArray(iterable) {
-  const array = []
-  for (const item of iterable) {
-    array.push(item)
+function _getAnchor(state) {
+  if (state.anchor !== null && state.anchor !== undefined) {
+    return state.anchor
   }
-  return array
+
+  if (state.selected.length > 0) {
+    return _getBottommostSelectedItem(state)
+  }
+
+  return state.items[0]
 }
 
 const replace = curry((selectedItem, state) => {
@@ -170,31 +170,6 @@ const removeAll = curry(state =>
   }),
 )
 
-const rangeTo = curry((toItem, state) => {
-  if (!includes(toItem, state.items)) {
-    return state
-  }
-
-  const anchor = _getAnchor(state, state.items)
-  const connected = _connectedWith(anchor, state.selected, state.items)
-  const range = _between(anchor, toItem, state.items)
-
-  const selected = flow(
-    without(connected),
-    union(range),
-  )(state.selected)
-
-  return {
-    items: state.items,
-    selected,
-    changed: {
-      selected: without(state.selected, selected),
-      deselected: without(selected, state.selected),
-    },
-    anchor: state.anchor,
-  }
-})
-
 function _between(start, end, array) {
   if (start === end) {
     return [start]
@@ -234,6 +209,31 @@ function _connectedWith(targetItem, selected, array) {
 
   return result
 }
+
+const rangeTo = curry((toItem, state) => {
+  if (!includes(toItem, state.items)) {
+    return state
+  }
+
+  const anchor = _getAnchor(state, state.items)
+  const connected = _connectedWith(anchor, state.selected, state.items)
+  const range = _between(anchor, toItem, state.items)
+
+  const selected = flow(
+    without(connected),
+    union(range),
+  )(state.selected)
+
+  return {
+    items: state.items,
+    selected,
+    changed: {
+      selected: without(state.selected, selected),
+      deselected: without(selected, state.selected),
+    },
+    anchor: state.anchor,
+  }
+})
 
 export {
   init,
