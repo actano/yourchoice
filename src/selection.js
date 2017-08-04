@@ -15,7 +15,6 @@ import {
 } from './operations'
 
 class Selection extends Emitter {
-
   constructor(iterable) {
     super()
     /* eslint-disable no-console */
@@ -103,7 +102,6 @@ class Selection extends Emitter {
       this.emit('change', this.selectedItems.slice())
     }
   }
-
 }
 
 export default Selection
