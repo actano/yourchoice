@@ -1,7 +1,6 @@
 # Yourchoice
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/actano/yourchoice.svg)](https://greenkeeper.io/)
-
 [![npm](https://img.shields.io/npm/v/yourchoice.svg)](https://www.npmjs.com/package/yourchoice)
 [![code style: actano](https://img.shields.io/badge/code%20style-actano-blue.svg)](https://www.npmjs.com/package/eslint-config-actano)
 [![Build Status](https://travis-ci.org/actano/yourchoice.svg?branch=master)](https://travis-ci.org/actano/yourchoice)
