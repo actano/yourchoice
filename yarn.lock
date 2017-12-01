@@ -1383,15 +1383,15 @@ escodegen@^1.6.1:
   optionalDependencies:
     source-map "~0.2.0"
 
-eslint-config-actano-base@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-actano-base/-/eslint-config-actano-base-2.1.0.tgz#b64bd356b23ca2874414cc9d4d5b87c5337535a9"
+eslint-config-actano-base@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-actano-base/-/eslint-config-actano-base-3.0.0.tgz#b56b33d60160ca1999f6a8bb20778e2f13482481"
   dependencies:
-    eslint-config-airbnb-base "^11.3.1"
+    eslint-config-airbnb-base "^12.1.0"
 
-eslint-config-airbnb-base@^11.3.1:
-  version "11.3.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-11.3.1.tgz#c0ab108c9beed503cb999e4c60f4ef98eda0ed30"
+eslint-config-airbnb-base@^12.1.0:
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-12.1.0.tgz#386441e54a12ccd957b0a92564a4bafebd747944"
   dependencies:
     eslint-restricted-globals "^0.1.1"
 
