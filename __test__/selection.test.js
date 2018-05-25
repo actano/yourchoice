@@ -4,7 +4,7 @@ import sinonChai from 'sinon-chai'
 import Selection from '../src/selection'
 import { expectExactlySameMembers } from './helper'
 
-const expect = chai.expect
+const { expect } = chai
 chai.use(sinonChai)
 
 describe('selection', () => {
@@ -381,8 +381,7 @@ describe('selection', () => {
         itemList[2],
         itemList[3],
       ])
-    }),
-    )
+    }))
 
     it('should emit a change event with current selection', (done) => {
       selection.replace(itemList[1])

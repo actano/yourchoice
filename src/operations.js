@@ -155,8 +155,7 @@ const remove = curry((removedItems, state) =>
       deselected: intersection(removedItems, state.selected),
     },
     anchor: null,
-  }),
-)
+  }))
 
 const removeAll = curry(state =>
   ({
@@ -167,8 +166,7 @@ const removeAll = curry(state =>
       deselected: state.selected,
     },
     anchor: null,
-  }),
-)
+  }))
 
 function _between(start, end, array) {
   if (start === end) {

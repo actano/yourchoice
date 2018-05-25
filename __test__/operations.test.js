@@ -34,9 +34,7 @@ describe('operations', () => {
         setItems(itemsIterable),
       )()
       itemsIterable.unshift('A')
-      const state2 = flow(
-        rangeTo('C'),
-      )(state1)
+      const state2 = flow(rangeTo('C'))(state1)
 
       expectExactlySameMembers(getItems(state2), ['B', 'C'])
       expectExactlySameMembers(getSelection(state2), ['B', 'C'])
@@ -49,9 +47,7 @@ describe('operations', () => {
       )()
       const itemsIterable = getItems(state1)
       itemsIterable.unshift('A')
-      const state2 = flow(
-        rangeTo('C'),
-      )(state1)
+      const state2 = flow(rangeTo('C'))(state1)
 
       expectExactlySameMembers(getItems(state2), ['B', 'C'])
       expectExactlySameMembers(getSelection(state2), ['B', 'C'])
