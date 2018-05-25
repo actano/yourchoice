@@ -1,14 +1,20 @@
+const path = require('path')
+
 module.exports = {
-  module: {
-    loaders: [
-      { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ }
-    ]
-  },
+  mode: 'production',
+  entry: './src/index',
   output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'yourchoice.js',
     library: 'Yourchoice',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+  },
+  module: {
+    rules: [
+      { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ },
+    ],
   },
   externals: {
-    'lodash': '_'
-  }
+    lodash: '_',
+  },
 }

@@ -10,7 +10,7 @@
     "test-ci": "yarn run lint && jest --coverage && codecov",
     "build": "yarn run build:commonjs && yarn run build:umd",
     "build:commonjs": "babel src --out-dir lib",
-    "build:umd": "BABEL_ENV=commonjs webpack src/index.js dist/yourchoice.js",
+    "build:umd": "BABEL_ENV=commonjs webpack-cli src/index.js dist/yourchoice.js",
     "prepublish": "yarn run clean && yarn run build",
     "lint": "eslint \"src/**/*.js\" \"__test__/**/*.js\"",
     "clean": "rimraf lib"
@@ -49,7 +49,8 @@
     "rimraf": "^2.5.2",
     "sinon": "^5.0.10",
     "sinon-chai": "^3.1.0",
-    "webpack": "^4.8.3"
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.4"
   },
   "dependencies": {
     "component-emitter": "^1.2.0",
