@@ -13,7 +13,7 @@
     "build:umd": "BABEL_ENV=commonjs webpack-cli src/index.js dist/yourchoice.js",
     "prepublish": "yarn run clean && yarn run build",
     "lint": "eslint \"src/**/*.js\" \"__test__/**/*.js\"",
-    "clean": "rimraf lib"
+    "clean": "node ./node_modules/rimraf/bin.js lib"
   },
   "main": "lib/index.js",
   "jest": {
