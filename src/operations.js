@@ -3,10 +3,11 @@ import {
   curry,
   difference,
   includes,
-  intersection,
 } from 'lodash/fp'
 
 import flow from './flow'
+
+const intersection = (a, b) => a.filter(v => b.includes(v))
 
 const union = (a, b) => [...new Set(a.concat(b))]
 
