@@ -1,5 +1,5 @@
 import Emitter from 'component-emitter'
-import { flow } from 'lodash/fp'
+import flow from './flow'
 
 import {
   init,

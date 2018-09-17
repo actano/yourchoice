@@ -2,12 +2,13 @@ import {
   clone,
   curry,
   difference,
-  flow,
   includes,
   intersection,
   union,
   without,
 } from 'lodash/fp'
+
+import flow from './flow'
 
 function init() {
   return {
