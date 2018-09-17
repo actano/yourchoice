@@ -2,10 +2,11 @@ import {
   clone,
   curry,
   difference,
-  includes,
 } from 'lodash/fp'
 
 import flow from './flow'
+
+const includes = (value, collection) => collection.includes(value)
 
 const intersection = (a, b) => a.filter(v => b.includes(v))
 
