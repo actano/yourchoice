@@ -1,6 +1,15 @@
-import { curry } from 'lodash/fp'
-
 import flow from './flow'
+
+const curry = (fn, args = []) => {
+  const arity = fn.length
+  return (...newArgs) => {
+    const callArgs = args.concat(newArgs)
+    if (callArgs.length < arity) {
+      return curry(fn, callArgs)
+    }
+    return fn(...callArgs)
+  }
+}
 
 const clone = value => Array.from(value)
 
