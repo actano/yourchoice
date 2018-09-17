@@ -1,10 +1,10 @@
-import {
-  clone,
-  curry,
-  difference,
-} from 'lodash/fp'
+import { curry } from 'lodash/fp'
 
 import flow from './flow'
+
+const clone = value => Array.from(value)
+
+const difference = (array, values) => array.filter(v => !values.includes(v))
 
 const includes = (value, collection) => collection.includes(value)
 
