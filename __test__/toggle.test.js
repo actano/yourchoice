@@ -1,4 +1,4 @@
-import { flow } from 'lodash/fp'
+import flow from '../src/flow'
 import {
   getChangedDeselection,
   getChangedSelection,
