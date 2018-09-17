@@ -5,10 +5,17 @@ import {
   includes,
   intersection,
   union,
-  without,
 } from 'lodash/fp'
 
 import flow from './flow'
+
+const without = (value, array) => {
+  if (Array.isArray(value)) {
+    const reducer = (accumulator, currentValue) => without(currentValue, accumulator)
+    return value.reduce(reducer, array)
+  }
+  return array.filter(v => v !== value)
+}
 
 function init() {
   return {
@@ -219,7 +226,7 @@ const rangeTo = curry((toItem, state) => {
   const range = _between(anchor, toItem, state.items)
 
   const selected = flow(
-    without(connected),
+    v => without(connected, v),
     union(range),
   )(state.selected)
 
