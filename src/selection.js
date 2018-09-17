@@ -1,4 +1,4 @@
-import Emitter from 'component-emitter'
+import Emitter from 'events'
 import flow from './flow'
 
 import {

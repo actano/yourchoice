@@ -51,8 +51,5 @@
     "sinon-chai": "^3.1.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1"
-  },
-  "dependencies": {
-    "component-emitter": "^1.2.0"
   }
 }
