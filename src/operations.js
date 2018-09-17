@@ -4,10 +4,11 @@ import {
   difference,
   includes,
   intersection,
-  union,
 } from 'lodash/fp'
 
 import flow from './flow'
+
+const union = (a, b) => [...new Set(a.concat(b))]
 
 const without = (value, array) => {
   if (Array.isArray(value)) {
@@ -227,7 +228,7 @@ const rangeTo = curry((toItem, state) => {
 
   const selected = flow(
     v => without(connected, v),
-    union(range),
+    v => union(range, v),
   )(state.selected)
 
   return {
