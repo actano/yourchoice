@@ -10,7 +10,7 @@
     "test-ci": "yarn run lint && jest --coverage && codecov",
     "build": "yarn run build:commonjs && yarn run build:umd",
     "build:commonjs": "babel src --out-dir lib",
-    "build:umd": "BABEL_ENV=commonjs webpack-cli src/index.js dist/yourchoice.js",
+    "build:umd": "BABEL_ENV=commonjs webpack-cli src/index.js",
     "prepublish": "yarn run clean && yarn run build",
     "lint": "eslint \"src/**/*.js\" \"__test__/**/*.js\"",
     "clean": "node ./node_modules/rimraf/bin.js lib"
