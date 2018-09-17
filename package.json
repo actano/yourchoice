@@ -53,7 +53,6 @@
     "webpack-cli": "^3.1.1"
   },
   "dependencies": {
-    "component-emitter": "^1.2.0",
-    "lodash": "^4.17.2"
+    "component-emitter": "^1.2.0"
   }
 }

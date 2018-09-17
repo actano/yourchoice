@@ -14,7 +14,4 @@ module.exports = {
       { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ },
     ],
   },
-  externals: {
-    lodash: '_',
-  },
 }
