@@ -20,20 +20,21 @@ npm install yourchoice --save
 
 Since yourchoice is a frontend module, you will need a module bundler like webpack or browserify.
 
-**Caution:** Yourchoice uses `Symbol.iterator` which is not yet supported by all environments. You can polyfill it with `core-js`
+**Caution:** Yourchoice uses es6/es7 features which are not supported in IE11 You can polyfill it with `core-js`
 
 ```javascript
-if (!window.Symbol) {
-  require('core-js/es6/symbol')
-}
+require('core-js/modules/es6.symbol')
+require('core-js/modules/es6.array.from')
+require('core-js/modules/es6.array.iterator')
+require('core-js/modules/es6.object.assign')
+require('core-js/modules/es7.array.includes')
 ```
 
 ### Script tag
 
-If you are the retro kind of person, you can also download [the JavaScript file](dist/yourchoice.js). You need to include [lodash](https://lodash.com/) before yourchoice.
+If you are the retro kind of person, you can also download [the JavaScript file](dist/yourchoice.js).
 
 ```html
-<script type="text/javascript" src="lodash.js"></script>
 <script type="text/javascript" src="yourchoice.js"></script>
 ```
 
