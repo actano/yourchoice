@@ -49,4 +49,3 @@ describe('remove - remove items from selection', () => {
     expectExactlySameMembers(getChangedDeselection(newState), ['A', 'B'])
   })
 })
-

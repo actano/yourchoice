@@ -31,4 +31,3 @@ describe('setSelection - manually setting the selection', () => {
     expectExactlySameMembers(getSelection(newState), ['A', 'C'])
   })
 })
-

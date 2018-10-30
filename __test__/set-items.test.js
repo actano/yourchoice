@@ -51,4 +51,3 @@ describe('setItems - updating the list of selectable items', () => {
     expectExactlySameMembers(getSelection(newState), ['A', 'B', 'D'])
   })
 })
-

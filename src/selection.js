@@ -95,8 +95,8 @@ class Selection extends Emitter {
   }
 
   _emitChangeEvent() {
-    const change = (getChangedSelection(this.state).length > 0) ||
-      (getChangedDeselection(this.state).length > 0)
+    const change = (getChangedSelection(this.state).length > 0)
+      || (getChangedDeselection(this.state).length > 0)
 
     if (change) {
       this.emit('change', this.selectedItems.slice())

@@ -36,4 +36,3 @@ describe('removeAll - remove all items from selection', () => {
     expectExactlySameMembers(getChangedSelection(newState), [])
   })
 })
-

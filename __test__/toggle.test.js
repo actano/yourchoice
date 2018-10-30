@@ -76,4 +76,3 @@ describe('toggle - toggle single selection', () => {
     })
   })
 })
-
