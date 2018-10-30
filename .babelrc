@@ -1,8 +1,15 @@
 {
-  "presets": ["es2015"],
+  "presets": [
+    ["@babel/preset-env", {
+      "useBuiltIns": "false",
+      "shippedProposals": true
+    }]
+  ],
   "env": {
     "test": {
-      "plugins": ["istanbul"]
+      "plugins": [
+        "istanbul"
+      ]
     }
   }
 }
