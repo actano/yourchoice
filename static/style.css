@@ -1,0 +1,41 @@
+.col-center {
+    float: none;
+    margin: auto;
+}
+
+.list {
+    width: 300px;
+    list-style-type: none;
+}
+.item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+    justify-content: flex-start;
+}
+
+.item--selected {
+    background-color: #81b1f4;
+}
+
+.item > div {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.item__name {
+    width: 50%;
+}
+
+.item__id {
+    width: 25%;
+    text-align: right;
+    color: #bbb;
+}
+
+.item__info {
+    width: 25%;
+    text-align: right;
+    color: #bbb;
+}
+
