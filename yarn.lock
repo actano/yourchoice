@@ -920,10 +920,6 @@ commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
 
-component-emitter@^1.2.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
-
 compressible@~2.0.8:
   version "2.0.9"
   resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.9.tgz#6daab4e2b599c2770dd9e21e7a891b1c5a755425"
@@ -3733,8 +3729,5 @@ yourchoice-redux@^1.0.0:
     yourchoice "^2.1.0"
 
 yourchoice@^2.1.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/yourchoice/-/yourchoice-2.1.1.tgz#f824340796f991e3429f4e46e5d93dc939617200"
-  dependencies:
-    component-emitter "^1.2.0"
-    lodash "^4.5.1"
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/yourchoice/-/yourchoice-2.2.4.tgz#7dd7f5c14acf3ead0f7773d130bcf7dbeecf96b2"
