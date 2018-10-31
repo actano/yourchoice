@@ -1,8 +1,16 @@
 var path = require('path')
 var webpack = require('webpack')
 
+const coreModules = [
+  'es6.symbol',
+  'es6.array.from',
+  'es6.array.iterator',
+  'es6.object.assign',
+  'es7.array.includes',
+]
+
 module.exports = {
-  entry: './src/app.jsx',
+  entry: [...coreModules.map(m => `core-js/modules/${m}`), './src/app.jsx'],
   output: {
     path: path.join(__dirname, 'dist/'),
     publicPath: 'dist',
