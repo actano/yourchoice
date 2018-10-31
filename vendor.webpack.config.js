@@ -1,3 +1,4 @@
+var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
   },
   output: {
     filename: 'vendor.bundle.js',
-    path: 'dist/',
+    path: path.join(__dirname, 'dist/'),
     library: 'vendor_lib',
   },
   performance: {
